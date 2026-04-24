@@ -1,0 +1,251 @@
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: var(--font-sans); color: var(--color-text-primary); background: var(--color-background-primary); }
+
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 40px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+.logo { font-size: 18px; font-weight: 500; color: var(--color-text-primary); }
+.logo span { color: #D85A30; }
+nav ul { display: flex; gap: 28px; list-style: none; }
+nav ul li { font-size: 14px; color: var(--color-text-secondary); cursor: pointer; }
+.nav-btn {
+  background: #D85A30; color: #fff; border: none;
+  padding: 9px 20px; border-radius: var(--border-radius-md);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+}
+
+.hero {
+  padding: 64px 40px 56px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+  max-width: 600px;
+}
+.tag {
+  display: inline-block;
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-secondary);
+  color: var(--color-text-secondary);
+  font-size: 11px; letter-spacing: 1px; text-transform: uppercase;
+  padding: 4px 12px; border-radius: var(--border-radius-md);
+  margin-bottom: 20px;
+}
+h1 { font-size: 36px; font-weight: 500; line-height: 1.2; margin-bottom: 16px; }
+h1 span { color: #D85A30; }
+.hero p { font-size: 15px; color: var(--color-text-secondary); line-height: 1.7; margin-bottom: 28px; max-width: 480px; }
+.hero-btns { display: flex; gap: 10px; }
+.btn-p {
+  background: #D85A30; color: #fff; border: none;
+  padding: 11px 24px; border-radius: var(--border-radius-md);
+  font-size: 14px; font-weight: 500; cursor: pointer;
+}
+.btn-s {
+  background: transparent; color: var(--color-text-primary);
+  border: 0.5px solid var(--color-border-secondary);
+  padding: 11px 24px; border-radius: var(--border-radius-md);
+  font-size: 14px; cursor: pointer;
+}
+
+.stats {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  border-bottom: 0.5px solid var(--color-border-tertiary);
+}
+.stat {
+  padding: 24px 32px;
+  border-right: 0.5px solid var(--color-border-tertiary);
+}
+.stat:last-child { border-right: none; }
+.stat-n { font-size: 26px; font-weight: 500; color: var(--color-text-primary); }
+.stat-l { font-size: 12px; color: var(--color-text-secondary); margin-top: 3px; }
+
+.section { padding: 48px 40px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.section-head { font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: #D85A30; margin-bottom: 10px; }
+.section-title { font-size: 22px; font-weight: 500; margin-bottom: 28px; }
+
+.cats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.cat {
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 20px 16px;
+  cursor: pointer;
+}
+.cat:hover { border-color: #D85A30; }
+.cat-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 3px; }
+.cat-count { font-size: 12px; color: var(--color-text-secondary); }
+
+.products { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.product {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 20px;
+  cursor: pointer;
+}
+.product:hover { border-color: var(--color-border-secondary); }
+.product-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.product-type { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 14px; }
+.product-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 0.5px solid var(--color-border-tertiary); }
+.price { font-size: 16px; font-weight: 500; color: #D85A30; }
+.moq { font-size: 11px; color: var(--color-text-secondary); background: var(--color-background-secondary); padding: 3px 9px; border-radius: var(--border-radius-md); }
+
+.tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.tier {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-lg);
+  padding: 24px;
+}
+.tier.featured { border: 2px solid #D85A30; }
+.feat-tag {
+  display: inline-block;
+  background: #FAECE7; color: #993C1D;
+  font-size: 11px; font-weight: 500; letter-spacing: 0.5px;
+  padding: 3px 10px; border-radius: var(--border-radius-md);
+  margin-bottom: 14px;
+}
+.tier-name { font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 6px; }
+.tier-moq { font-size: 28px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.tier-sub { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 20px; padding-bottom: 20px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.features { list-style: none; display: flex; flex-direction: column; gap: 9px; margin-bottom: 22px; }
+.features li { font-size: 13px; color: var(--color-text-secondary); display: flex; align-items: center; gap: 8px; }
+.dot { width: 5px; height: 5px; border-radius: 50%; background: #D85A30; flex-shrink: 0; }
+.tier-btn {
+  width: 100%; padding: 10px;
+  border-radius: var(--border-radius-md);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  border: 0.5px solid var(--color-border-secondary);
+  background: transparent; color: var(--color-text-primary);
+}
+.tier.featured .tier-btn { background: #D85A30; color: #fff; border-color: #D85A30; }
+
+footer {
+  padding: 32px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-top: 0.5px solid var(--color-border-tertiary);
+}
+.footer-logo { font-size: 15px; font-weight: 500; }
+.footer-logo span { color: #D85A30; }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 13px; color: var(--color-text-secondary); text-decoration: none; }
+.footer-note { font-size: 12px; color: var(--color-text-secondary); }
+</style>
+
+<nav>
+  <span class="logo">Sweet<span>Source</span></span>
+  <ul>
+    <li>Catalog</li>
+    <li>Pricing</li>
+    <li>Contact</li>
+  </ul>
+  <button class="nav-btn">Apply for account</button>
+</nav>
+
+<div class="hero">
+  <div class="tag">B2B Candy Wholesale — USA</div>
+  <h1>Wholesale candy,<br>delivered <span>nationwide.</span></h1>
+  <p>SweetSource supplies retailers, vending operators, and hospitality groups with 2,000+ candy SKUs at competitive wholesale pricing. Ships from Chicago and Dallas.</p>
+  <div class="hero-btns">
+    <button class="btn-p">Browse catalog</button>
+    <button class="btn-s">Request pricing</button>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-n">2,400+</div><div class="stat-l">Products in catalog</div></div>
+  <div class="stat"><div class="stat-n">$250</div><div class="stat-l">Minimum order value</div></div>
+  <div class="stat"><div class="stat-n">48 hr</div><div class="stat-l">Average fulfillment</div></div>
+  <div class="stat"><div class="stat-n">1,800+</div><div class="stat-l">Active accounts</div></div>
+</div>
+
+<div class="section">
+  <div class="section-head">Categories</div>
+  <div class="section-title">What we carry</div>
+  <div class="cats">
+    <div class="cat"><div class="cat-name">Hard candy</div><div class="cat-count">340 SKUs</div></div>
+    <div class="cat"><div class="cat-name">Chocolate</div><div class="cat-count">520 SKUs</div></div>
+    <div class="cat"><div class="cat-name">Gummies & sours</div><div class="cat-count">410 SKUs</div></div>
+    <div class="cat"><div class="cat-name">Lollipops</div><div class="cat-count">180 SKUs</div></div>
+    <div class="cat"><div class="cat-name">Theater packs</div><div class="cat-count">95 SKUs</div></div>
+    <div class="cat"><div class="cat-name">Sugar-free</div><div class="cat-count">220 SKUs</div></div>
+    <div class="cat"><div class="cat-name">Seasonal</div><div class="cat-count">310 SKUs</div></div>
+    <div class="cat"><div class="cat-name">Private label</div><div class="cat-count">Custom</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">Featured products</div>
+  <div class="section-title">Bestsellers this quarter</div>
+  <div class="products">
+    <div class="product">
+      <div class="product-name">Assorted fruit drops — bulk</div>
+      <div class="product-type">Domestic · 5 lb bags</div>
+      <div class="product-footer"><span class="price">$18.40 / case</span><span class="moq">MOQ 12 cases</span></div>
+    </div>
+    <div class="product">
+      <div class="product-name">Milk chocolate minis — display box</div>
+      <div class="product-type">Imported · 1 oz pieces</div>
+      <div class="product-footer"><span class="price">$34.00 / case</span><span class="moq">MOQ 6 cases</span></div>
+    </div>
+    <div class="product">
+      <div class="product-name">Sour bears — 5 lb bag</div>
+      <div class="product-type">Domestic · Vending ready</div>
+      <div class="product-footer"><span class="price">$22.10 / bag</span><span class="moq">MOQ 24 bags</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-head">Pricing tiers</div>
+  <div class="section-title">Scales with your volume</div>
+  <div class="tiers">
+    <div class="tier">
+      <div class="tier-name">Starter</div>
+      <div class="tier-moq">$250 MOQ</div>
+      <div class="tier-sub">For single-location retailers</div>
+      <ul class="features">
+        <li><span class="dot"></span>Full catalog access</li>
+        <li><span class="dot"></span>Standard wholesale pricing</li>
+        <li><span class="dot"></span>NET-15 after 3 orders</li>
+        <li><span class="dot"></span>Email support</li>
+      </ul>
+      <button class="tier-btn">Apply now</button>
+    </div>
+    <div class="tier featured">
+      <div class="feat-tag">Most popular</div>
+      <div class="tier-name">Preferred</div>
+      <div class="tier-moq">$1,000 MOQ</div>
+      <div class="tier-sub">For multi-location operators</div>
+      <ul class="features">
+        <li><span class="dot"></span>8% below standard pricing</li>
+        <li><span class="dot"></span>Dedicated account manager</li>
+        <li><span class="dot"></span>NET-30 payment terms</li>
+        <li><span class="dot"></span>Priority fulfillment</li>
+      </ul>
+      <button class="tier-btn">Apply now</button>
+    </div>
+    <div class="tier">
+      <div class="tier-name">Enterprise</div>
+      <div class="tier-moq">$5,000+ MOQ</div>
+      <div class="tier-sub">For chains and distributors</div>
+      <ul class="features">
+        <li><span class="dot"></span>Maximum volume discounts</li>
+        <li><span class="dot"></span>Private label options</li>
+        <li><span class="dot"></span>NET-45 terms</li>
+        <li><span class="dot"></span>EDI integration</li>
+      </ul>
+      <button class="tier-btn">Contact sales</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-logo">Sweet<span>Source</span></span>
+  <div class="footer-links">
+    <a href="#">Catalog</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+  </div>
+  <span class="footer-note">Chicago, IL · Dallas, TX</span>
+</footer>

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:swedishcandy.store)",
+      "WebFetch(domain:www.thenordichype.com)",
+      "Bash(git --version)",
+      "Bash(git init *)"
+    ]
+  }
+}
