@@ -55,6 +55,9 @@ export default function Footer() {
                 { label: 'Apply', href: '/apply' },
                 { label: 'Contact', href: '/contact' },
                 { label: 'Terms', href: '/terms' },
+                { label: 'Privacy Policy', href: '/privacy' },
+                { label: 'Refund Policy', href: '/refund-policy' },
+                { label: 'Shipping Policy', href: '/shipping-policy' },
               ].map(({ label, href }) => (
                 <li key={label}>
                   <Link

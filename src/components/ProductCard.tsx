@@ -22,7 +22,7 @@ export default function ProductCard({ product }: { product: ShopifyProduct }) {
             alt={product.featuredImage.altText ?? product.title}
             fill
             className="product-card-img"
-            style={{ objectFit: 'cover' }}
+            style={{ objectFit: 'cover', opacity: product.availableForSale ? 1 : 0.5 }}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
         ) : (
@@ -31,6 +31,25 @@ export default function ProductCard({ product }: { product: ShopifyProduct }) {
             style={{ fontSize: 36, opacity: 0.18 }}
           >
             🍬
+          </div>
+        )}
+        {!product.availableForSale && (
+          <div
+            style={{
+              position: 'absolute',
+              top: 10,
+              left: 10,
+              background: 'rgba(13,27,42,0.75)',
+              color: '#fff',
+              fontSize: 10,
+              fontWeight: 700,
+              letterSpacing: 1.2,
+              textTransform: 'uppercase',
+              padding: '4px 10px',
+              borderRadius: 4,
+            }}
+          >
+            Sold out
           </div>
         )}
       </div>

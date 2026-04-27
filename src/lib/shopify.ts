@@ -12,6 +12,7 @@ export type ShopifyProduct = {
   title: string
   productType: string
   tags: string[]
+  availableForSale: boolean
   featuredImage: { url: string; altText: string | null } | null
   priceRange: { minVariantPrice: { amount: string; currencyCode: string } }
 }
@@ -40,6 +41,7 @@ const PRODUCT_FIELDS = `
   title
   productType
   tags
+  availableForSale
   featuredImage { url altText }
   priceRange { minVariantPrice { amount currencyCode } }
 `

@@ -1,5 +1,5 @@
 ﻿import Link from 'next/link'
-import ProductCard from '@/components/ProductCard'
+import CatalogSearch from '@/components/CatalogSearch'
 import { getProducts, getProductsByTag } from '@/lib/shopify'
 
 export const metadata = {
@@ -97,27 +97,7 @@ export default async function UsaCatalogPage() {
 
       {/* Product grid */}
       <div className="section-px" style={{ paddingTop: 48, paddingBottom: 48 }}>
-        {products.length === 0 ? (
-          <div
-            style={{
-              textAlign: 'center',
-              padding: '100px 0',
-              color: 'var(--text-secondary)',
-            }}
-          >
-            <div style={{ fontSize: 48, marginBottom: 16, opacity: 0.3 }}>🍬</div>
-            <p style={{ fontSize: 15, fontWeight: 500, marginBottom: 8 }}>No products yet</p>
-            <p style={{ fontSize: 13 }}>
-              Products will appear here once added to the USA warehouse catalog.
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {products.map(p => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
-        )}
+        <CatalogSearch products={products} />
       </div>
 
       {/* Sweden upsell */}
