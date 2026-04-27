@@ -65,12 +65,11 @@ export default async function Home() {
       : fallbackCategories
 
   const featuredProducts = productList.slice(0, 8)
-  const newArrivals = productList.slice(0, 4)
 
   return (
     <div style={{ background: 'var(--bg)' }}>
       {/* ══ HERO ════════════════════════════════════════════ */}
-      <section style={{ borderBottom: '1px solid var(--border)' }}>
+      <section style={{ borderBottom: '1px solid var(--border)', background: 'linear-gradient(160deg, var(--bg) 60%, var(--bg-secondary) 100%)' }}>
         <div className="section-px content-max" style={{ paddingTop: 80, paddingBottom: 72 }}>
           <p className="eyebrow" style={{ marginBottom: 28 }}>B2B Wholesale · USA Market</p>
 
@@ -199,24 +198,6 @@ export default async function Home() {
         </section>
       )}
 
-      {/* ══ NEW ARRIVALS ════════════════════════════════════════ */}
-      {newArrivals.length > 0 && (
-        <section style={{ borderBottom: '1px solid var(--border)' }}>
-          <div className="section-px content-max" style={{ paddingTop: 88, paddingBottom: 88 }}>
-            <SectionHeader
-              eyebrow="New Arrivals"
-              title="Just in"
-              subtitle="Fresh additions to the SwedenSweet lineup."
-              link={{ label: 'See all new products', href: '/catalog/usa' }}
-            />
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {newArrivals.map((p) => (
-                <ProductCard key={p.id} product={p} />
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* ══ BRANDS ════════════════════════════════════════════ */}
       <section style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
