@@ -6,98 +6,64 @@ export default function ProductCard({ product }: { product: ShopifyProduct }) {
   const price = parseFloat(product.priceRange.minVariantPrice.amount)
 
   return (
-    <Link href={`/products/${product.handle}`} className="product-card">
+    <Link href={`/products/${product.handle}`} className="product-card group">
       {/* Image */}
-      <div
-        style={{
-          position: 'relative',
-          aspectRatio: '1 / 1',
-          background: 'var(--bg-secondary)',
-          overflow: 'hidden',
-        }}
-      >
+      <div className="relative aspect-square bg-[var(--bg-secondary)] overflow-hidden">
         {product.featuredImage ? (
           <Image
             src={product.featuredImage.url}
             alt={product.featuredImage.altText ?? product.title}
             fill
-            className="product-card-img"
-            style={{ objectFit: 'cover', opacity: product.availableForSale ? 1 : 0.5 }}
+            className="product-card-img object-cover"
+            style={{ opacity: product.availableForSale ? 1 : 0.45 }}
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
         ) : (
-          <div
-            className="flex items-center justify-center w-full h-full"
-            style={{ fontSize: 36, opacity: 0.18 }}
-          >
+          <div className="flex items-center justify-center w-full h-full text-4xl opacity-15">
             🍬
           </div>
         )}
+
+        {/* Sold out badge */}
         {!product.availableForSale && (
-          <div
-            style={{
-              position: 'absolute',
-              top: 10,
-              left: 10,
-              background: 'rgba(13,27,42,0.75)',
-              color: '#fff',
-              fontSize: 10,
-              fontWeight: 700,
-              letterSpacing: 1.2,
-              textTransform: 'uppercase',
-              padding: '4px 10px',
-              borderRadius: 4,
-            }}
-          >
+          <div className="absolute top-2 left-2 bg-[var(--text)] text-white text-[9px] font-bold tracking-[1.2px] uppercase px-2.5 py-1">
             Sold out
           </div>
         )}
+
+        {/* View product overlay */}
+        <div className="product-card-view absolute inset-x-0 bottom-0 bg-[var(--accent)] text-white text-[11px] font-semibold tracking-wide text-center py-2.5">
+          View product →
+        </div>
       </div>
 
       {/* Info */}
-      <div style={{ padding: '16px 18px 18px' }}>
-        {product.productType && (
-          <p className="eyebrow-muted" style={{ marginBottom: 6 }}>
-            {product.productType}
+      <div className="p-4 border-t border-[var(--border)]">
+        {/* Brand */}
+        {product.vendor && (
+          <p className="text-[10px] font-bold tracking-[1.8px] uppercase text-[var(--text-tertiary)] mb-1.5">
+            {product.vendor}
           </p>
         )}
-        <p
-          style={{
-            fontSize: 13,
-            fontWeight: 500,
-            color: 'var(--text)',
-            lineHeight: 1.45,
-            marginBottom: 14,
-          }}
-        >
+
+        {/* Title */}
+        <p className="text-[13px] font-medium text-[var(--text)] leading-snug mb-3 line-clamp-2">
           {product.title}
         </p>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingTop: 12,
-            borderTop: '1px solid var(--border-light)',
-          }}
-        >
-          <span
-            className="display"
-            style={{ fontSize: 16, color: 'var(--accent)' }}
-          >
-            ${price.toFixed(2)}
-          </span>
-          <span
-            style={{
-              fontSize: 9,
-              fontWeight: 700,
-              color: 'var(--text-tertiary)',
-              letterSpacing: 1.4,
-              textTransform: 'uppercase',
-            }}
-          >
-            Wholesale
-          </span>
+
+        {/* Price row */}
+        <div className="flex items-end justify-between pt-3 border-t border-[var(--border-light)]">
+          <div>
+            <p className="text-[10px] text-[var(--text-tertiary)] mb-0.5">Per case</p>
+            <p className="font-playfair text-xl font-bold text-[var(--accent)] leading-none">
+              ${price.toFixed(2)}
+            </p>
+          </div>
+          {product.productType && (
+            <span className="text-[9px] font-bold tracking-[1.4px] uppercase text-[var(--text-tertiary)] bg-[var(--bg-secondary)] border border-[var(--border)] px-2 py-1">
+              {product.productType}
+            </span>
+          )}
         </div>
       </div>
     </Link>

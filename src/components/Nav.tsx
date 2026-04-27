@@ -2,148 +2,166 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const links = [
-  { label: 'Catalog', href: '/catalog' },
+  { label: 'USA Catalog', href: '/catalog/usa' },
+  { label: 'Sweden Catalog', href: '/catalog/sweden' },
   { label: 'Pricing', href: '/#pricing' },
   { label: 'Contact', href: '/contact' },
 ]
 
 export default function Nav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
   const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const router = useRouter()
+
+  function handleSearch(e: React.FormEvent) {
+    e.preventDefault()
+    if (query.trim()) {
+      router.push(`/catalog/usa?q=${encodeURIComponent(query.trim())}`)
+      setQuery('')
+    }
+  }
 
   return (
-    <header
-      style={{
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
-        background: 'rgba(255,255,255,0.95)',
-        backdropFilter: 'blur(10px)',
-        WebkitBackdropFilter: 'blur(10px)',
-        borderBottom: '1px solid var(--border)',
-      }}
-    >
+    <header className="sticky top-0 z-50">
+      {/* Top bar */}
+      <div className="bg-[var(--accent)] text-white text-[11px] font-medium tracking-wide text-center py-2 px-4">
+        $300 MOQ &nbsp;·&nbsp; Ships from Chicago &nbsp;·&nbsp; 3–5 day delivery
+      </div>
+
+      {/* Main nav */}
       <div
-        className="section-px content-max flex items-center justify-between"
-        style={{ height: 60 }}
+        className="bg-white/95 backdrop-blur-md border-b border-[var(--border)]"
+        style={{ backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' } as React.CSSProperties}
       >
-        {/* Logo */}
-        <Link
-          href="/"
-          style={{
-            fontSize: 17,
-            fontWeight: 600,
-            textDecoration: 'none',
-            color: 'var(--text)',
-            letterSpacing: '-0.3px',
-          }}
-        >
-          Sweden<span style={{ color: 'var(--accent)' }}>Sweet</span>
-        </Link>
+        <div className="section-px content-max flex items-center justify-between gap-6" style={{ height: 60 }}>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center" style={{ gap: 36 }}>
-          {links.map(({ label, href }) => (
-            <Link key={label} href={href} className="nav-link" style={{ fontSize: 13, fontWeight: 500 }}>
-              {label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2.5">
+          {/* Logo */}
           <Link
-            href={isLoggedIn ? '/account' : '/login'}
-            className="hidden md:block"
-            style={{ fontSize: 13, color: 'var(--text-secondary)', textDecoration: 'none', padding: '8px 12px' }}
+            href="/"
+            className="shrink-0 text-[17px] font-semibold no-underline text-[var(--text)] tracking-tight"
           >
-            {isLoggedIn ? 'My account' : 'Sign in'}
+            Sweden<span className="text-[var(--accent)]">Sweet</span>
           </Link>
 
-          <Link
-            href="/cart"
-            aria-label="Cart"
-            style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              width: 36, height: 36,
-              border: '1px solid var(--border)',
-              borderRadius: 6,
-              color: 'var(--text)',
-              textDecoration: 'none',
-            }}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M1 1h2l2 8h7l1.5-5H4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-              <circle cx="7" cy="13" r="1" fill="currentColor"/>
-              <circle cx="12" cy="13" r="1" fill="currentColor"/>
+          {/* Desktop nav links */}
+          <nav className="hidden lg:flex items-center gap-8">
+            {links.map(({ label, href }) => (
+              <Link key={label} href={href} className="nav-link text-[13px] font-medium">
+                {label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Search */}
+          <form onSubmit={handleSearch} className="hidden md:flex items-center relative flex-1 max-w-xs">
+            <svg
+              width="14" height="14" viewBox="0 0 16 16" fill="none"
+              className="absolute left-3 text-[var(--text-tertiary)] pointer-events-none"
+            >
+              <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4" />
+              <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
             </svg>
-          </Link>
+            <input
+              type="search"
+              placeholder="Search products…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full border border-[var(--border)] rounded-sm text-[13px] py-2 pl-8 pr-3 outline-none bg-[var(--bg-secondary)] text-[var(--text)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent)] transition-colors"
+            />
+          </form>
 
-          <Link href="/apply" className="btn-primary" style={{ padding: '8px 20px', fontSize: 13 }}>
-            Apply for account
-          </Link>
+          {/* Right actions */}
+          <div className="flex items-center gap-2 shrink-0">
+            <Link
+              href={isLoggedIn ? '/account' : '/login'}
+              className="hidden md:block text-[13px] text-[var(--text-secondary)] no-underline px-3 py-2 hover:text-[var(--accent)] transition-colors"
+            >
+              {isLoggedIn ? 'My account' : 'Sign in'}
+            </Link>
 
-          {/* Hamburger */}
-          <button
-            className="md:hidden"
-            onClick={() => setOpen(!open)}
-            aria-label={open ? 'Close' : 'Menu'}
-            style={{
-              background: 'none',
-              border: '1px solid var(--border)',
-              borderRadius: 6,
-              cursor: 'pointer',
-              padding: '5px 7px',
-              color: 'var(--text)',
-              lineHeight: 1,
-            }}
-          >
-            {open ? (
+            <Link
+              href="/cart"
+              aria-label="Cart"
+              className="flex items-center justify-center w-9 h-9 border border-[var(--border)] text-[var(--text)] no-underline hover:border-[var(--accent)] transition-colors"
+              style={{ borderRadius: 2 }}
+            >
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                <path d="M1 1h2l2 8h7l1.5-5H4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="7" cy="13" r="1" fill="currentColor"/>
+                <circle cx="12" cy="13" r="1" fill="currentColor"/>
               </svg>
-            ) : (
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M2 4.5h12M2 8h12M2 11.5h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              </svg>
-            )}
-          </button>
+            </Link>
+
+            <Link href="/apply" className="btn-primary hidden md:inline-flex" style={{ padding: '8px 18px', fontSize: 12, borderRadius: 2 }}>
+              Apply for account
+            </Link>
+
+            {/* Hamburger */}
+            <button
+              className="lg:hidden border border-[var(--border)] cursor-pointer bg-transparent text-[var(--text)] p-1.5"
+              style={{ borderRadius: 2 }}
+              onClick={() => setOpen(!open)}
+              aria-label={open ? 'Close' : 'Menu'}
+            >
+              {open ? (
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              ) : (
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <path d="M2 4.5h12M2 8h12M2 11.5h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                </svg>
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Mobile menu */}
       {open && (
-        <div style={{ borderTop: '1px solid var(--border)', background: 'var(--bg)' }}>
+        <div className="bg-white border-b border-[var(--border)] lg:hidden">
+          {/* Mobile search */}
+          <form onSubmit={handleSearch} className="px-6 pt-4 pb-2">
+            <div className="relative">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-tertiary)]">
+                <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4" />
+                <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+              </svg>
+              <input
+                type="search"
+                placeholder="Search products…"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                className="w-full border border-[var(--border)] text-[13px] py-2.5 pl-8 pr-3 outline-none bg-[var(--bg-secondary)] text-[var(--text)] placeholder:text-[var(--text-tertiary)]"
+              />
+            </div>
+          </form>
+
           {links.map(({ label, href }) => (
             <Link
               key={label}
               href={href}
               onClick={() => setOpen(false)}
-              style={{
-                display: 'block',
-                padding: '14px 24px',
-                fontSize: 14,
-                color: 'var(--text)',
-                textDecoration: 'none',
-                borderBottom: '1px solid var(--border-light)',
-              }}
+              className="block px-6 py-3.5 text-[14px] text-[var(--text)] no-underline border-b border-[var(--border-light)] hover:bg-[var(--bg-secondary)] transition-colors"
             >
               {label}
             </Link>
           ))}
-          <div style={{ padding: '12px 24px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div className="px-6 py-4 flex flex-col gap-2">
             <Link
               href={isLoggedIn ? '/account' : '/login'}
               onClick={() => setOpen(false)}
-              style={{ display: 'block', textAlign: 'center', padding: '11px', fontSize: 14, color: 'var(--text-secondary)', textDecoration: 'none', border: '1px solid var(--border)', borderRadius: 6 }}
+              className="block text-center py-3 text-[14px] text-[var(--text-secondary)] no-underline border border-[var(--border)]"
             >
               {isLoggedIn ? 'My account' : 'Sign in'}
             </Link>
             <Link
               href="/apply"
               onClick={() => setOpen(false)}
-              className="btn-primary"
-              style={{ width: '100%', textAlign: 'center', padding: '11px', display: 'block' }}
+              className="btn-primary block text-center py-3"
             >
               Apply for wholesale account
             </Link>

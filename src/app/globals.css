@@ -2,36 +2,37 @@
 
 /* ─────────────────────────────────────────────────────
    SwedenSweet · Scandinavian Premium B2B
-   Swedish Blue · Gold accent · Clean white
+   Nordic Blue #2A4E6E · Sand #D7C9B8
 ───────────────────────────────────────────────────── */
 :root {
   /* Surfaces */
   --bg:           #FFFFFF;
-  --bg-secondary: #F5F7FA;
-  --bg-tertiary:  #EBF0F6;
+  --bg-secondary: #F8F7F5;
+  --bg-tertiary:  #F0EDE8;
   --bg-card:      #FFFFFF;
 
   /* Typography */
   --text:           #0D1B2A;
-  --text-secondary: #536070;
+  --text-secondary: #4A5568;
   --text-tertiary:  #8FA0B0;
 
   /* Borders */
-  --border:       #D6E0EA;
-  --border-light: #EBF0F6;
+  --border:       #E2DDD7;
+  --border-light: #EDE9E3;
 
-  /* Accent — Swedish Blue + Gold */
-  --accent:       #005B99;
-  --accent-hover: #004A80;
-  --accent-light: #E8F2FA;
-  --accent-soft:  #FFF8D6;
-  --gold:         #D4A800;
+  /* Accent — Nordic Blue + Sand */
+  --accent:       #2A4E6E;
+  --accent-hover: #1F3A52;
+  --accent-light: #EAF0F6;
+  --accent-soft:  #F5F0EA;
+  --sand:         #D7C9B8;
+  --sand-dark:    #B8A898;
 
   /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(0,30,60,0.05);
-  --shadow-sm: 0 2px 6px rgba(0,30,60,0.07);
-  --shadow-md: 0 6px 20px rgba(0,30,60,0.09);
-  --shadow-lg: 0 16px 40px rgba(0,30,60,0.12);
+  --shadow-xs: 0 1px 2px rgba(42,78,110,0.06);
+  --shadow-sm: 0 2px 6px rgba(42,78,110,0.08);
+  --shadow-md: 0 6px 20px rgba(42,78,110,0.10);
+  --shadow-lg: 0 16px 40px rgba(42,78,110,0.13);
 
   --transition: 150ms ease;
 }
@@ -101,7 +102,7 @@ body {
 }
 .btn-primary:hover {
   background: var(--accent-hover);
-  box-shadow: 0 4px 14px rgba(0,91,153,0.28);
+  box-shadow: 0 4px 14px rgba(42,78,110,0.28);
   transform: translateY(-1px);
 }
 
@@ -174,7 +175,7 @@ body {
 }
 .input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(0,91,153,0.12);
+  box-shadow: 0 0 0 3px rgba(42,78,110,0.10);
 }
 .input::placeholder { color: var(--text-tertiary); }
 
@@ -182,19 +183,30 @@ body {
 .product-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 4px;
   overflow: hidden;
   display: block;
   text-decoration: none;
   color: inherit;
-  transition: box-shadow 200ms ease, border-color 200ms ease;
+  transition: border-color 200ms ease, box-shadow 200ms ease;
+  position: relative;
 }
 .product-card:hover {
-  box-shadow: var(--shadow-md);
-  border-color: #D4D3CF;
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
 }
-.product-card-img { transition: transform 450ms ease; }
-.product-card:hover .product-card-img { transform: scale(1.03); }
+.product-card-img { transition: transform 500ms ease; }
+.product-card:hover .product-card-img { transform: scale(1.04); }
+.product-card-view {
+  opacity: 0;
+  transition: opacity 150ms ease;
+}
+.product-card:hover .product-card-view { opacity: 1; }
+
+/* ─── Playfair utility ────────────────────────────── */
+.font-playfair {
+  font-family: var(--font-playfair), Georgia, serif;
+}
 
 /* ─── Category cell ───────────────────────────────── */
 .category-cell {
