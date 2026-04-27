@@ -71,7 +71,7 @@ export default async function Home() {
     <div style={{ background: 'var(--bg)' }}>
       {/* ══ HERO ════════════════════════════════════════════ */}
       <section style={{ borderBottom: '1px solid var(--border)' }}>
-        <div className="section-px content-max" style={{ paddingTop: 112, paddingBottom: 100 }}>
+        <div className="section-px content-max" style={{ paddingTop: 80, paddingBottom: 72 }}>
           <p className="eyebrow" style={{ marginBottom: 28 }}>B2B Wholesale · USA Market</p>
 
           <h1
@@ -130,7 +130,7 @@ export default async function Home() {
               borderBottom: i < 2 ? '1px solid var(--border)' : 'none',
             }}
           >
-            <div className="display" style={{ fontSize: 26, color: 'var(--gold)', marginBottom: 5 }}>
+            <div className="display" style={{ fontSize: 26, color: 'var(--accent)', marginBottom: 5 }}>
               {s.value}
             </div>
             <div style={{ fontSize: 12, color: 'var(--text-tertiary)', letterSpacing: 0.3 }}>

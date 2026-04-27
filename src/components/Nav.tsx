@@ -56,7 +56,7 @@ export default function Nav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
           </nav>
 
           {/* Search */}
-          <form onSubmit={handleSearch} className="hidden md:flex items-center relative flex-1 max-w-xs">
+          <form onSubmit={handleSearch} className="hidden md:flex items-center relative w-44 lg:w-56">
             <svg
               width="14" height="14" viewBox="0 0 16 16" fill="none"
               className="absolute left-3 text-[var(--text-tertiary)] pointer-events-none"
