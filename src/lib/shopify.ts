@@ -10,6 +10,7 @@ export type ShopifyProduct = {
   id: string
   handle: string
   title: string
+  vendor: string
   productType: string
   tags: string[]
   availableForSale: boolean
@@ -39,6 +40,7 @@ const PRODUCT_FIELDS = `
   id
   handle
   title
+  vendor
   productType
   tags
   availableForSale
