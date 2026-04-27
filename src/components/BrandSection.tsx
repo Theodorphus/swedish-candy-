@@ -1,5 +1,3 @@
-'use client'
-
 const brands = [
   { name: 'BUBS',     desc: 'Gummies & sours' },
   { name: 'Fazer',    desc: 'Chocolate & candy' },
@@ -13,39 +11,16 @@ const brands = [
 
 export default function BrandSection() {
   return (
-    <div
-      className="grid grid-cols-2 sm:grid-cols-4 gap-px"
-      style={{
-        background: 'var(--border)',
-        border: '1px solid var(--border)',
-        borderRadius: 8,
-        overflow: 'hidden',
-      }}
-    >
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-[var(--border)] border border-[var(--border)]">
       {brands.map((brand) => (
         <div
           key={brand.name}
-          style={{
-            background: 'var(--bg-card)',
-            padding: '28px 24px',
-            transition: 'background 150ms ease',
-          }}
-          onMouseEnter={e => ((e.currentTarget as HTMLElement).style.background = 'var(--bg-secondary)')}
-          onMouseLeave={e => ((e.currentTarget as HTMLElement).style.background = 'var(--bg-card)')}
+          className="bg-[var(--bg-card)] px-6 py-7 hover:bg-[var(--bg-secondary)] transition-colors duration-150"
         >
-          <p
-            style={{
-              fontFamily: 'var(--font-playfair), Georgia, serif',
-              fontSize: 18,
-              fontWeight: 700,
-              letterSpacing: '-0.02em',
-              color: 'var(--text)',
-              marginBottom: 4,
-            }}
-          >
+          <p className="font-playfair text-[18px] font-bold tracking-tight text-[var(--text)] mb-1">
             {brand.name}
           </p>
-          <p style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>
+          <p className="text-[12px] text-[var(--text-tertiary)]">
             {brand.desc}
           </p>
         </div>
