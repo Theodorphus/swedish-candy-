@@ -33,37 +33,46 @@ export default async function ProductPage(props: PageProps<'/products/[handle]'>
   const maxPrice = parseFloat(product.priceRange.maxVariantPrice.amount)
   const priceDisplay =
     minPrice === maxPrice
-      ? `$${minPrice.toFixed(2)}`
-      : `$${minPrice.toFixed(2)} – $${maxPrice.toFixed(2)}`
+      ? minPrice.toFixed(2)
+      : `${minPrice.toFixed(2)} – $${maxPrice.toFixed(2)}`
 
   const mainImage = product.images[0] ?? product.featuredImage
-  const isAvailable = product.availableForSale
 
-  // Parse useful tags
-  const caseTag = product.tags.find((t) => t.toLowerCase().startsWith('case-'))
-  const caseSize = caseTag ? caseTag.replace(/^case-/i, '') : null
-  const weightTag = product.tags.find((t) => t.toLowerCase().startsWith('weight-'))
-  const weight = weightTag ? weightTag.replace(/^weight-/i, '') : null
+  // Only show vendor if it's a real brand (not the store URL)
+  const vendorIsStore = !product.vendor ||
+    product.vendor.toLowerCase().includes('.store') ||
+    product.vendor.toLowerCase().includes('.com') ||
+    product.vendor.toLowerCase() === 'swedensweet'
+  const showVendor = !vendorIsStore
 
   return (
     <div className="bg-[var(--bg)]">
-      <div className="section-px content-max" style={{ paddingTop: 40, paddingBottom: 80, maxWidth: 1200 }}>
+      <div className="section-px content-max" style={{ paddingTop: 40, paddingBottom: 80 }}>
 
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2 text-[12px] text-[var(--text-tertiary)] mb-10">
-          <Link href="/" className="no-underline text-[var(--text-tertiary)] hover:text-[var(--accent)] transition-colors">Home</Link>
+        <div className="flex items-center gap-2" style={{ fontSize: 12, color: 'var(--text-tertiary)', marginBottom: 40 }}>
+          <Link href="/" style={{ color: 'var(--text-tertiary)', textDecoration: 'none' }}>Home</Link>
           <span>/</span>
-          <Link href="/catalog/usa" className="no-underline text-[var(--text-tertiary)] hover:text-[var(--accent)] transition-colors">Catalog</Link>
+          <Link href="/catalog/usa" style={{ color: 'var(--text-tertiary)', textDecoration: 'none' }}>Catalog</Link>
           <span>/</span>
-          <span className="text-[var(--text-secondary)]">{product.title}</span>
+          <span style={{ color: 'var(--text-secondary)' }}>{product.title}</span>
         </div>
 
         {/* Two-column layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 items-start">
 
-          {/* ── Left: Images ── */}
-          <div className="sticky top-28">
-            <div className="relative aspect-square bg-[var(--bg-secondary)] border border-[var(--border)] overflow-hidden">
+          {/* ── Left: Image ── */}
+          <div style={{ position: 'sticky', top: 100 }}>
+            <div
+              style={{
+                position: 'relative',
+                aspectRatio: '1',
+                background: 'var(--bg-secondary)',
+                border: '1px solid var(--border)',
+                borderRadius: 8,
+                overflow: 'hidden',
+              }}
+            >
               {mainImage ? (
                 <Image
                   src={mainImage.url}
@@ -72,31 +81,32 @@ export default async function ProductPage(props: PageProps<'/products/[handle]'>
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 50vw"
                   priority
-                  style={{ opacity: isAvailable ? 1 : 0.5 }}
                 />
               ) : (
-                <div className="flex items-center justify-center w-full h-full text-8xl opacity-15">🍬</div>
-              )}
-              {!isAvailable && (
-                <div className="absolute top-3 left-3 bg-[var(--text)] text-white text-[9px] font-bold tracking-[1.5px] uppercase px-3 py-1.5">
-                  Sold out
+                <div className="flex items-center justify-center w-full h-full" style={{ fontSize: 80, opacity: 0.1 }}>
+                  🍬
                 </div>
               )}
             </div>
 
             {/* Thumbnail strip */}
             {product.images.length > 1 && (
-              <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
+              <div className="flex gap-2 overflow-x-auto" style={{ marginTop: 10 }}>
                 {product.images.slice(0, 6).map((img, i) => (
                   <div
                     key={i}
-                    className="relative shrink-0 bg-[var(--bg-secondary)] border overflow-hidden"
                     style={{
-                      width: 72, height: 72,
-                      borderColor: i === 0 ? 'var(--accent)' : 'var(--border)',
+                      position: 'relative',
+                      width: 68,
+                      height: 68,
+                      borderRadius: 6,
+                      overflow: 'hidden',
+                      border: `1.5px solid ${i === 0 ? 'var(--accent)' : 'var(--border)'}`,
+                      flexShrink: 0,
+                      background: 'var(--bg-secondary)',
                     }}
                   >
-                    <Image src={img.url} alt={img.altText ?? ''} fill className="object-cover" sizes="72px" />
+                    <Image src={img.url} alt={img.altText ?? ''} fill className="object-cover" sizes="68px" />
                   </div>
                 ))}
               </div>
@@ -105,121 +115,116 @@ export default async function ProductPage(props: PageProps<'/products/[handle]'>
 
           {/* ── Right: Details ── */}
           <div>
-            {/* Brand + type */}
-            <div className="flex items-center gap-2 mb-3">
-              {product.vendor && (
-                <span className="text-[10px] font-bold tracking-[1.8px] uppercase text-[var(--text-tertiary)] border border-[var(--border)] px-2.5 py-1 bg-[var(--bg-secondary)]">
-                  {product.vendor}
-                </span>
-              )}
-              {product.productType && (
-                <span className="text-[10px] font-bold tracking-[1.8px] uppercase text-[var(--accent)] border border-[var(--accent-light)] bg-[var(--accent-light)] px-2.5 py-1">
-                  {product.productType}
-                </span>
-              )}
-            </div>
+            {/* Brand badge */}
+            {showVendor && (
+              <p className="eyebrow-muted" style={{ marginBottom: 10 }}>{product.vendor}</p>
+            )}
+            {product.productType && (
+              <p className="eyebrow" style={{ marginBottom: 10 }}>{product.productType}</p>
+            )}
 
-            <h1 className="font-playfair text-[clamp(24px,3.5vw,34px)] font-bold leading-tight mb-6 text-[var(--text)]">
+            <h1
+              style={{
+                fontFamily: 'var(--font-playfair), Georgia, serif',
+                fontSize: 'clamp(22px, 3.5vw, 32px)',
+                fontWeight: 700,
+                lineHeight: 1.2,
+                letterSpacing: '-0.02em',
+                color: 'var(--text)',
+                marginBottom: 28,
+              }}
+            >
               {product.title}
             </h1>
 
-            {/* Specs grid */}
-            <div className="grid grid-cols-2 gap-px border border-[var(--border)] mb-6 bg-[var(--border)]">
-              <div className="bg-[var(--bg)] p-4">
-                <p className="text-[10px] font-bold tracking-[1.5px] uppercase text-[var(--text-tertiary)] mb-1">Price per case</p>
-                <p className="font-playfair text-3xl font-bold text-[var(--accent)] leading-none">{priceDisplay}</p>
-                <p className="text-[11px] text-[var(--text-tertiary)] mt-1">Excl. shipping</p>
+            {/* Price */}
+            <div style={{ marginBottom: 28, paddingBottom: 28, borderBottom: '1px solid var(--border)' }}>
+              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: 8 }}>
+                Price per case
+              </p>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
+                <span style={{ fontSize: 18, fontWeight: 600, color: 'var(--text-secondary)', lineHeight: 1 }}>$</span>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-playfair), Georgia, serif',
+                    fontSize: 42,
+                    fontWeight: 700,
+                    color: 'var(--accent)',
+                    lineHeight: 1,
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  {priceDisplay}
+                </span>
               </div>
-              <div className="bg-[var(--bg)] p-4">
-                <p className="text-[10px] font-bold tracking-[1.5px] uppercase text-[var(--text-tertiary)] mb-1">Availability</p>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className={`w-2 h-2 rounded-full ${isAvailable ? 'bg-green-500' : 'bg-red-400'}`} />
-                  <span className="text-[13px] font-medium text-[var(--text)]">
-                    {isAvailable ? 'In stock' : 'Out of stock'}
-                  </span>
-                </div>
-              </div>
-              {caseSize && (
-                <div className="bg-[var(--bg)] p-4">
-                  <p className="text-[10px] font-bold tracking-[1.5px] uppercase text-[var(--text-tertiary)] mb-1">Case size</p>
-                  <p className="text-[14px] font-medium text-[var(--text)]">{caseSize}</p>
-                </div>
-              )}
-              {weight && (
-                <div className="bg-[var(--bg)] p-4">
-                  <p className="text-[10px] font-bold tracking-[1.5px] uppercase text-[var(--text-tertiary)] mb-1">Weight</p>
-                  <p className="text-[14px] font-medium text-[var(--text)]">{weight}</p>
-                </div>
-              )}
-            </div>
-
-            {/* Warehouse info */}
-            <div className="flex gap-3 mb-6">
-              <div className="flex-1 border border-[var(--border)] p-3 bg-[var(--bg-secondary)]">
-                <p className="text-[11px] font-bold tracking-[1.2px] uppercase text-[var(--text-tertiary)] mb-1">🇺🇸 USA Warehouse</p>
-                <p className="text-[12px] text-[var(--text-secondary)]">Chicago · 3–5 day delivery</p>
-              </div>
-              <div className="flex-1 border border-[var(--border)] p-3 bg-[var(--bg-secondary)]">
-                <p className="text-[11px] font-bold tracking-[1.2px] uppercase text-[var(--text-tertiary)] mb-1">🇸🇪 Sweden Warehouse</p>
-                <p className="text-[12px] text-[var(--text-secondary)]">Full 500+ SKU range</p>
-              </div>
-            </div>
-
-            {/* Variant selector + CTAs */}
-            <div className="flex flex-col gap-3 mb-8">
-              <VariantSelector variants={product.variants} />
-              <Link
-                href={`/contact?product=${encodeURIComponent(product.title)}`}
-                className="flex items-center justify-center gap-2 border border-[var(--accent)] text-[var(--accent)] text-[13px] font-semibold py-3.5 px-6 hover:bg-[var(--accent-light)] transition-colors no-underline"
-              >
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-                  <path d="M14 10c0 .6-.6 1-1 1H4l-3 3V3c0-.6.4-1 1-1h11c.6 0 1 .4 1 1v7z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
-                </svg>
-                Request a quote
-              </Link>
-            </div>
-
-            {/* MOQ notice */}
-            <div className="border border-[var(--sand)] bg-[var(--accent-soft)] p-4 mb-8">
-              <p className="text-[12px] text-[var(--text-secondary)] leading-relaxed">
-                <strong className="text-[var(--text)]">Minimum order:</strong> $300 USD across all items.
-                NET-15 terms available after 3 orders. Contact us for volume pricing.
+              <p style={{ fontSize: 12, color: 'var(--text-tertiary)', marginTop: 6 }}>
+                Excl. shipping &middot; USD
               </p>
             </div>
 
-            {/* Description / Ingredients */}
+            {/* Variant selector + CTAs */}
+            <div style={{ marginBottom: 24 }}>
+              <VariantSelector variants={product.variants} />
+            </div>
+
+            <Link
+              href={`/contact?product=${encodeURIComponent(product.title)}`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                border: '1px solid var(--border)',
+                color: 'var(--text-secondary)',
+                fontSize: 13,
+                fontWeight: 500,
+                padding: '12px 24px',
+                borderRadius: 6,
+                textDecoration: 'none',
+                marginBottom: 20,
+              }}
+            >
+              Request a quote
+            </Link>
+
+            {/* MOQ notice */}
+            <div
+              style={{
+                background: 'var(--bg-secondary)',
+                border: '1px solid var(--border)',
+                borderRadius: 6,
+                padding: '14px 18px',
+                marginBottom: 28,
+              }}
+            >
+              <p style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+                <strong style={{ color: 'var(--text)', fontWeight: 600 }}>$300 minimum order</strong> across all items.
+                NET-15 available after 3 orders.{' '}
+                <Link href="/contact" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+                  Contact us for volume pricing.
+                </Link>
+              </p>
+            </div>
+
+            {/* Description */}
             {product.descriptionHtml && (
-              <div className="border-t border-[var(--border)] pt-6">
-                <p className="text-[10px] font-bold tracking-[1.8px] uppercase text-[var(--text-tertiary)] mb-4">
+              <div style={{ borderTop: '1px solid var(--border)', paddingTop: 24 }}>
+                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: 16 }}>
                   Product details
                 </p>
                 <div
-                  className="text-[14px] text-[var(--text-secondary)] leading-relaxed prose-sm"
+                  style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.8 }}
                   dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
                 />
-              </div>
-            )}
-
-            {/* Tags */}
-            {product.tags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mt-6 pt-6 border-t border-[var(--border-light)]">
-                {product.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="text-[10px] text-[var(--text-tertiary)] bg-[var(--bg-secondary)] border border-[var(--border-light)] px-2.5 py-1 tracking-wide"
-                  >
-                    {tag}
-                  </span>
-                ))}
               </div>
             )}
           </div>
         </div>
 
-        {/* Back link */}
-        <div className="mt-16 pt-8 border-t border-[var(--border)]">
-          <Link href="/catalog/usa" className="text-[13px] text-[var(--text-secondary)] no-underline hover:text-[var(--accent)] transition-colors">
-            ← Back to catalog
+        {/* Back */}
+        <div style={{ marginTop: 64, paddingTop: 24, borderTop: '1px solid var(--border)' }}>
+          <Link href="/catalog/usa" style={{ fontSize: 13, color: 'var(--text-secondary)', textDecoration: 'none' }}>
+            &larr; Back to catalog
           </Link>
         </div>
       </div>

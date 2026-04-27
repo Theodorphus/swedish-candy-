@@ -56,20 +56,13 @@ export default function Nav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
           </nav>
 
           {/* Search */}
-          <form onSubmit={handleSearch} className="hidden md:flex items-center relative w-44 lg:w-56">
-            <svg
-              width="14" height="14" viewBox="0 0 16 16" fill="none"
-              className="absolute left-3 text-[var(--text-tertiary)] pointer-events-none"
-            >
-              <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4" />
-              <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-            </svg>
+          <form onSubmit={handleSearch} className="hidden md:flex items-center w-44 lg:w-56">
             <input
-              type="search"
+              type="text"
               placeholder="Search products…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full border border-[var(--border)] rounded-sm text-[13px] py-2 pl-8 pr-3 outline-none bg-[var(--bg-secondary)] text-[var(--text)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent)] transition-colors"
+              className="w-full border border-[var(--border)] rounded-sm text-[13px] py-2 px-3 outline-none bg-[var(--bg-secondary)] text-[var(--text)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent)] transition-colors"
             />
           </form>
 
@@ -125,19 +118,13 @@ export default function Nav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
         <div className="bg-white border-b border-[var(--border)] lg:hidden">
           {/* Mobile search */}
           <form onSubmit={handleSearch} className="px-6 pt-4 pb-2">
-            <div className="relative">
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-tertiary)]">
-                <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4" />
-                <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-              </svg>
-              <input
-                type="search"
-                placeholder="Search products…"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                className="w-full border border-[var(--border)] text-[13px] py-2.5 pl-8 pr-3 outline-none bg-[var(--bg-secondary)] text-[var(--text)] placeholder:text-[var(--text-tertiary)]"
-              />
-            </div>
+            <input
+              type="text"
+              placeholder="Search products…"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full border border-[var(--border)] text-[13px] py-2.5 px-3 outline-none bg-[var(--bg-secondary)] text-[var(--text)] placeholder:text-[var(--text-tertiary)]"
+            />
           </form>
 
           {links.map(({ label, href }) => (

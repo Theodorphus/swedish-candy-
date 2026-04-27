@@ -62,7 +62,7 @@ export default function ApplyPage() {
               style={{
                 background: 'var(--bg-secondary)',
                 border: '1px solid var(--border)',
-                borderRadius: 14,
+                borderRadius: 8,
                 padding: 28,
               }}
             >
@@ -76,17 +76,10 @@ export default function ApplyPage() {
                     className="flex items-start gap-3"
                     style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.5 }}
                   >
-                    <span
-                      style={{
-                        width: 6,
-                        height: 6,
-                        borderRadius: '50%',
-                        background: 'var(--accent)',
-                        flexShrink: 0,
-                        marginTop: 5,
-                        display: 'inline-block',
-                      }}
-                    />
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style={{ flexShrink: 0, marginTop: 1 }}>
+                      <circle cx="8" cy="8" r="7" fill="var(--accent)" opacity="0.12"/>
+                      <path d="M5 8l2 2 4-4" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
                     {item}
                   </li>
                 ))}
@@ -97,7 +90,7 @@ export default function ApplyPage() {
               style={{
                 background: 'var(--bg-secondary)',
                 border: '1px solid var(--border)',
-                borderRadius: 14,
+                borderRadius: 8,
                 padding: 28,
               }}
             >

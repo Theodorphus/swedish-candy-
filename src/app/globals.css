@@ -1,38 +1,39 @@
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────
-   SwedenSweet · Scandinavian Premium B2B
-   Nordic Blue #2A4E6E · Sand #D7C9B8
+   SwedenSweet · Premium B2B
+   Raspberry #9B2248 · Sand #D7C9B8
 ───────────────────────────────────────────────────── */
 :root {
   /* Surfaces */
   --bg:           #FFFFFF;
-  --bg-secondary: #F8F7F5;
-  --bg-tertiary:  #F0EDE8;
+  --bg-secondary: #FAF8F7;
+  --bg-tertiary:  #F3EEEC;
   --bg-card:      #FFFFFF;
 
   /* Typography */
-  --text:           #0D1B2A;
-  --text-secondary: #4A5568;
-  --text-tertiary:  #8FA0B0;
+  --text:           #1A0A0E;
+  --text-secondary: #5C4A50;
+  --text-tertiary:  #A08890;
 
   /* Borders */
-  --border:       #E2DDD7;
-  --border-light: #EDE9E3;
+  --border:       #E8DEDE;
+  --border-light: #F0E8E8;
 
-  /* Accent — Nordic Blue + Sand */
-  --accent:       #2A4E6E;
-  --accent-hover: #1F3A52;
-  --accent-light: #EAF0F6;
+  /* Accent — Raspberry + Sand */
+  --accent:       #9B2248;
+  --accent-hover: #7D1A38;
+  --accent-light: #F8EEF1;
   --accent-soft:  #F5F0EA;
   --sand:         #D7C9B8;
   --sand-dark:    #B8A898;
+  --gold:         #9B2248;
 
   /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(42,78,110,0.06);
-  --shadow-sm: 0 2px 6px rgba(42,78,110,0.08);
-  --shadow-md: 0 6px 20px rgba(42,78,110,0.10);
-  --shadow-lg: 0 16px 40px rgba(42,78,110,0.13);
+  --shadow-xs: 0 1px 2px rgba(155,34,72,0.06);
+  --shadow-sm: 0 2px 6px rgba(155,34,72,0.08);
+  --shadow-md: 0 6px 20px rgba(155,34,72,0.10);
+  --shadow-lg: 0 16px 40px rgba(155,34,72,0.13);
 
   --transition: 150ms ease;
 }

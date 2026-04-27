@@ -24,7 +24,7 @@ function AchIcon() {
   return (
     <svg width="38" height="24" viewBox="0 0 38 24" fill="none" className="opacity-60">
       <rect width="38" height="24" rx="3" fill="#f0f0f0"/>
-      <text x="19" y="16" textAnchor="middle" fontSize="9" fontWeight="700" fontFamily="Arial" fill="#2A4E6E">ACH</text>
+      <text x="19" y="16" textAnchor="middle" fontSize="9" fontWeight="700" fontFamily="Arial" fill="currentColor">ACH</text>
     </svg>
   )
 }
@@ -105,16 +105,14 @@ export default function Footer() {
             <p className="text-[10px] font-bold tracking-[2px] uppercase text-[var(--text-tertiary)] mb-4">
               Fulfillment
             </p>
-            <div className="flex flex-col gap-5">
-              <div className="border-l-2 border-[var(--accent)] pl-3">
-                <p className="text-[13px] font-medium text-[var(--text)] mb-0.5">🇺🇸 Chicago, IL</p>
+            <div className="flex flex-col gap-4">
+              <div>
+                <p className="text-[13px] font-semibold text-[var(--text)] mb-1">Chicago, IL — USA</p>
                 <p className="text-[12px] text-[var(--text-secondary)]">3–5 day domestic shipping</p>
-                <p className="text-[11px] text-[var(--text-tertiary)] mt-0.5">Core assortment · Fast fulfillment</p>
               </div>
-              <div className="border-l-2 border-[var(--sand)] pl-3">
-                <p className="text-[13px] font-medium text-[var(--text)] mb-0.5">🇸🇪 Sweden</p>
+              <div>
+                <p className="text-[13px] font-semibold text-[var(--text)] mb-1">Sweden</p>
                 <p className="text-[12px] text-[var(--text-secondary)]">500+ SKU full assortment</p>
-                <p className="text-[11px] text-[var(--text-tertiary)] mt-0.5">International shipping available</p>
               </div>
             </div>
           </div>

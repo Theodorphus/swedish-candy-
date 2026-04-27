@@ -11,16 +11,31 @@ const brands = [
 
 export default function BrandSection() {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-[var(--border)] border border-[var(--border)]">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
       {brands.map((brand) => (
         <div
           key={brand.name}
-          className="bg-[var(--bg-card)] px-6 py-7 hover:bg-[var(--bg-secondary)] transition-colors duration-150"
+          style={{
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border)',
+            borderLeft: '3px solid var(--accent)',
+            borderRadius: 6,
+            padding: '20px 20px',
+          }}
         >
-          <p className="font-playfair text-[18px] font-bold tracking-tight text-[var(--text)] mb-1">
+          <p
+            style={{
+              fontFamily: 'var(--font-playfair), Georgia, serif',
+              fontSize: 17,
+              fontWeight: 700,
+              letterSpacing: '-0.02em',
+              color: 'var(--text)',
+              marginBottom: 4,
+            }}
+          >
             {brand.name}
           </p>
-          <p className="text-[12px] text-[var(--text-tertiary)]">
+          <p style={{ fontSize: 11, color: 'var(--text-tertiary)', letterSpacing: '0.03em' }}>
             {brand.desc}
           </p>
         </div>

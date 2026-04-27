@@ -17,9 +17,6 @@ export default async function AccountPage() {
   const customer = await getCustomer(token)
   if (!customer) redirect('/api/clear-session')
 
-  const isB2B = customer.tags.some((t) =>
-    t.toLowerCase().startsWith('b2b') || t.toLowerCase() === 'wholesale'
-  )
 
   const fullName = [customer.firstName, customer.lastName].filter(Boolean).join(' ')
 
@@ -110,7 +107,7 @@ export default async function AccountPage() {
                   { label: 'Name', value: fullName || '—' },
                   { label: 'Email', value: customer.email },
                   { label: 'Phone', value: customer.phone || '—' },
-                  { label: 'Account type', value: isB2B ? 'Wholesale (B2B)' : 'Standard' },
+                  { label: 'Account type', value: 'Wholesale' },
                 ].map((row) => (
                   <div key={row.label}>
                     <div style={{ fontSize: 11, fontWeight: 500, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: 0.8, marginBottom: 2 }}>

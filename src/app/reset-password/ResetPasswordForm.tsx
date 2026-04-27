@@ -1,8 +1,7 @@
 'use client'
 
 import { useActionState } from 'react'
-import Link from 'next/link'
-import { login, type LoginState } from './actions'
+import { resetPassword, type ResetPasswordState } from './actions'
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
@@ -24,35 +23,37 @@ const labelStyle: React.CSSProperties = {
   marginBottom: 6,
 }
 
-export default function LoginForm() {
-  const [state, action, isPending] = useActionState<LoginState, FormData>(login, {})
+export default function ResetPasswordForm({ resetUrl }: { resetUrl: string }) {
+  const [state, action, isPending] = useActionState<ResetPasswordState, FormData>(resetPassword, {})
 
   return (
     <form action={action} style={{ maxWidth: 400 }}>
+      <input type="hidden" name="resetUrl" value={resetUrl} />
+
       <div className="flex flex-col gap-4" style={{ marginBottom: 24 }}>
         <div className="flex flex-col">
-          <label htmlFor="email" style={labelStyle}>Email address</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            required
-            autoComplete="email"
-            style={inputStyle}
-            placeholder="jane@acmegrocery.com"
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label htmlFor="password" style={labelStyle}>Password</label>
+          <label htmlFor="password" style={labelStyle}>New password</label>
           <input
             id="password"
             name="password"
             type="password"
             required
-            autoComplete="current-password"
+            autoComplete="new-password"
             style={inputStyle}
-            placeholder="Your password"
+            placeholder="At least 5 characters"
+          />
+        </div>
+
+        <div className="flex flex-col">
+          <label htmlFor="confirmPassword" style={labelStyle}>Confirm new password</label>
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            required
+            autoComplete="new-password"
+            style={inputStyle}
+            placeholder="Repeat your password"
           />
         </div>
       </div>
@@ -86,21 +87,8 @@ export default function LoginForm() {
           cursor: isPending ? 'not-allowed' : 'pointer',
         }}
       >
-        {isPending ? 'Signing in…' : 'Sign in'}
+        {isPending ? 'Saving…' : 'Set new password'}
       </button>
-
-      <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 20, lineHeight: 1.6 }}>
-        <Link href="/contact" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>
-          Forgot your password? Contact us
-        </Link>
-      </p>
-
-      <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 12, lineHeight: 1.6 }}>
-        Don&apos;t have an account?{' '}
-        <Link href="/apply" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>
-          Apply for wholesale access →
-        </Link>
-      </p>
     </form>
   )
 }

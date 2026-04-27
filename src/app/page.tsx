@@ -129,7 +129,7 @@ export default async function Home() {
               borderBottom: i < 2 ? '1px solid var(--border)' : 'none',
             }}
           >
-            <div className="display" style={{ fontSize: 26, color: 'var(--accent)', marginBottom: 5 }}>
+            <div style={{ fontSize: 26, fontWeight: 700, color: 'var(--accent)', marginBottom: 4, letterSpacing: '-0.02em' }}>
               {s.value}
             </div>
             <div style={{ fontSize: 12, color: 'var(--text-tertiary)', letterSpacing: 0.3 }}>
@@ -149,27 +149,29 @@ export default async function Home() {
             link={{ label: 'Browse full catalog', href: '/catalog/usa' }}
           />
 
-          <div
-            className="grid grid-cols-2 sm:grid-cols-4 gap-px"
-            style={{
-              background: 'var(--border)',
-              borderRadius: 8,
-              overflow: 'hidden',
-              border: '1px solid var(--border)',
-            }}
-          >
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {collectionList.map(
               (cat: { title?: string; name?: string; emoji?: string; productsCount?: { count: number } }, i: number) => (
                 <Link key={i} href="/catalog/usa" style={{ textDecoration: 'none' }}>
-                  <div className="category-cell">
+                  <div
+                    className="category-cell"
+                    style={{
+                      border: '1px solid var(--border)',
+                      borderLeft: '3px solid var(--accent)',
+                      minHeight: 90,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                    }}
+                  >
                     {cat.emoji && (
-                      <div style={{ fontSize: 22, marginBottom: 10 }}>{cat.emoji}</div>
+                      <div style={{ fontSize: 24, marginBottom: 8 }}>{cat.emoji}</div>
                     )}
-                    <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--text)', marginBottom: 3 }}>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginBottom: 4, lineHeight: 1.3 }}>
                       {cat.title ?? cat.name}
                     </p>
-                    <p style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>
-                      {cat.productsCount ? `${cat.productsCount.count} products` : 'Explore →'}
+                    <p style={{ fontSize: 11, color: 'var(--text-tertiary)', letterSpacing: '0.05em' }}>
+                      {cat.productsCount ? `${cat.productsCount.count} products` : 'Explore \u2192'}
                     </p>
                   </div>
                 </Link>
@@ -226,7 +228,7 @@ export default async function Home() {
                 padding: '36px 32px',
               }}
             >
-              <p className="eyebrow-muted" style={{ marginBottom: 12 }}>🇺🇸 USA Warehouse</p>
+              <p className="eyebrow-muted" style={{ marginBottom: 12 }}>USA Warehouse</p>
               <h3 className="display" style={{ fontSize: 22, color: 'var(--text)', marginBottom: 10 }}>
                 Chicago, IL
               </h3>
@@ -247,7 +249,7 @@ export default async function Home() {
                 padding: '36px 32px',
               }}
             >
-              <p className="eyebrow-muted" style={{ marginBottom: 12 }}>🇸🇪 Swedish Warehouse</p>
+              <p className="eyebrow-muted" style={{ marginBottom: 12 }}>Swedish Warehouse</p>
               <h3 className="display" style={{ fontSize: 22, color: 'var(--text)', marginBottom: 10 }}>
                 Sweden
               </h3>
@@ -278,7 +280,7 @@ export default async function Home() {
                 style={{
                   background: 'var(--bg-card)',
                   border: '1px solid var(--border)',
-                  borderTop: tier.featured ? '3px solid var(--gold)' : '1px solid var(--border)',
+                  borderTop: tier.featured ? '3px solid var(--accent)' : '1px solid var(--border)',
                   borderRadius: 8,
                   padding: tier.featured ? '30px 28px 32px' : '32px 28px',
                   position: 'relative',
@@ -290,7 +292,7 @@ export default async function Home() {
                       position: 'absolute',
                       top: 16,
                       right: 16,
-                      background: 'var(--gold)',
+                      background: 'var(--accent)',
                       color: '#FFFFFF',
                       fontSize: 9,
                       fontWeight: 700,
@@ -311,8 +313,14 @@ export default async function Home() {
                   {tier.name}
                 </p>
 
-                <div className="display" style={{ fontSize: 38, color: 'var(--text)', marginBottom: 4 }}>
-                  {tier.moq}
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 2, marginBottom: 4 }}>
+                  <span style={{ fontSize: 16, fontWeight: 600, color: 'var(--text-tertiary)', lineHeight: 1 }}>$</span>
+                  <span className="display" style={{ fontSize: 38, color: 'var(--text)', lineHeight: 1 }}>
+                    {tier.moq.replace('$', '').replace('+', '')}
+                  </span>
+                  {tier.moq.includes('+') && (
+                    <span style={{ fontSize: 20, fontWeight: 600, color: 'var(--text-tertiary)', lineHeight: 1 }}>+</span>
+                  )}
                 </div>
                 <p style={{ fontSize: 12, color: 'var(--text-tertiary)', marginBottom: 8 }}>
                   minimum order
@@ -341,17 +349,10 @@ export default async function Home() {
                         gap: 10,
                       }}
                     >
-                      <span
-                        style={{
-                          marginTop: 5,
-                          width: 4,
-                          height: 4,
-                          borderRadius: '50%',
-                          background: 'var(--text-tertiary)',
-                          flexShrink: 0,
-                          display: 'inline-block',
-                        }}
-                      />
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0, marginTop: 1 }}>
+                        <circle cx="7" cy="7" r="6.5" stroke="var(--accent)" strokeOpacity="0.3" />
+                        <path d="M4.5 7l1.8 1.8L9.5 5.5" stroke="var(--accent)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
                       {f}
                     </li>
                   ))}
@@ -359,7 +360,7 @@ export default async function Home() {
 
                 <Link
                   href={tier.href}
-                  className="btn-primary"
+                  className={tier.featured ? 'btn-primary' : 'btn-secondary'}
                   style={{ display: 'block', textAlign: 'center', padding: '11px' }}
                 >
                   {tier.cta}
@@ -382,10 +383,7 @@ export default async function Home() {
               { n: '03', title: 'Individual pricing', body: 'Every account gets custom pricing based on your order volume.' },
             ].map(({ n, title, body }) => (
               <div key={n}>
-                <p
-                  className="display"
-                  style={{ fontSize: 12, color: 'var(--text-tertiary)', fontStyle: 'italic', marginBottom: 18 }}
-                >
+                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', color: 'var(--accent)', opacity: 0.5, marginBottom: 16 }}>
                   {n}
                 </p>
                 <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 10 }}>{title}</h3>
@@ -399,23 +397,18 @@ export default async function Home() {
       {/* ══ FAQ ═════════════════════════════════════════════════ */}
       <section style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
         <div className="section-px content-max" style={{ paddingTop: 88, paddingBottom: 88 }}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div>
-              <SectionHeader
-                eyebrow="FAQ"
-                title="Common questions"
-                subtitle="Everything you need to know about wholesaling Swedish candy with us."
-              />
-              <div style={{ marginTop: 32 }}>
-                <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.75, marginBottom: 28 }}>
-                  Can't find your answer? We're happy to help.
-                </p>
-                <Link href="/contact" className="btn-secondary" style={{ fontSize: 13 }}>
-                  Contact us →
-                </Link>
-              </div>
-            </div>
+          <SectionHeader
+            eyebrow="FAQ"
+            title="Common questions"
+            subtitle="Everything you need to know about wholesaling Swedish candy with us."
+          />
+          <div style={{ maxWidth: 760, marginTop: 48 }}>
             <FAQAccordion />
+            <div style={{ marginTop: 32 }}>
+              <Link href="/contact" className="btn-secondary" style={{ fontSize: 13 }}>
+                Contact us →
+              </Link>
+            </div>
           </div>
         </div>
       </section>

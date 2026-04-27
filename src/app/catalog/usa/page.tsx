@@ -27,30 +27,20 @@ export default async function UsaCatalogPage() {
       >
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <div
-              style={{
-                fontSize: 11,
-                fontWeight: 600,
-                letterSpacing: 1.8,
-                textTransform: 'uppercase',
-                color: 'var(--accent)',
-                marginBottom: 8,
-              }}
-            >
-              🇺🇸 USA Warehouse — Chicago, IL
-            </div>
+            <p className="eyebrow" style={{ marginBottom: 8 }}>USA Warehouse — Chicago, IL</p>
             <h1
               style={{
                 fontFamily: 'var(--font-playfair), Georgia, serif',
                 fontSize: 28,
-                fontWeight: 600,
+                fontWeight: 700,
+                letterSpacing: '-0.02em',
                 marginBottom: 6,
               }}
             >
               USA Catalog
             </h1>
             <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-              Core assortment � Fast domestic shipping �{' '}
+              Core assortment &middot; Fast domestic shipping &middot;{' '}
               <strong style={{ color: 'var(--text)' }}>{products.length}</strong> products
             </p>
           </div>
@@ -62,54 +52,51 @@ export default async function UsaCatalogPage() {
               gap: 4,
               background: 'var(--bg-card)',
               border: '1px solid var(--border)',
-              borderRadius: 10,
+              borderRadius: 8,
               padding: 4,
             }}
           >
             <span
               style={{
                 fontSize: 13,
-                fontWeight: 500,
+                fontWeight: 600,
                 padding: '8px 18px',
-                borderRadius: 7,
+                borderRadius: 5,
                 background: 'var(--accent)',
                 color: '#fff',
               }}
             >
-              🇺🇸 USA
+              USA
             </span>
             <Link
               href="/catalog/sweden"
               style={{
                 fontSize: 13,
+                fontWeight: 500,
                 color: 'var(--text-secondary)',
                 padding: '8px 18px',
-                borderRadius: 7,
+                borderRadius: 5,
                 textDecoration: 'none',
-                transition: 'color var(--transition)',
               }}
             >
-              🇸🇪 Sweden
+              Sweden
             </Link>
           </div>
         </div>
       </div>
 
       {/* Product grid */}
-      <div className="section-px" style={{ paddingTop: 48, paddingBottom: 48 }}>
+      <div className="section-px content-max" style={{ paddingTop: 48, paddingBottom: 48 }}>
         <CatalogSearch products={products} />
       </div>
 
       {/* Sweden upsell */}
-      <div
-        className="section-px"
-        style={{ paddingBottom: 64 }}
-      >
+      <div className="section-px content-max" style={{ paddingBottom: 64 }}>
         <div
           style={{
             background: 'var(--bg-secondary)',
             border: '1px solid var(--border)',
-            borderRadius: 14,
+            borderRadius: 8,
             padding: '28px 32px',
             display: 'flex',
             flexWrap: 'wrap',
@@ -119,28 +106,15 @@ export default async function UsaCatalogPage() {
           }}
         >
           <div>
-            <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>
-              🇸🇪 Looking for a wider selection?
-            </div>
+            <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>
+              Looking for a wider selection?
+            </p>
             <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
               Our Swedish warehouse carries the full assortment — more products, more variety.
             </p>
           </div>
-          <Link
-            href="/catalog/sweden"
-            style={{
-              background: 'var(--accent)',
-              color: '#fff',
-              padding: '10px 22px',
-              borderRadius: 8,
-              fontSize: 13,
-              fontWeight: 500,
-              textDecoration: 'none',
-              whiteSpace: 'nowrap',
-              flexShrink: 0,
-            }}
-          >
-            View Swedish catalog →
+          <Link href="/catalog/sweden" className="btn-secondary" style={{ fontSize: 13 }}>
+            View Swedish catalog &rarr;
           </Link>
         </div>
       </div>

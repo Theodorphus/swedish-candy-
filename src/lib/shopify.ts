@@ -134,7 +134,6 @@ export type ShopifyCustomer = {
   lastName: string | null
   email: string
   phone: string | null
-  tags: string[]
   orders: {
     id: string
     orderNumber: number
@@ -186,7 +185,6 @@ export async function getCustomer(accessToken: string): Promise<ShopifyCustomer 
         lastName
         email
         phone
-        tags
         orders(first: 10, sortKey: PROCESSED_AT, reverse: true) {
           nodes {
             id
@@ -204,10 +202,52 @@ export async function getCustomer(accessToken: string): Promise<ShopifyCustomer 
   if (errors || !data?.customer) return null
 
   const c = data.customer
-  return {
-    ...c,
-    orders: c.orders.nodes,
-  }
+  return { ...c, orders: c.orders.nodes }
+}
+
+// ─── Password recovery ────────────────────────────────────────────────────
+
+export async function customerRecover(email: string): Promise<{ success: true } | { error: string }> {
+  const { data, errors } = await shopify.request(`
+    mutation CustomerRecover($email: String!) {
+      customerRecover(email: $email) {
+        customerUserErrors { code message }
+      }
+    }
+  `, { variables: { email } })
+
+  if (errors) return { error: 'Something went wrong. Please try again.' }
+
+  const userErrors = data?.customerRecover?.customerUserErrors
+  if (userErrors?.length > 0) return { error: userErrors[0].message }
+
+  return { success: true }
+}
+
+// ─── Password reset ────────────────────────────────────────────────────────
+
+export async function customerResetByUrl(
+  resetUrl: string,
+  password: string
+): Promise<{ accessToken: string; expiresAt: string } | { error: string }> {
+  const { data, errors } = await shopify.request(`
+    mutation CustomerResetByUrl($resetUrl: URL!, $password: String!) {
+      customerResetByUrl(resetUrl: $resetUrl, password: $password) {
+        customerAccessToken { accessToken expiresAt }
+        customerUserErrors { code message }
+      }
+    }
+  `, { variables: { resetUrl, password } })
+
+  if (errors) return { error: 'Something went wrong. Please try again.' }
+
+  const userErrors = data?.customerResetByUrl?.customerUserErrors
+  if (userErrors?.length > 0) return { error: userErrors[0].message }
+
+  const token = data?.customerResetByUrl?.customerAccessToken
+  if (!token) return { error: 'Could not reset password. The link may have expired.' }
+
+  return { accessToken: token.accessToken, expiresAt: token.expiresAt }
 }
 
 // ─── Customer logout ───────────────────────────────────────────────────────
@@ -357,6 +397,22 @@ export async function cartLinesUpdate(
 
   if (errors || !data?.cartLinesUpdate?.cart) return null
   return normalizeCart(data.cartLinesUpdate.cart)
+}
+
+export async function cartBuyerIdentityUpdate(
+  cartId: string,
+  customerAccessToken: string
+): Promise<Cart | null> {
+  const { data, errors } = await shopify.request(`
+    mutation CartBuyerIdentityUpdate($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!) {
+      cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
+        cart { ${CART_FIELDS} }
+      }
+    }
+  `, { variables: { cartId, buyerIdentity: { customerAccessToken } } })
+
+  if (errors || !data?.cartBuyerIdentityUpdate?.cart) return null
+  return normalizeCart(data.cartBuyerIdentityUpdate.cart)
 }
 
 export async function cartLinesRemove(

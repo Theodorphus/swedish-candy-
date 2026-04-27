@@ -2,11 +2,13 @@
 
 import { cookies } from 'next/headers'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
 import {
   cartCreate,
   cartLinesAdd,
   cartLinesUpdate,
   cartLinesRemove,
+  cartBuyerIdentityUpdate,
   getCart,
   type Cart,
 } from '@/lib/shopify'
@@ -104,4 +106,21 @@ export async function getCurrentCart(): Promise<Cart | null> {
   const cartId = cookieStore.get(CART_COOKIE)?.value
   if (!cartId) return null
   return getCart(cartId)
+}
+
+export async function proceedToCheckout(): Promise<void> {
+  const cookieStore = await cookies()
+  const cartId = cookieStore.get(CART_COOKIE)?.value
+  if (!cartId) return
+
+  const customerToken = cookieStore.get('shopify_customer_token')?.value
+  let cart = await getCart(cartId)
+  if (!cart) return
+
+  if (customerToken) {
+    const updated = await cartBuyerIdentityUpdate(cartId, customerToken)
+    if (updated) cart = updated
+  }
+
+  redirect(cart.checkoutUrl)
 }

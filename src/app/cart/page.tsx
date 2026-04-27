@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { getCurrentCart } from './actions'
+import { getCurrentCart, proceedToCheckout } from './actions'
 import CartLineItem from './CartLineItem'
 
 export const metadata = {
@@ -103,23 +103,27 @@ export default async function CartPage() {
                 </span>
               </div>
 
-              <a
-                href={cart.checkoutUrl}
-                style={{
-                  display: 'block',
-                  textAlign: 'center',
-                  background: 'var(--accent)',
-                  color: '#fff',
-                  padding: '13px 24px',
-                  borderRadius: 8,
-                  fontSize: 14,
-                  fontWeight: 500,
-                  textDecoration: 'none',
-                  marginBottom: 12,
-                }}
-              >
-                Proceed to checkout →
-              </a>
+              <form action={proceedToCheckout}>
+                <button
+                  type="submit"
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    textAlign: 'center',
+                    background: 'var(--accent)',
+                    color: '#fff',
+                    padding: '13px 24px',
+                    borderRadius: 8,
+                    fontSize: 14,
+                    fontWeight: 500,
+                    border: 'none',
+                    cursor: 'pointer',
+                    marginBottom: 12,
+                  }}
+                >
+                  Proceed to checkout →
+                </button>
+              </form>
 
               <p style={{ fontSize: 11, color: 'var(--text-secondary)', textAlign: 'center', lineHeight: 1.6 }}>
                 Secure checkout powered by Shopify.

@@ -24,10 +24,8 @@ export default async function LoginPage() {
         </div>
 
         <div style={{ marginBottom: 36 }}>
-          <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: 1.5, textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 10 }}>
-            Wholesale account
-          </div>
-          <h1 style={{ fontSize: 28, fontWeight: 500, marginBottom: 10 }}>Sign in</h1>
+          <p className="eyebrow" style={{ marginBottom: 12 }}>Wholesale account</p>
+          <h1 className="display" style={{ fontSize: 32, marginBottom: 10 }}>Sign in</h1>
           <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.7 }}>
             Sign in to access your wholesale pricing and place orders.
           </p>
