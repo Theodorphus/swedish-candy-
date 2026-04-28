@@ -3,6 +3,8 @@ import ProductCard from '@/components/ProductCard'
 import SectionHeader from '@/components/SectionHeader'
 import BrandSection from '@/components/BrandSection'
 import FAQAccordion from '@/components/FAQAccordion'
+import HeroVideo from '@/components/HeroVideo'
+import ScrollReveal from '@/components/ScrollReveal'
 import { getProducts, getCollections } from '@/lib/shopify'
 
 const stats = [
@@ -69,9 +71,13 @@ export default async function Home() {
   return (
     <div style={{ background: 'var(--bg)' }}>
       {/* ══ HERO ════════════════════════════════════════════ */}
-      <section style={{ borderBottom: '1px solid var(--border)', background: 'linear-gradient(160deg, var(--bg) 60%, var(--bg-secondary) 100%)' }}>
-        <div className="section-px content-max" style={{ paddingTop: 80, paddingBottom: 72 }}>
-          <p className="eyebrow" style={{ marginBottom: 28 }}>B2B Wholesale · USA Market</p>
+      <section style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#1A0A0E', position: 'relative', overflow: 'hidden' }}>
+        <HeroVideo />
+        {/* Overlay — låter videon andas men håller texten läsbar */}
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(26,10,14,0.55) 0%, rgba(26,10,14,0.45) 100%)' }} />
+
+        <div className="section-px content-max" style={{ paddingTop: 88, paddingBottom: 80, position: 'relative', zIndex: 1 }}>
+          <p className="eyebrow" style={{ marginBottom: 28, color: 'rgba(255,255,255,0.45)' }}>B2B Wholesale · USA Market</p>
 
           <h1
             className="display"
@@ -79,12 +85,12 @@ export default async function Home() {
               fontSize: 'clamp(40px, 6vw, 68px)',
               maxWidth: 780,
               marginBottom: 28,
-              color: 'var(--text)',
+              color: '#FFFFFF',
             }}
           >
             The complete source of<br />
             Swedish candy{' '}
-            <em style={{ color: 'var(--accent)', fontStyle: 'italic' }}>
+            <em style={{ color: 'var(--sand)', fontStyle: 'italic' }}>
               for wholesale buyers.
             </em>
           </h1>
@@ -92,7 +98,7 @@ export default async function Home() {
           <p
             style={{
               fontSize: 16,
-              color: 'var(--text-secondary)',
+              color: 'rgba(255,255,255,0.62)',
               lineHeight: 1.8,
               maxWidth: 460,
               marginBottom: 48,
@@ -103,10 +109,10 @@ export default async function Home() {
           </p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-            <Link href="/catalog/usa" className="btn-primary" style={{ padding: '14px 32px', fontSize: 14 }}>
+            <Link href="/catalog/usa" className="btn-white" style={{ padding: '14px 32px', fontSize: 14 }}>
               Browse USA catalog
             </Link>
-            <Link href="/apply" className="btn-secondary" style={{ padding: '14px 32px', fontSize: 14 }}>
+            <Link href="/apply" className="btn-ghost" style={{ padding: '14px 32px', fontSize: 14 }}>
               Apply for account
             </Link>
           </div>
@@ -123,18 +129,20 @@ export default async function Home() {
             key={i}
             className="section-px"
             style={{
-              paddingTop: 28,
-              paddingBottom: 28,
+              paddingTop: 32,
+              paddingBottom: 32,
               borderRight: i < 3 ? '1px solid var(--border)' : 'none',
               borderBottom: i < 2 ? '1px solid var(--border)' : 'none',
             }}
           >
-            <div style={{ fontSize: 26, fontWeight: 700, color: 'var(--accent)', marginBottom: 4, letterSpacing: '-0.02em' }}>
-              {s.value}
-            </div>
-            <div style={{ fontSize: 12, color: 'var(--text-tertiary)', letterSpacing: 0.3 }}>
-              {s.label}
-            </div>
+            <ScrollReveal delay={i * 80}>
+              <div className="display" style={{ fontSize: 34, color: 'var(--accent)', marginBottom: 4, letterSpacing: '-0.03em', lineHeight: 1 }}>
+                {s.value}
+              </div>
+              <div style={{ fontSize: 12, color: 'var(--text-tertiary)', letterSpacing: 0.3 }}>
+                {s.label}
+              </div>
+            </ScrollReveal>
           </div>
         ))}
       </section>
@@ -152,29 +160,32 @@ export default async function Home() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {collectionList.map(
               (cat: { title?: string; name?: string; emoji?: string; productsCount?: { count: number } }, i: number) => (
-                <Link key={i} href="/catalog/usa" style={{ textDecoration: 'none' }}>
-                  <div
-                    className="category-cell"
-                    style={{
-                      border: '1px solid var(--border)',
-                      borderLeft: '3px solid var(--accent)',
-                      minHeight: 90,
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    {cat.emoji && (
-                      <div style={{ fontSize: 24, marginBottom: 8 }}>{cat.emoji}</div>
-                    )}
-                    <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginBottom: 4, lineHeight: 1.3 }}>
-                      {cat.title ?? cat.name}
-                    </p>
-                    <p style={{ fontSize: 11, color: 'var(--text-tertiary)', letterSpacing: '0.05em' }}>
-                      {cat.productsCount ? `${cat.productsCount.count} products` : 'Explore \u2192'}
-                    </p>
-                  </div>
-                </Link>
+                <ScrollReveal key={i} delay={i * 60}>
+                  <Link href="/catalog/usa" style={{ textDecoration: 'none' }}>
+                    <div
+                      className="category-cell"
+                      style={{
+                        border: '1px solid var(--border)',
+                        borderTop: '3px solid var(--accent)',
+                        borderRadius: 8,
+                        minHeight: 100,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'space-between',
+                      }}
+                    >
+                      {cat.emoji && (
+                        <div style={{ fontSize: 30, marginBottom: 10 }}>{cat.emoji}</div>
+                      )}
+                      <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginBottom: 4, lineHeight: 1.3 }}>
+                        {cat.title ?? cat.name}
+                      </p>
+                      <p style={{ fontSize: 11, color: 'var(--text-tertiary)', letterSpacing: '0.05em' }}>
+                        {cat.productsCount ? `${cat.productsCount.count} products` : 'Explore \u2192'}
+                      </p>
+                    </div>
+                  </Link>
+                </ScrollReveal>
               )
             )}
           </div>
@@ -192,8 +203,10 @@ export default async function Home() {
               link={{ label: 'View full catalog', href: '/catalog/usa' }}
             />
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {featuredProducts.map((p) => (
-                <ProductCard key={p.id} product={p} />
+              {featuredProducts.map((p, i) => (
+                <ScrollReveal key={p.id} delay={i * 60}>
+                  <ProductCard product={p} />
+                </ScrollReveal>
               ))}
             </div>
           </div>
@@ -202,7 +215,7 @@ export default async function Home() {
 
 
       {/* ══ BRANDS ════════════════════════════════════════════ */}
-      <section style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
+      <section style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg)' }}>
         <div className="section-px content-max" style={{ paddingTop: 88, paddingBottom: 88 }}>
           <SectionHeader
             eyebrow="Brands"
@@ -220,12 +233,15 @@ export default async function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5" style={{ maxWidth: 760 }}>
             {/* USA */}
+            <ScrollReveal delay={0}>
             <div
               style={{
                 background: 'var(--bg)',
                 border: '1px solid var(--border)',
+                borderTop: '3px solid var(--accent)',
                 borderRadius: 8,
                 padding: '36px 32px',
+                boxShadow: 'var(--shadow-sm)',
               }}
             >
               <p className="eyebrow-muted" style={{ marginBottom: 12 }}>USA Warehouse</p>
@@ -239,14 +255,18 @@ export default async function Home() {
                 Shop USA catalog →
               </Link>
             </div>
+            </ScrollReveal>
 
             {/* Sweden */}
+            <ScrollReveal delay={120}>
             <div
               style={{
                 background: 'var(--bg)',
                 border: '1px solid var(--border)',
+                borderTop: '3px solid var(--sand)',
                 borderRadius: 8,
                 padding: '36px 32px',
+                boxShadow: 'var(--shadow-sm)',
               }}
             >
               <p className="eyebrow-muted" style={{ marginBottom: 12 }}>Swedish Warehouse</p>
@@ -260,6 +280,7 @@ export default async function Home() {
                 Shop Sweden catalog →
               </Link>
             </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -274,9 +295,9 @@ export default async function Home() {
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-            {tiers.map((tier) => (
+            {tiers.map((tier, i) => (
+              <ScrollReveal key={tier.name} delay={i * 100}>
               <div
-                key={tier.name}
                 style={{
                   background: 'var(--bg-card)',
                   border: '1px solid var(--border)',
@@ -284,6 +305,7 @@ export default async function Home() {
                   borderRadius: 8,
                   padding: tier.featured ? '30px 28px 32px' : '32px 28px',
                   position: 'relative',
+                  boxShadow: tier.featured ? 'var(--shadow-md)' : 'var(--shadow-xs)',
                 }}
               >
                 {tier.featured && (
@@ -366,29 +388,51 @@ export default async function Home() {
                   {tier.cta}
                 </Link>
               </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
       </section>
 
       {/* ══ WHY US ══════════════════════════════════════════════ */}
-      <section style={{ borderBottom: '1px solid var(--border)' }}>
+      <section style={{
+        borderBottom: '1px solid rgba(255,255,255,0.06)',
+        background: '#1A0A0E',
+        position: 'relative',
+        overflow: 'hidden',
+      }}>
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundImage: 'url(/why-bg.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          opacity: 0.45,
+        }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(26,10,14,0.45) 0%, rgba(26,10,14,0.35) 100%)' }} />
         <div className="section-px content-max" style={{ paddingTop: 88, paddingBottom: 88 }}>
-          <SectionHeader eyebrow="Why SwedenSweet" title="Built for B2B" />
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginBottom: 52, flexWrap: 'wrap', gap: 12, position: 'relative', zIndex: 1 }}>
+            <div>
+              <p className="eyebrow" style={{ marginBottom: 12, color: 'rgba(255,255,255,0.4)' }}>Why SwedenSweet</p>
+              <h2 className="display" style={{ fontSize: 'clamp(24px, 3vw, 36px)', color: '#FFFFFF' }}>Built for B2B</h2>
+            </div>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12" style={{ maxWidth: 880 }}>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12" style={{ maxWidth: 880, position: 'relative', zIndex: 1 }}>
             {[
               { n: '01', title: 'Fast fulfillment', body: 'Orders ship from our Chicago warehouse within 1–2 business days.' },
               { n: '02', title: 'Authentic brands', body: 'BUBS, Fazer, Marabou, Cloetta — directly sourced from Sweden.' },
               { n: '03', title: 'Individual pricing', body: 'Every account gets custom pricing based on your order volume.' },
-            ].map(({ n, title, body }) => (
-              <div key={n}>
-                <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', color: 'var(--accent)', opacity: 0.5, marginBottom: 16 }}>
-                  {n}
-                </p>
-                <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 10 }}>{title}</h3>
-                <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.75 }}>{body}</p>
-              </div>
+            ].map(({ n, title, body }, i) => (
+              <ScrollReveal key={n} delay={i * 120}>
+                <div>
+                  <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.15em', color: 'var(--sand)', opacity: 0.7, marginBottom: 16 }}>
+                    {n}
+                  </p>
+                  <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 10, color: '#FFFFFF' }}>{title}</h3>
+                  <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.52)', lineHeight: 1.75 }}>{body}</p>
+                </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>
@@ -414,22 +458,24 @@ export default async function Home() {
       </section>
 
       {/* ══ CTA BAND ════════════════════════════════════════════ */}
-      <section style={{ borderBottom: '1px solid var(--border)' }}>
+      <section style={{ background: '#1A0A0E', position: 'relative', overflow: 'hidden' }}>
+        <HeroVideo src="/Slow_cinematic_dolly_shot_over_a_dark_marble_surface_covered_in_colorful___Swedish_candy___gummy_bea_seed2773629280.mp4" opacity={0.55} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(26,10,14,0.45) 0%, rgba(26,10,14,0.35) 100%)' }} />
         <div
           className="section-px content-max"
-          style={{ paddingTop: 96, paddingBottom: 96, textAlign: 'center' }}
+          style={{ paddingTop: 96, paddingBottom: 96, textAlign: 'center', position: 'relative', zIndex: 1 }}
         >
-          <p className="eyebrow" style={{ marginBottom: 24 }}>Get started</p>
+          <p className="eyebrow" style={{ marginBottom: 24, color: 'rgba(255,255,255,0.5)' }}>Get started</p>
           <h2
             className="display"
-            style={{ fontSize: 'clamp(28px, 4.5vw, 48px)', maxWidth: 520, margin: '0 auto 16px', color: 'var(--text)' }}
+            style={{ fontSize: 'clamp(28px, 4.5vw, 48px)', maxWidth: 520, margin: '0 auto 16px', color: '#FFFFFF' }}
           >
             Ready to stock Swedish candy?
           </h2>
           <p
             style={{
               fontSize: 15,
-              color: 'var(--text-secondary)',
+              color: 'rgba(255,255,255,0.72)',
               maxWidth: 360,
               margin: '0 auto 48px',
               lineHeight: 1.8,
@@ -438,10 +484,10 @@ export default async function Home() {
             Apply for a wholesale account and get access to 500+ SKUs at competitive pricing.
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
-            <Link href="/apply" className="btn-primary" style={{ padding: '14px 34px', fontSize: 14 }}>
+            <Link href="/apply" className="btn-white" style={{ padding: '14px 34px', fontSize: 14 }}>
               Apply for wholesale account
             </Link>
-            <Link href="/contact" className="btn-secondary" style={{ padding: '14px 34px', fontSize: 14 }}>
+            <Link href="/contact" className="btn-ghost" style={{ padding: '14px 34px', fontSize: 14 }}>
               Talk to sales
             </Link>
           </div>

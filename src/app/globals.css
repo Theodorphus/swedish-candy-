@@ -103,7 +103,7 @@ body {
 }
 .btn-primary:hover {
   background: var(--accent-hover);
-  box-shadow: 0 4px 14px rgba(42,78,110,0.28);
+  box-shadow: 0 4px 14px rgba(155,34,72,0.30);
   transform: translateY(-1px);
 }
 
@@ -126,6 +126,29 @@ body {
 .btn-secondary:hover {
   border-color: var(--text-tertiary);
   background: var(--bg-secondary);
+}
+
+/* White — for dark/accent section backgrounds */
+.btn-white {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFFFF;
+  color: var(--accent);
+  padding: 13px 28px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.1px;
+  transition: background var(--transition), transform var(--transition);
+}
+.btn-white:hover {
+  background: var(--accent-light);
+  transform: translateY(-1px);
 }
 
 /* Ghost — on accent backgrounds only */
@@ -184,7 +207,7 @@ body {
 .product-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 4px;
+  border-radius: 10px;
   overflow: hidden;
   display: block;
   text-decoration: none;
@@ -194,7 +217,8 @@ body {
 }
 .product-card:hover {
   border-color: var(--accent);
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
 .product-card-img { transition: transform 500ms ease; }
 .product-card:hover .product-card-img { transform: scale(1.04); }
@@ -209,11 +233,35 @@ body {
   font-family: var(--font-playfair), Georgia, serif;
 }
 
+/* ─── Marquee ─────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0) }
+  to   { transform: translateX(-50%) }
+}
+.marquee-container {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 80px, black calc(100% - 80px), transparent);
+  mask-image: linear-gradient(to right, transparent, black 80px, black calc(100% - 80px), transparent);
+}
+.marquee-track {
+  display: flex;
+  gap: 12px;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+.marquee-container:hover .marquee-track {
+  animation-play-state: paused;
+}
+
 /* ─── Category cell ───────────────────────────────── */
 .category-cell {
   background: var(--bg-card);
-  padding: 22px 18px;
-  transition: background var(--transition);
+  padding: 24px 20px;
+  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
   cursor: pointer;
 }
-.category-cell:hover { background: var(--bg-secondary); }
+.category-cell:hover {
+  background: var(--accent-light);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+}

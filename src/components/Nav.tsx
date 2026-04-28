@@ -5,10 +5,10 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 const links = [
-  { label: 'USA Catalog', href: '/catalog/usa' },
+  { label: 'USA Catalog',    href: '/catalog/usa' },
   { label: 'Sweden Catalog', href: '/catalog/sweden' },
-  { label: 'Pricing', href: '/#pricing' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Pricing',        href: '/#pricing' },
+  { label: 'Contact',        href: '/contact' },
 ]
 
 export default function Nav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
@@ -26,86 +26,88 @@ export default function Nav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
 
   return (
     <header className="sticky top-0 z-50">
-      {/* Top bar */}
-      <div className="bg-[var(--accent)] text-white text-[11px] font-medium tracking-wide text-center py-2 px-4">
-        $300 MOQ &nbsp;·&nbsp; Ships from Chicago &nbsp;·&nbsp; 3–5 day delivery
+
+      {/* Announcement bar */}
+      <div style={{ background: 'var(--accent)', color: '#fff', fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textAlign: 'center', padding: '9px 16px' }}>
+        $300 MOQ &ensp;·&ensp; Ships from Chicago &ensp;·&ensp; 3–5 day delivery
       </div>
 
       {/* Main nav */}
-      <div
-        className="bg-white/95 backdrop-blur-md border-b border-[var(--border)]"
-        style={{ backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' } as React.CSSProperties}
-      >
-        <div className="section-px content-max flex items-center justify-between gap-6" style={{ height: 60 }}>
+      <div style={{ background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderBottom: '1px solid var(--border)' } as React.CSSProperties}>
+        <div className="section-px content-max" style={{ height: 62, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
 
           {/* Logo */}
-          <Link
-            href="/"
-            className="shrink-0 text-[17px] font-semibold no-underline text-[var(--text)] tracking-tight"
-          >
-            Sweden<span className="text-[var(--accent)]">Sweet</span>
+          <Link href="/" style={{ flexShrink: 0, textDecoration: 'none', fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 18, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--text)' }}>
+            Sweden<span style={{ color: 'var(--accent)' }}>Sweet</span>
           </Link>
 
-          {/* Desktop nav links */}
-          <nav className="hidden lg:flex items-center gap-8">
+          {/* Desktop links */}
+          <nav className="hidden lg:flex" style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
             {links.map(({ label, href }) => (
-              <Link key={label} href={href} className="nav-link text-[13px] font-medium">
+              <Link key={label} href={href} style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 150ms ease', letterSpacing: '0.01em' }}
+                onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
+                onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+              >
                 {label}
               </Link>
             ))}
           </nav>
 
           {/* Search */}
-          <form onSubmit={handleSearch} className="hidden md:flex items-center w-44 lg:w-56">
+          <form onSubmit={handleSearch} className="hidden md:flex" style={{ position: 'relative', width: 192 }}>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)', pointerEvents: 'none' }}>
+              <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4"/>
+              <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+            </svg>
             <input
               type="text"
               placeholder="Search products…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full border border-[var(--border)] rounded-sm text-[13px] py-2 px-3 outline-none bg-[var(--bg-secondary)] text-[var(--text)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent)] transition-colors"
+              style={{ width: '100%', border: '1px solid var(--border)', borderRadius: 4, fontSize: 12, padding: '8px 12px 8px 30px', background: 'var(--bg-secondary)', color: 'var(--text)', outline: 'none', fontFamily: 'inherit', transition: 'border-color 150ms ease' }}
+              onFocus={e => (e.currentTarget.style.borderColor = 'var(--accent)')}
+              onBlur={e => (e.currentTarget.style.borderColor = 'var(--border)')}
             />
           </form>
 
           {/* Right actions */}
-          <div className="flex items-center gap-2 shrink-0">
-            <Link
-              href={isLoggedIn ? '/account' : '/login'}
-              className="hidden md:block text-[13px] text-[var(--text-secondary)] no-underline px-3 py-2 hover:text-[var(--accent)] transition-colors"
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+            <Link href={isLoggedIn ? '/account' : '/login'} className="hidden md:block" style={{ fontSize: 13, color: 'var(--text-secondary)', textDecoration: 'none', padding: '8px 12px', transition: 'color 150ms ease' }}
+              onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
             >
               {isLoggedIn ? 'My account' : 'Sign in'}
             </Link>
 
-            <Link
-              href="/cart"
-              aria-label="Cart"
-              className="flex items-center justify-center w-9 h-9 border border-[var(--border)] text-[var(--text)] no-underline hover:border-[var(--accent)] transition-colors"
-              style={{ borderRadius: 2 }}
+            <Link href="/cart" aria-label="Cart" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, border: '1px solid var(--border)', borderRadius: 4, color: 'var(--text)', textDecoration: 'none', transition: 'border-color 150ms ease, color 150ms ease' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent)' }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text)' }}
             >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
                 <path d="M1 1h2l2 8h7l1.5-5H4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                 <circle cx="7" cy="13" r="1" fill="currentColor"/>
                 <circle cx="12" cy="13" r="1" fill="currentColor"/>
               </svg>
             </Link>
 
-            <Link href="/apply" className="btn-primary hidden md:inline-flex" style={{ padding: '8px 18px', fontSize: 12, borderRadius: 2 }}>
-              Apply for account
+            <Link href="/apply" className="btn-primary hidden md:inline-flex" style={{ padding: '8px 16px', fontSize: 12, borderRadius: 4, letterSpacing: '0.02em' }}>
+              Apply
             </Link>
 
             {/* Hamburger */}
             <button
-              className="lg:hidden border border-[var(--border)] cursor-pointer bg-transparent text-[var(--text)] p-1.5"
-              style={{ borderRadius: 2 }}
+              className="lg:hidden"
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, border: '1px solid var(--border)', borderRadius: 4, background: 'transparent', cursor: 'pointer', color: 'var(--text)' }}
               onClick={() => setOpen(!open)}
               aria-label={open ? 'Close' : 'Menu'}
             >
               {open ? (
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               ) : (
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <path d="M2 4.5h12M2 8h12M2 11.5h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+                  <path d="M2 4.5h12M2 8h12M2 11.5h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               )}
             </button>
@@ -115,46 +117,38 @@ export default function Nav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
 
       {/* Mobile menu */}
       {open && (
-        <div className="bg-white border-b border-[var(--border)] lg:hidden">
-          {/* Mobile search */}
-          <form onSubmit={handleSearch} className="px-6 pt-4 pb-2">
+        <div style={{ background: '#fff', borderBottom: '1px solid var(--border)' }}>
+          <form onSubmit={handleSearch} style={{ padding: '12px 24px 8px', position: 'relative' }}>
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style={{ position: 'absolute', left: 34, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)', pointerEvents: 'none' }}>
+              <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4"/>
+              <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+            </svg>
             <input
               type="text"
               placeholder="Search products…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full border border-[var(--border)] text-[13px] py-2.5 px-3 outline-none bg-[var(--bg-secondary)] text-[var(--text)] placeholder:text-[var(--text-tertiary)]"
+              style={{ width: '100%', border: '1px solid var(--border)', borderRadius: 4, fontSize: 13, padding: '10px 12px 10px 30px', background: 'var(--bg-secondary)', color: 'var(--text)', outline: 'none', fontFamily: 'inherit' }}
             />
           </form>
 
           {links.map(({ label, href }) => (
-            <Link
-              key={label}
-              href={href}
-              onClick={() => setOpen(false)}
-              className="block px-6 py-3.5 text-[14px] text-[var(--text)] no-underline border-b border-[var(--border-light)] hover:bg-[var(--bg-secondary)] transition-colors"
-            >
+            <Link key={label} href={href} onClick={() => setOpen(false)} style={{ display: 'block', padding: '14px 24px', fontSize: 14, color: 'var(--text)', textDecoration: 'none', borderBottom: '1px solid var(--border-light)' }}>
               {label}
             </Link>
           ))}
-          <div className="px-6 py-4 flex flex-col gap-2">
-            <Link
-              href={isLoggedIn ? '/account' : '/login'}
-              onClick={() => setOpen(false)}
-              className="block text-center py-3 text-[14px] text-[var(--text-secondary)] no-underline border border-[var(--border)]"
-            >
+
+          <div style={{ padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <Link href={isLoggedIn ? '/account' : '/login'} onClick={() => setOpen(false)} className="btn-secondary" style={{ textAlign: 'center', display: 'block', padding: '12px' }}>
               {isLoggedIn ? 'My account' : 'Sign in'}
             </Link>
-            <Link
-              href="/apply"
-              onClick={() => setOpen(false)}
-              className="btn-primary block text-center py-3"
-            >
+            <Link href="/apply" onClick={() => setOpen(false)} className="btn-primary" style={{ textAlign: 'center', display: 'block', padding: '12px' }}>
               Apply for wholesale account
             </Link>
           </div>
         </div>
       )}
+
     </header>
   )
 }
