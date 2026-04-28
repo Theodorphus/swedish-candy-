@@ -49,7 +49,7 @@ export default function HeroVideo({ src = '/hero.mp4', opacity = 0.65 }: { src?:
       if (fadingRef.current) return
       const active = activeRef.current === 'a' ? a : b
       const inactive = activeRef.current === 'a' ? b : a
-      if (!active.duration) return
+      if (!active || !inactive || !active.duration) return
       if (active.duration - active.currentTime < CROSSFADE) {
         crossfade(active, inactive)
       }
