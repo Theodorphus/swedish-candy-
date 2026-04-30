@@ -83,9 +83,12 @@ export default function ApplyPage() {
               <div style={{ fontSize: 18, flexShrink: 0 }}>🏪</div>
               <div>
                 <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>Already on Faire?</p>
-                <p style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-                  You can also find us on Faire. First-time orders get 50% off and free shipping.
+                <p style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: 10 }}>
+                  First-time orders get 50% off and free shipping on Faire.
                 </p>
+                <Link href="https://www.faire.com/direct/swedishcandystoreus" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, fontWeight: 600, color: 'var(--sand)', textDecoration: 'none' }}>
+                  Order on Faire →
+                </Link>
               </div>
             </div>
 

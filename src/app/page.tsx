@@ -554,7 +554,9 @@ export default async function Home() {
                   <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>Get 50% off and free shipping on your first Faire order.</p>
                 </div>
               </div>
-              <span style={{ fontSize: 12, color: 'var(--text-tertiary)', fontStyle: 'italic', flexShrink: 0 }}>Available on Faire</span>
+              <Link href="https://www.faire.com/direct/swedishcandystoreus" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, fontWeight: 600, color: 'var(--accent)', textDecoration: 'none', flexShrink: 0 }}>
+                Order on Faire →
+              </Link>
             </div>
           </ScrollReveal>
         </div>
