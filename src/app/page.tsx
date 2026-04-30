@@ -5,7 +5,7 @@ import BrandSection from '@/components/BrandSection'
 import FAQAccordion from '@/components/FAQAccordion'
 import HeroVideo from '@/components/HeroVideo'
 import ScrollReveal from '@/components/ScrollReveal'
-import { getProducts, getCollections } from '@/lib/shopify'
+import { getProducts } from '@/lib/shopify'
 
 const stats = [
   { value: '500+', label: 'Swedish SKUs' },
@@ -14,15 +14,12 @@ const stats = [
   { value: '2', label: 'Warehouses' },
 ]
 
-const fallbackCategories = [
-  { name: 'Gummies & Sours',   emoji: '🐻' },
-  { name: 'Chocolate',         emoji: '🍫' },
-  { name: 'Licorice',          emoji: '🖤' },
-  { name: 'Hard Candy',        emoji: '🍬' },
-  { name: 'Chips & Snacks',    emoji: '🥨' },
-  { name: 'Cookies & Wafers',  emoji: '🍪' },
-  { name: 'Seasonal',          emoji: '🎄' },
-  { name: 'Mixed Assortments', emoji: '🧁' },
+const categories = [
+  { name: 'Gummies & Sours',   img: '/Bilder kategorier/Gummies.png' },
+  { name: 'Licorice',          img: '/Bilder kategorier/Licorice.png' },
+  { name: 'Hard Candy',        img: '/Bilder kategorier/Hard candy.png' },
+  { name: 'Marshmallow',       img: '/Bilder kategorier/Marshmallow.png' },
+  { name: 'Mixed Assortments', img: '/Bilder kategorier/Mixed.png' },
 ]
 
 const tiers = [
@@ -86,17 +83,8 @@ const tiers = [
 ]
 
 export default async function Home() {
-  const [products, collections] = await Promise.allSettled([
-    getProducts(8),
-    getCollections(),
-  ])
-  const productList = products.status === 'fulfilled' ? products.value : []
-  const collectionList =
-    collections.status === 'fulfilled' && collections.value.length > 0
-      ? collections.value
-      : fallbackCategories
-
-  const featuredProducts = productList.slice(0, 8)
+  const products = await getProducts(8).catch(() => [])
+  const featuredProducts = products.slice(0, 8)
 
   return (
     <div style={{ background: 'var(--bg)' }}>
@@ -188,41 +176,37 @@ export default async function Home() {
           <SectionHeader
             eyebrow="Assortment"
             title="What we carry"
-            subtitle="From beloved Swedish classics to seasonal exclusives — all stocked in our USA warehouse."
+            subtitle="Bulk Swedish candy across every category — all available from our USA warehouse."
             link={{ label: 'Browse full catalog', href: '/catalog/usa' }}
           />
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {collectionList.map(
-              (cat: { title?: string; name?: string; emoji?: string; productsCount?: { count: number } }, i: number) => (
-                <ScrollReveal key={i} delay={i * 60}>
-                  <Link href="/catalog/usa" style={{ textDecoration: 'none' }}>
-                    <div
-                      className="category-cell"
-                      style={{
-                        border: '1px solid var(--border)',
-                        borderTop: '3px solid var(--accent)',
-                        borderRadius: 8,
-                        minHeight: 100,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      {cat.emoji && (
-                        <div style={{ fontSize: 30, marginBottom: 10 }}>{cat.emoji}</div>
-                      )}
-                      <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginBottom: 4, lineHeight: 1.3 }}>
-                        {cat.title ?? cat.name}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            {categories.map((cat, i) => (
+              <ScrollReveal key={cat.name} delay={i * 70}>
+                <Link href="/catalog/usa" style={{ textDecoration: 'none', display: 'block' }}>
+                  <div
+                    className="category-img-card"
+                    style={{ position: 'relative', borderRadius: 12, overflow: 'hidden', aspectRatio: '3/4', background: '#1A0A0E', cursor: 'pointer' }}
+                  >
+                    <img
+                      src={cat.img}
+                      alt={cat.name}
+                      className="category-img"
+                      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 400ms ease' }}
+                    />
+                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,10,14,0.88) 0%, rgba(26,10,14,0.18) 55%, transparent 100%)' }} />
+                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px' }}>
+                      <p style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 15, fontWeight: 700, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 3 }}>
+                        {cat.name}
                       </p>
-                      <p style={{ fontSize: 11, color: 'var(--text-tertiary)', letterSpacing: '0.05em' }}>
-                        {cat.productsCount ? `${cat.productsCount.count} products` : 'Explore \u2192'}
+                      <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)' }}>
+                        Explore
                       </p>
                     </div>
-                  </Link>
-                </ScrollReveal>
-              )
-            )}
+                  </div>
+                </Link>
+              </ScrollReveal>
+            ))}
           </div>
         </div>
       </section>
