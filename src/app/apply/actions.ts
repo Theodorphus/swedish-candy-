@@ -109,7 +109,7 @@ export async function submitApplication(
   // ── 4. Notify Karen via email ─────────────────────────────────
   await resend.emails.send({
     from: 'SwedenSweet <noreply@swedensweet.com>',
-    to: 'karen@thenordichype.com',
+    to: ['karen@thenordichype.com', 'webbdevstudio@gmail.com'],
     subject: `New B2B application — ${firstName} ${lastName}`,
     text: [
       `New wholesale application received on SwedenSweet.`,
