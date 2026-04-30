@@ -1,5 +1,6 @@
-﻿import Link from 'next/link'
+import Link from 'next/link'
 import CatalogSearch from '@/components/CatalogSearch'
+import MarketToggle from '@/components/MarketToggle'
 import { getProducts, getProductsByTag } from '@/lib/shopify'
 
 export const metadata = {
@@ -16,72 +17,20 @@ export default async function UsaCatalogPage() {
   return (
     <div>
       {/* Header */}
-      <div
-        className="section-px"
-        style={{
-          paddingTop: 40,
-          paddingBottom: 40,
-          borderBottom: '1px solid var(--border)',
-          background: 'var(--bg-secondary)',
-        }}
-      >
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="section-px" style={{ paddingTop: 48, paddingBottom: 40, borderBottom: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
+        <div className="content-max" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: 16 }}>
           <div>
-            <p className="eyebrow" style={{ marginBottom: 8 }}>USA Warehouse — Chicago, IL</p>
-            <h1
-              style={{
-                fontFamily: 'var(--font-playfair), Georgia, serif',
-                fontSize: 28,
-                fontWeight: 700,
-                letterSpacing: '-0.02em',
-                marginBottom: 6,
-              }}
-            >
+            <p className="eyebrow" style={{ marginBottom: 10 }}>Chicago, IL — Ships in 3–5 days</p>
+            <h1 className="display" style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', marginBottom: 8 }}>
               USA Catalog
             </h1>
             <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-              Core assortment &middot; Fast domestic shipping &middot;{' '}
+              Core assortment · Fast domestic shipping ·{' '}
               <strong style={{ color: 'var(--text)' }}>{products.length}</strong> products
             </p>
           </div>
 
-          {/* Warehouse toggle */}
-          <div
-            className="flex self-start sm:self-auto"
-            style={{
-              gap: 4,
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border)',
-              borderRadius: 8,
-              padding: 4,
-            }}
-          >
-            <span
-              style={{
-                fontSize: 13,
-                fontWeight: 600,
-                padding: '8px 18px',
-                borderRadius: 5,
-                background: 'var(--accent)',
-                color: '#fff',
-              }}
-            >
-              USA
-            </span>
-            <Link
-              href="/catalog/sweden"
-              style={{
-                fontSize: 13,
-                fontWeight: 500,
-                color: 'var(--text-secondary)',
-                padding: '8px 18px',
-                borderRadius: 5,
-                textDecoration: 'none',
-              }}
-            >
-              Sweden
-            </Link>
-          </div>
+          <MarketToggle active="usa" />
         </div>
       </div>
 
@@ -90,33 +39,34 @@ export default async function UsaCatalogPage() {
         <CatalogSearch products={products} />
       </div>
 
-      {/* Sweden upsell */}
-      <div className="section-px content-max" style={{ paddingBottom: 64 }}>
-        <div
-          style={{
-            background: 'var(--bg-secondary)',
-            border: '1px solid var(--border)',
-            borderRadius: 8,
-            padding: '28px 32px',
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: 16,
-          }}
-        >
+      {/* Bottom banners */}
+      <div className="section-px content-max" style={{ paddingBottom: 72, display: 'flex', flexDirection: 'column', gap: 12 }}>
+
+        {/* Sweden upsell */}
+        <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderLeft: '3px solid var(--accent)', borderRadius: 8, padding: '24px 28px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
           <div>
-            <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 4 }}>
-              Looking for a wider selection?
-            </p>
+            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>Looking for a wider selection?</p>
             <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-              Our Swedish warehouse carries the full assortment — more products, more variety.
+              Our Swedish warehouse carries 500+ SKUs — more products, more variety.
             </p>
           </div>
-          <Link href="/catalog/sweden" className="btn-secondary" style={{ fontSize: 13 }}>
-            View Swedish catalog &rarr;
+          <Link href="/catalog/sweden" className="btn-secondary" style={{ fontSize: 13, flexShrink: 0 }}>
+            View Swedish catalog →
           </Link>
         </div>
+
+        {/* Faire callout */}
+        <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderLeft: '3px solid var(--sand)', borderRadius: 8, padding: '20px 28px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <span style={{ fontSize: 20 }}>🏪</span>
+            <div>
+              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginBottom: 2 }}>Prefer to order via Faire?</p>
+              <p style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Get 50% off and free shipping on your first Faire order.</p>
+            </div>
+          </div>
+          <span style={{ fontSize: 12, color: 'var(--text-tertiary)', fontStyle: 'italic' }}>Available on Faire</span>
+        </div>
+
       </div>
     </div>
   )

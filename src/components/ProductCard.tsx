@@ -4,6 +4,7 @@ import type { ShopifyProduct } from '@/lib/shopify'
 
 export default function ProductCard({ product }: { product: ShopifyProduct }) {
   const price = parseFloat(product.priceRange.minVariantPrice.amount)
+  const [whole, dec] = price.toFixed(2).split('.')
   const vendorIsStore = !product.vendor ||
     product.vendor.toLowerCase().includes('.store') ||
     product.vendor.toLowerCase().includes('.com') ||
@@ -26,34 +27,36 @@ export default function ProductCard({ product }: { product: ShopifyProduct }) {
             🍬
           </div>
         )}
-
-        {/* View product overlay */}
         <div className="product-card-view absolute inset-x-0 bottom-0 bg-[var(--accent)] text-white text-[11px] font-semibold tracking-wide text-center py-2.5">
           View product →
         </div>
       </div>
 
       {/* Info */}
-      <div className="p-4 border-t border-[var(--border)]">
+      <div style={{ padding: '14px 16px 16px', borderTop: '1px solid var(--border)' }}>
         {!vendorIsStore && (
-          <p className="text-[10px] font-bold tracking-[1.8px] uppercase text-[var(--text-tertiary)] mb-1.5">
+          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '1.8px', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: 5 }}>
             {product.vendor}
           </p>
         )}
 
-        <p className="text-[13px] font-medium text-[var(--text)] leading-snug mb-3 line-clamp-2">
+        <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--text)', lineHeight: 1.4, marginBottom: 14, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
           {product.title}
         </p>
 
-        <div className="flex items-end justify-between pt-3 border-t border-[var(--border-light)]">
+        <div className="product-card-price-row" style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', paddingTop: 12, borderTop: '1px solid var(--border-light)', gap: 8 }}>
           <div>
-            <p className="text-[10px] text-[var(--text-tertiary)] mb-0.5">Per case</p>
-            <p className="font-playfair text-xl font-bold text-[var(--accent)] leading-none">
-              ${price.toFixed(2)}
+            <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: 4 }}>
+              Per case
             </p>
+            <div style={{ display: 'inline-flex', alignItems: 'baseline' }}>
+              <span className="price-currency">$</span>
+              <span className="price-num" style={{ fontSize: 22, fontWeight: 700, color: 'var(--accent)', lineHeight: 1 }}>{whole}</span>
+              <span className="price-dec">.{dec}</span>
+            </div>
           </div>
           {product.productType && (
-            <span className="text-[9px] font-bold tracking-[1.4px] uppercase text-[var(--text-tertiary)] bg-[var(--bg-secondary)] border border-[var(--border)] px-2 py-1">
+            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '1.4px', textTransform: 'uppercase', color: 'var(--text-tertiary)', background: 'var(--bg-secondary)', border: '1px solid var(--border)', padding: '3px 7px', borderRadius: 3 }}>
               {product.productType}
             </span>
           )}

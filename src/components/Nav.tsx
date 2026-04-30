@@ -3,15 +3,15 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import MarketToggle from './MarketToggle'
 
 const links = [
-  { label: 'USA Catalog',    href: '/catalog/usa' },
-  { label: 'Sweden Catalog', href: '/catalog/sweden' },
-  { label: 'Pricing',        href: '/#pricing' },
-  { label: 'Contact',        href: '/contact' },
+  { label: 'Catalog',  href: '/catalog' },
+  { label: 'Pricing',  href: '/#pricing' },
+  { label: 'Contact',  href: '/contact' },
 ]
 
-export default function Nav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
+export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn?: boolean; market?: 'usa' | 'sweden' }) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
   const router = useRouter()
@@ -28,8 +28,17 @@ export default function Nav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
     <header className="sticky top-0 z-50">
 
       {/* Announcement bar */}
-      <div style={{ background: 'var(--accent)', color: '#fff', fontSize: 11, fontWeight: 500, letterSpacing: '0.08em', textAlign: 'center', padding: '9px 16px' }}>
-        $300 MOQ &ensp;·&ensp; Ships from Chicago &ensp;·&ensp; 3–5 day delivery
+      <div style={{ background: 'var(--accent)', color: '#fff', fontSize: 11, textAlign: 'center', padding: '9px 16px', letterSpacing: '0.04em' }}>
+        <span className="price-num" style={{ fontWeight: 700 }}>$300</span>
+        <span style={{ fontWeight: 400, opacity: 0.75 }}> MOQ</span>
+        <span style={{ opacity: 0.4, margin: '0 10px' }}>·</span>
+        {/* Hidden on mobile to prevent wrapping */}
+        <span className="hidden sm:inline">
+          <span style={{ fontWeight: 400, opacity: 0.75 }}>Ships from Chicago</span>
+          <span style={{ opacity: 0.4, margin: '0 10px' }}>·</span>
+        </span>
+        <span className="price-num" style={{ fontWeight: 700 }}>3–5</span>
+        <span style={{ fontWeight: 400, opacity: 0.75 }}> day delivery</span>
       </div>
 
       {/* Main nav */}
@@ -52,6 +61,11 @@ export default function Nav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
               </Link>
             ))}
           </nav>
+
+          {/* Market toggle — desktop only */}
+          <div className="hidden lg:block">
+            <MarketToggle active={market} />
+          </div>
 
           {/* Search */}
           <form onSubmit={handleSearch} className="hidden md:flex" style={{ position: 'relative', width: 192 }}>
@@ -137,6 +151,10 @@ export default function Nav({ isLoggedIn = false }: { isLoggedIn?: boolean }) {
               {label}
             </Link>
           ))}
+
+          <div style={{ padding: '12px 24px', borderBottom: '1px solid var(--border-light)' }}>
+            <MarketToggle active={market} />
+          </div>
 
           <div style={{ padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 10 }}>
             <Link href={isLoggedIn ? '/account' : '/login'} onClick={() => setOpen(false)} className="btn-secondary" style={{ textAlign: 'center', display: 'block', padding: '12px' }}>

@@ -11,6 +11,7 @@ export default function CartLineItem({ line }: { line: CartLine }) {
   const { merchandise } = line
   const price = parseFloat(merchandise.price.amount)
   const lineTotal = (price * line.quantity).toFixed(2)
+  const [ltWhole, ltDec] = lineTotal.split('.')
 
   function handleQuantity(newQty: number) {
     startTransition(() => updateCartLine(line.id, newQty))
@@ -21,28 +22,25 @@ export default function CartLineItem({ line }: { line: CartLine }) {
   }
 
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '72px 1fr',
-        gap: 16,
-        padding: '20px 0',
-        borderBottom: '0.5px solid var(--border)',
-        opacity: isPending ? 0.5 : 1,
-        transition: 'opacity 0.15s',
-      }}
-    >
+    <div style={{
+      display: 'grid',
+      gridTemplateColumns: '88px 1fr',
+      gap: 20,
+      padding: '24px 0',
+      borderBottom: '1px solid var(--border)',
+      opacity: isPending ? 0.4 : 1,
+      transition: 'opacity 0.2s ease',
+    }}>
       {/* Image */}
-      <Link href={`/products/${merchandise.product.handle}`}>
+      <Link href={`/products/${merchandise.product.handle}`} style={{ display: 'block', flexShrink: 0 }}>
         <div style={{
           position: 'relative',
-          width: 72,
-          height: 72,
-          borderRadius: 8,
+          width: 88,
+          height: 88,
+          borderRadius: 10,
           overflow: 'hidden',
           background: 'var(--bg-secondary)',
-          border: '0.5px solid var(--border)',
-          flexShrink: 0,
+          border: '1px solid var(--border)',
         }}>
           {merchandise.product.featuredImage ? (
             <Image
@@ -50,10 +48,10 @@ export default function CartLineItem({ line }: { line: CartLine }) {
               alt={merchandise.product.featuredImage.altText ?? merchandise.product.title}
               fill
               style={{ objectFit: 'cover' }}
-              sizes="72px"
+              sizes="88px"
             />
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', fontSize: 28 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', fontSize: 30 }}>
               🍬
             </div>
           )}
@@ -62,54 +60,44 @@ export default function CartLineItem({ line }: { line: CartLine }) {
 
       {/* Details */}
       <div>
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <Link
-              href={`/products/${merchandise.product.handle}`}
-              style={{ fontSize: 14, fontWeight: 500, textDecoration: 'none', color: 'var(--text)', lineHeight: 1.3, display: 'block', marginBottom: 3 }}
-            >
-              {merchandise.product.title}
-            </Link>
-            {merchandise.title !== 'Default Title' && (
-              <div style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 8 }}>
-                {merchandise.title}
-              </div>
-            )}
-            <div style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-              ${price.toFixed(2)} / unit
-            </div>
-          </div>
-
-          <div style={{ fontSize: 15, fontWeight: 500, color: 'var(--accent)', whiteSpace: 'nowrap' }}>
-            ${lineTotal}
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 4 }}>
+          <Link
+            href={`/products/${merchandise.product.handle}`}
+            style={{ fontSize: 14, fontWeight: 600, textDecoration: 'none', color: 'var(--text)', lineHeight: 1.35 }}
+          >
+            {merchandise.product.title}
+          </Link>
+          <div style={{ display: 'inline-flex', alignItems: 'baseline', whiteSpace: 'nowrap' }}>
+            <span className="price-currency">$</span>
+            <span className="price-num" style={{ fontSize: 20, fontWeight: 700, color: 'var(--accent)', lineHeight: 1 }}>{ltWhole}</span>
+            <span className="price-dec" style={{ fontSize: 12 }}>.{ltDec}</span>
           </div>
         </div>
 
+        {merchandise.title !== 'Default Title' && (
+          <p style={{ fontSize: 12, color: 'var(--text-secondary)', marginBottom: 6 }}>{merchandise.title}</p>
+        )}
+        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: 14 }}>
+          ${price.toFixed(2)} · per case
+        </p>
+
         {/* Qty + remove */}
-        <div className="flex items-center gap-3" style={{ marginTop: 14 }}>
-          <div className="flex items-center" style={{ border: '0.5px solid var(--border)', borderRadius: 6, overflow: 'hidden' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <div style={{ display: 'flex', alignItems: 'center', border: '1px solid var(--border)', borderRadius: 6, overflow: 'hidden', background: 'var(--bg)' }}>
             <button
               onClick={() => handleQuantity(line.quantity - 1)}
               disabled={isPending}
-              style={{
-                width: 32, height: 32, background: 'none', border: 'none',
-                cursor: isPending ? 'not-allowed' : 'pointer',
-                fontSize: 16, color: 'var(--text)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}
+              style={{ width: 34, height: 34, background: 'none', border: 'none', cursor: isPending ? 'not-allowed' : 'pointer', fontSize: 18, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color 150ms' }}
             >
               −
             </button>
-            <span style={{ minWidth: 32, textAlign: 'center', fontSize: 13, fontWeight: 500, color: 'var(--text)' }}>
+            <span style={{ minWidth: 34, textAlign: 'center', fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>
               {line.quantity}
             </span>
             <button
               onClick={() => handleQuantity(line.quantity + 1)}
               disabled={isPending}
-              style={{
-                width: 32, height: 32, background: 'none', border: 'none',
-                cursor: isPending ? 'not-allowed' : 'pointer',
-                fontSize: 16, color: 'var(--text)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              }}
+              style={{ width: 34, height: 34, background: 'none', border: 'none', cursor: isPending ? 'not-allowed' : 'pointer', fontSize: 18, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color 150ms' }}
             >
               +
             </button>
@@ -118,12 +106,7 @@ export default function CartLineItem({ line }: { line: CartLine }) {
           <button
             onClick={handleRemove}
             disabled={isPending}
-            style={{
-              background: 'none', border: 'none',
-              fontSize: 12, color: 'var(--text-secondary)',
-              cursor: isPending ? 'not-allowed' : 'pointer',
-              textDecoration: 'underline', padding: 0,
-            }}
+            style={{ background: 'none', border: 'none', fontSize: 12, color: 'var(--text-tertiary)', cursor: isPending ? 'not-allowed' : 'pointer', padding: 0, transition: 'color 150ms' }}
           >
             Remove
           </button>
