@@ -10,7 +10,6 @@ const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
   display: 'swap',
-  features: ['tnum'],
 })
 const playfair = Playfair_Display({
   subsets: ['latin'],
