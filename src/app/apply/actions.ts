@@ -1,6 +1,9 @@
 'use server'
 
 import { shopify } from '@/lib/shopify'
+import { Resend } from 'resend'
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 export type ApplyState = { error?: string; success?: boolean }
 
@@ -102,6 +105,27 @@ export async function submitApplication(
       }
     )
   }
+
+  // ── 4. Notify Karen via email ─────────────────────────────────
+  await resend.emails.send({
+    from: 'SwedenSweet <noreply@swedensweet.com>',
+    to: 'karen@thenordichype.com',
+    subject: `New B2B application — ${firstName} ${lastName}`,
+    text: [
+      `New wholesale application received on SwedenSweet.`,
+      ``,
+      `Name:         ${firstName} ${lastName}`,
+      `Email:        ${email}`,
+      `Phone:        ${phone || '—'}`,
+      `Business:     ${businessName || '—'}`,
+      `Type:         ${businessType || '—'}`,
+      `Location:     ${cityState || '—'}`,
+      `Est. monthly: ${estimatedMonthly || '—'}`,
+      ``,
+      `Go to Shopify Admin to review and approve:`,
+      `https://admin.shopify.com/store/vv4yu4-cj/customers`,
+    ].join('\n'),
+  }).catch(() => null) // Don't fail the request if email fails
 
   return { success: true }
 }
