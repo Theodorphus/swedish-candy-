@@ -17,13 +17,6 @@ const stats = [
   { value: '2', label: 'Warehouses' },
 ]
 
-const categories = [
-  { name: 'Gummies & Sours',   img: '/Bilder kategorier/Gummies.png' },
-  { name: 'Licorice',          img: '/Bilder kategorier/Licorice.png' },
-  { name: 'Hard Candy',        img: '/Bilder kategorier/Hard candy.png' },
-  { name: 'Marshmallow',       img: '/Bilder kategorier/Marshmallow.png' },
-  { name: 'Mixed Assortments', img: '/Bilder kategorier/Mixed.png' },
-]
 
 const tiers = [
   {
@@ -172,46 +165,6 @@ export default async function Home() {
         ))}
       </section>
 
-      {/* ══ CATEGORIES ════════════════════════════════════════ */}
-      <section style={{ borderBottom: '1px solid var(--border)' }}>
-        <div className="section-px content-max" style={{ paddingTop: 'clamp(48px, 8vw, 88px)', paddingBottom: 'clamp(48px, 8vw, 88px)' }}>
-          <SectionHeader
-            eyebrow="Assortment"
-            title="What we carry"
-            subtitle="5 core categories, 300+ SKUs. Everything you need to stock and sell."
-            link={{ label: 'Browse full catalog', href: '/catalog/usa' }}
-          />
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-            {categories.map((cat, i) => (
-              <ScrollReveal key={cat.name} delay={i * 70}>
-                <Link href="/catalog/usa" style={{ textDecoration: 'none', display: 'block' }}>
-                  <div
-                    className="category-img-card"
-                    style={{ position: 'relative', borderRadius: 12, overflow: 'hidden', aspectRatio: '3/4', background: '#1A0A0E', cursor: 'pointer' }}
-                  >
-                    <img
-                      src={cat.img}
-                      alt={cat.name}
-                      className="category-img"
-                      style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 400ms ease' }}
-                    />
-                    <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(26,10,14,0.88) 0%, rgba(26,10,14,0.18) 55%, transparent 100%)' }} />
-                    <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '14px' }}>
-                      <p style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 15, fontWeight: 700, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 3 }}>
-                        {cat.name}
-                      </p>
-                      <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: 'rgba(255,255,255,0.45)' }}>
-                        Explore
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ══ USA CATALOG ════════════════════════════════════════ */}
       {featuredProducts.length > 0 && (
