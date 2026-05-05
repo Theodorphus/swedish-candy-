@@ -4,6 +4,7 @@ import CartLineItem from './CartLineItem'
 
 export const metadata = {
   title: 'Cart — SwedenSweet',
+  robots: { index: false },
 }
 
 export default async function CartPage() {

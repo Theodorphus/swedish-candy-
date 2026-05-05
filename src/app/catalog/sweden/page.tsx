@@ -6,8 +6,13 @@ import { getProducts, getProductsByTag } from '@/lib/shopify'
 export const revalidate = 3600
 
 export const metadata = {
-  title: 'Swedish Catalog — SwedenSweet',
-  description: 'Shop our full Swedish candy assortment from our warehouse in Sweden. Broadest selection available.',
+  title: 'Swedish Candy Catalog — Full Assortment — SwedenSweet',
+  description: 'Browse 500+ Swedish candy SKUs from our Sweden warehouse. BUBS, Malaco, Matthijs, Vidal, Bulgari and more. B2B wholesale with no customs hassle.',
+  openGraph: {
+    title: 'Swedish Candy Catalog — Full 500+ SKU Assortment — SwedenSweet',
+    description: 'The broadest Swedish candy assortment available for US wholesale buyers. Direct from Sweden, no import paperwork.',
+    images: [{ url: '/OG.png', width: 1200, height: 630 }],
+  },
 }
 
 export default async function SwedenCatalogPage() {

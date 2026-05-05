@@ -6,8 +6,13 @@ import { getProducts, getProductsByTag } from '@/lib/shopify'
 export const revalidate = 3600
 
 export const metadata = {
-  title: 'USA Catalog — SwedenSweet',
-  description: 'Shop Swedish candy from our Santa Fe Springs warehouse. Fast domestic shipping across the USA.',
+  title: 'USA Wholesale Candy Catalog — SwedenSweet',
+  description: 'Browse 300+ Swedish candy SKUs available from our Santa Fe Springs, CA warehouse. Fast 3–5 day domestic shipping. BUBS, Malaco, Matthijs, Vidal and more.',
+  openGraph: {
+    title: 'USA Wholesale Candy Catalog — SwedenSweet',
+    description: 'Browse 300+ Swedish candy SKUs. Fast 3–5 day domestic shipping from Santa Fe Springs, CA. No customs, no FDA hassle.',
+    images: [{ url: '/OG.png', width: 1200, height: 630 }],
+  },
 }
 
 export default async function UsaCatalogPage() {

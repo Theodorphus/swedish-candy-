@@ -4,8 +4,9 @@ import { redirect } from 'next/navigation'
 import LoginForm from './LoginForm'
 
 export const metadata = {
-  title: 'Sign In — SwedenSweet',
-  description: 'Sign in to your SwedenSweet wholesale account.',
+  title: 'Sign In — SwedenSweet Wholesale',
+  description: 'Sign in to your SwedenSweet wholesale account to access pricing and place orders.',
+  robots: { index: false },
 }
 
 export default async function LoginPage() {

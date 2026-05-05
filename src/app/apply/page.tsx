@@ -4,6 +4,11 @@ import ApplyForm from './ApplyForm'
 export const metadata = {
   title: 'Apply for a Wholesale Account — SwedenSweet',
   description: 'Apply for a B2B wholesale account with SwedenSweet. Get access to 500+ Swedish candy SKUs at wholesale pricing.',
+  openGraph: {
+    title: 'Apply for a Wholesale Account — SwedenSweet',
+    description: 'Get approved in 1–2 business days. Access 500+ Swedish candy SKUs at wholesale pricing with no platform fees.',
+    images: [{ url: '/OG.png', width: 1200, height: 630 }],
+  },
 }
 
 const perks = [

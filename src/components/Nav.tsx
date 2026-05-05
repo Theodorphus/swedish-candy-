@@ -33,19 +33,19 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
     <header className="sticky top-0 z-50">
 
       {/* Announcement bar */}
-      <div style={{ background: 'var(--accent)', color: '#fff', fontSize: 11, textAlign: 'center', padding: '12px 16px', letterSpacing: '0.04em' }}>
-        <span style={{ fontWeight: 600, opacity: 0.9 }}>✓</span>
-        <span style={{ fontWeight: 400, opacity: 0.82 }}> $300 MOQ</span>
-        <span style={{ opacity: 0.35, margin: '0 10px' }}>·</span>
+      <div style={{ background: 'var(--accent)', color: '#fff', fontSize: 11, textAlign: 'center', padding: '12px 16px', letterSpacing: '0.05em', fontWeight: 500 }}>
+        <span style={{ fontWeight: 700 }}>✓</span>
+        <span> $300 MOQ</span>
+        <span style={{ opacity: 0.45, margin: '0 10px' }}>·</span>
         <span className="hidden sm:inline">
-          <span style={{ fontWeight: 400, opacity: 0.82 }}>Free customs &amp; FDA handling</span>
-          <span style={{ opacity: 0.35, margin: '0 10px' }}>·</span>
+          <span>Free customs &amp; FDA handling</span>
+          <span style={{ opacity: 0.45, margin: '0 10px' }}>·</span>
         </span>
-        <span style={{ fontWeight: 400, opacity: 0.82 }}>Ships in 3–5 days from Santa Fe Springs</span>
+        <span>Ships in 3–5 days from Santa Fe Springs</span>
       </div>
 
       {/* Main nav */}
-      <div style={{ background: 'rgba(255,255,255,0.97)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderBottom: '1px solid var(--border)' } as React.CSSProperties}>
+      <div style={{ background: '#FFFFFF', borderBottom: '1px solid var(--border)' }}>
         <div className="section-px content-max" style={{ height: 62, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
 
           {/* Logo */}

@@ -4,6 +4,11 @@ import type { Metadata } from 'next'
 export const metadata: Metadata = {
   title: 'About Us — SwedenSweet',
   description: 'Sweden Sweet Corporation is a modern wholesale partner for Swedish and European confectionery in the USA. Learn about our story, warehouses, and services.',
+  openGraph: {
+    title: 'About SwedenSweet — B2B Swedish Candy Wholesale',
+    description: 'Built by retailers, for retailers. Two warehouses, FDA-approved co-packing, and direct relationships with Sweden\'s top candy makers.',
+    images: [{ url: '/OG.png', width: 1200, height: 630 }],
+  },
 }
 
 export default function AboutPage() {

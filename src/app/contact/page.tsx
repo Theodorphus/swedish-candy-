@@ -2,8 +2,13 @@ import Link from 'next/link'
 import ContactForm from './ContactForm'
 
 export const metadata = {
-  title: 'Contact — SwedenSweet',
-  description: 'Get in touch with SwedenSweet for wholesale pricing, product questions, or enterprise inquiries.',
+  title: 'Contact Us — SwedenSweet B2B Wholesale',
+  description: 'Get in touch with SwedenSweet for wholesale pricing, co-packing, private label, or product questions. We respond within 1 business day.',
+  openGraph: {
+    title: 'Contact SwedenSweet — B2B Swedish Candy Wholesale',
+    description: 'Questions about wholesale pricing, co-packing or private label? We respond within 1 business day.',
+    images: [{ url: '/OG.png', width: 1200, height: 630 }],
+  },
 }
 
 const details = [
