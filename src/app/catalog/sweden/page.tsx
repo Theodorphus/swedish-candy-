@@ -49,7 +49,7 @@ export default async function SwedenCatalogPage() {
           <div>
             <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>Need faster US delivery?</p>
             <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-              Our Chicago warehouse ships domestically in 3–5 days from a core assortment.
+              Our Santa Fe Springs warehouse ships domestically in 3–5 days from a core assortment.
             </p>
           </div>
           <Link href="/catalog/usa" className="btn-secondary" style={{ fontSize: 13, flexShrink: 0 }}>

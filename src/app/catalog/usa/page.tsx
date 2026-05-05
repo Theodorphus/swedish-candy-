@@ -7,7 +7,7 @@ export const revalidate = 3600
 
 export const metadata = {
   title: 'USA Catalog — SwedenSweet',
-  description: 'Shop Swedish candy from our Chicago warehouse. Fast domestic shipping across the USA.',
+  description: 'Shop Swedish candy from our Santa Fe Springs warehouse. Fast domestic shipping across the USA.',
 }
 
 export default async function UsaCatalogPage() {

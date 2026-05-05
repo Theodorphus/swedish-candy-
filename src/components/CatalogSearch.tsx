@@ -19,7 +19,7 @@ export default function CatalogSearch({ products, market = 'usa' }: { products: 
     return products.filter(
       (p) =>
         p.title.toLowerCase().includes(q) ||
-        p.productType.toLowerCase().includes(q) ||
+        (p.productType?.toLowerCase().includes(q) ?? false) ||
         p.tags.some((t) => t.toLowerCase().includes(q))
     )
   }, [query, products])

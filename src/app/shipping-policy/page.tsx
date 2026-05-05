@@ -10,8 +10,8 @@ const sections = [
     body: 'Orders are processed within 1–2 business days of receipt. You will receive a confirmation email once your order has shipped.',
   },
   {
-    title: 'USA Warehouse (Chicago, IL)',
-    body: 'Orders fulfilled from our Chicago warehouse ship via UPS or FedEx Ground. Delivery typically takes 3–5 business days depending on your location within the USA. Expedited shipping options are available upon request — contact us before placing your order.',
+    title: 'USA Warehouse (Santa Fe Springs, CA)',
+    body: 'Orders fulfilled from our Santa Fe Springs warehouse ship via UPS or FedEx Ground. Delivery typically takes 3–5 business days depending on your location within the USA. Expedited shipping options are available upon request — contact us before placing your order.',
   },
   {
     title: 'Swedish Warehouse',

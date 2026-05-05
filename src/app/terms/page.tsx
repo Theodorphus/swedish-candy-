@@ -23,7 +23,7 @@ const sections = [
   },
   {
     title: 'Shipping & Fulfillment',
-    body: 'Orders from our USA warehouse (Chicago, IL) ship within 1–2 business days and arrive within 3–5 business days. Orders from our Swedish warehouse may take longer due to international transit. Shipping costs are calculated at checkout.',
+    body: 'Orders from our USA warehouse (Santa Fe Springs, CA) ship within 1–2 business days and arrive within 3–5 business days. Orders from our Swedish warehouse may take longer due to international transit. Shipping costs are calculated at checkout.',
   },
   {
     title: 'Returns & Damages',

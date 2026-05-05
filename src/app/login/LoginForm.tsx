@@ -90,8 +90,8 @@ export default function LoginForm() {
       </button>
 
       <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 20, lineHeight: 1.6 }}>
-        <Link href="/contact" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>
-          Forgot your password? Contact us
+        <Link href="/forgot-password" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>
+          Forgot your password?
         </Link>
       </p>
 
