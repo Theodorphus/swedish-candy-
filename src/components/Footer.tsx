@@ -6,6 +6,7 @@ const navLinks = [
   { label: 'USA Catalog',    href: '/catalog/usa' },
   { label: 'Sweden Catalog', href: '/catalog/sweden' },
   { label: 'Apply',          href: '/apply' },
+  { label: 'About',          href: '/about' },
   { label: 'Contact',        href: '/contact' },
 ]
 
@@ -93,7 +94,7 @@ export default function Footer() {
             <p className="eyebrow" style={{ marginBottom: 20, color: 'rgba(255,255,255,0.3)' }}>Fulfillment</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
               <div style={{ paddingLeft: 12, borderLeft: '2px solid var(--accent)' }}>
-                <p style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF', marginBottom: 4 }}>Chicago, IL — USA</p>
+                <p style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF', marginBottom: 4 }}>Santa Fe Springs, CA — USA</p>
                 <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>3–5 day domestic shipping</p>
               </div>
               <div style={{ paddingLeft: 12, borderLeft: '2px solid var(--sand)' }}>

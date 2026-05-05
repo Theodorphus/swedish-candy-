@@ -24,11 +24,19 @@ export async function login(
   }
 
   const cookieStore = await cookies()
+  const expiresDate = new Date(result.expiresAt)
   cookieStore.set('shopify_customer_token', result.accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
-    expires: new Date(result.expiresAt),
+    expires: expiresDate,
+    path: '/',
+  })
+  cookieStore.set('shopify_customer_token_expires', result.expiresAt, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    expires: expiresDate,
     path: '/',
   })
 
@@ -38,5 +46,6 @@ export async function login(
 export async function logout(): Promise<void> {
   const cookieStore = await cookies()
   cookieStore.delete('shopify_customer_token')
+  cookieStore.delete('shopify_customer_token_expires')
   redirect('/')
 }

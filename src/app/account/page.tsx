@@ -14,8 +14,20 @@ export default async function AccountPage() {
 
   if (!token) redirect('/login')
 
+  // Validate token expiry from cookie (set to Shopify expiresAt on login)
+  const tokenExpiry = cookieStore.get('shopify_customer_token_expires')?.value
+  if (tokenExpiry && new Date(tokenExpiry) < new Date()) {
+    cookieStore.delete('shopify_customer_token')
+    cookieStore.delete('shopify_customer_token_expires')
+    redirect('/login')
+  }
+
   const customer = await getCustomer(token)
-  if (!customer) redirect('/api/clear-session')
+  if (!customer) {
+    cookieStore.delete('shopify_customer_token')
+    cookieStore.delete('shopify_customer_token_expires')
+    redirect('/login')
+  }
 
 
   const fullName = [customer.firstName, customer.lastName].filter(Boolean).join(' ')
@@ -59,7 +71,17 @@ export default async function AccountPage() {
                     year: 'numeric', month: 'short', day: 'numeric',
                   })
                   const price = parseFloat(order.currentTotalPrice.amount).toFixed(2)
-                  const status = order.fulfillmentStatus?.replace(/_/g, ' ').toLowerCase() ?? '—'
+                  const status = order.fulfillmentStatus?.replace(/_/g, ' ').toLowerCase() ?? 'unfulfilled'
+                  const fulfilled = order.fulfillmentStatus === 'FULFILLED'
+                  const statusColor = fulfilled ? '#1a7a3e' : 'var(--text-secondary)'
+                  const statusBg = fulfilled ? '#edf7f1' : 'var(--bg-secondary)'
+                  const statusBorder = fulfilled ? '#a8dfc0' : 'var(--border)'
+                  // Shopify order URL: extract numeric ID from GID
+                  const numericId = order.id.replace('gid://shopify/Order/', '')
+                  const storeDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN ?? ''
+                  const orderUrl = storeDomain
+                    ? `https://${storeDomain}/account/orders/${numericId}`
+                    : null
 
                   return (
                     <div
@@ -78,17 +100,22 @@ export default async function AccountPage() {
                           fontSize: 11,
                           fontWeight: 500,
                           textTransform: 'capitalize',
-                          background: 'var(--bg-secondary)',
-                          border: '0.5px solid var(--border)',
+                          background: statusBg,
+                          border: `0.5px solid ${statusBorder}`,
                           padding: '3px 10px',
                           borderRadius: 20,
-                          color: 'var(--text-secondary)',
+                          color: statusColor,
                         }}>
                           {status}
                         </span>
                         <span style={{ fontSize: 15, fontWeight: 500, color: 'var(--accent)' }}>
                           ${price}
                         </span>
+                        {orderUrl && (
+                          <a href={orderUrl} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'var(--accent)', textDecoration: 'none', fontWeight: 500, whiteSpace: 'nowrap' }}>
+                            View →
+                          </a>
+                        )}
                       </div>
                     </div>
                   )

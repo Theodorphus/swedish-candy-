@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation'
 import ProductCard from './ProductCard'
 import type { ShopifyProduct } from '@/lib/shopify'
 
-export default function CatalogSearch({ products }: { products: ShopifyProduct[] }) {
+export default function CatalogSearch({ products, market = 'usa' }: { products: ShopifyProduct[]; market?: 'usa' | 'sweden' }) {
   const searchParams = useSearchParams()
   const [query, setQuery] = useState(searchParams.get('q') ?? '')
 
@@ -67,7 +67,7 @@ export default function CatalogSearch({ products }: { products: ShopifyProduct[]
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filtered.map((p) => (
-            <ProductCard key={p.id} product={p} />
+            <ProductCard key={p.id} product={p} market={market} />
           ))}
         </div>
       )}

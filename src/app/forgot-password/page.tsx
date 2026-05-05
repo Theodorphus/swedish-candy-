@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export const metadata = { title: 'Reset Password — Sweden Sweet' }
 
-const SHOPIFY_ACCOUNT_URL = 'https://shopify.com/92868149622/account/login'
+const SHOPIFY_ACCOUNT_URL = process.env.NEXT_PUBLIC_SHOPIFY_ACCOUNT_URL ?? 'https://shopify.com/account/login'
 
 export default function ForgotPasswordPage() {
   return (

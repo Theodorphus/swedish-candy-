@@ -9,7 +9,7 @@ export const metadata = {
 const details = [
   { label: 'Response time', value: 'Within 1 business day' },
   { label: 'Hours', value: 'Mon–Fri, 9 am – 5 pm EST' },
-  { label: 'USA warehouse', value: 'Chicago, IL' },
+  { label: 'USA warehouse', value: 'Santa Fe Springs, CA' },
   { label: 'Sweden warehouse', value: 'Sweden' },
 ]
 

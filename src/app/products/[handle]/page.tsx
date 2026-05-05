@@ -1,9 +1,11 @@
-import Image from 'next/image'
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { getProductByHandle, getAllProductHandles } from '@/lib/shopify'
 import VariantSelector from '@/components/VariantSelector'
+import ProductGallery from '@/components/ProductGallery'
+import BackToCatalog from '@/components/BackToCatalog'
 
 export const revalidate = 3600
 
@@ -13,7 +15,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  props: PageProps<'/products/[handle]'>
+  props: { params: Promise<{ handle: string }> }
 ): Promise<Metadata> {
   const { handle } = await props.params
   const product = await getProductByHandle(handle)
@@ -24,7 +26,7 @@ export async function generateMetadata(
   }
 }
 
-export default async function ProductPage(props: PageProps<'/products/[handle]'>) {
+export default async function ProductPage(props: { params: Promise<{ handle: string }> }) {
   const { handle } = await props.params
   const product = await getProductByHandle(handle)
   if (!product) notFound()
@@ -36,7 +38,9 @@ export default async function ProductPage(props: PageProps<'/products/[handle]'>
       ? minPrice.toFixed(2)
       : `${minPrice.toFixed(2)} – $${maxPrice.toFixed(2)}`
 
-  const mainImage = product.images[0] ?? product.featuredImage
+  const galleryImages = product.images.length > 0
+    ? product.images
+    : product.featuredImage ? [product.featuredImage] : []
 
   // Only show vendor if it's a real brand (not the store URL)
   const vendorIsStore = !product.vendor ||
@@ -61,57 +65,8 @@ export default async function ProductPage(props: PageProps<'/products/[handle]'>
         {/* Two-column layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20 items-start">
 
-          {/* ── Left: Image ── */}
-          <div style={{ position: 'sticky', top: 100 }}>
-            <div
-              style={{
-                position: 'relative',
-                aspectRatio: '1',
-                background: 'var(--bg-secondary)',
-                border: '1px solid var(--border)',
-                borderRadius: 8,
-                overflow: 'hidden',
-              }}
-            >
-              {mainImage ? (
-                <Image
-                  src={mainImage.url}
-                  alt={mainImage.altText ?? product.title}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  priority
-                />
-              ) : (
-                <div className="flex items-center justify-center w-full h-full" style={{ fontSize: 80, opacity: 0.1 }}>
-                  🍬
-                </div>
-              )}
-            </div>
-
-            {/* Thumbnail strip */}
-            {product.images.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto" style={{ marginTop: 10 }}>
-                {product.images.slice(0, 6).map((img, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      position: 'relative',
-                      width: 68,
-                      height: 68,
-                      borderRadius: 6,
-                      overflow: 'hidden',
-                      border: `1.5px solid ${i === 0 ? 'var(--accent)' : 'var(--border)'}`,
-                      flexShrink: 0,
-                      background: 'var(--bg-secondary)',
-                    }}
-                  >
-                    <Image src={img.url} alt={img.altText ?? ''} fill className="object-cover" sizes="68px" />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          {/* ── Left: Image gallery ── */}
+          <ProductGallery images={galleryImages} title={product.title} />
 
           {/* ── Right: Details ── */}
           <div>
@@ -214,7 +169,7 @@ export default async function ProductPage(props: PageProps<'/products/[handle]'>
                 </p>
                 <div
                   style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.8 }}
-                  dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
+                  dangerouslySetInnerHTML={{ __html: product.descriptionHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') }}
                 />
               </div>
             )}
@@ -223,9 +178,9 @@ export default async function ProductPage(props: PageProps<'/products/[handle]'>
 
         {/* Back */}
         <div style={{ marginTop: 64, paddingTop: 24, borderTop: '1px solid var(--border)' }}>
-          <Link href="/catalog/usa" style={{ fontSize: 13, color: 'var(--text-secondary)', textDecoration: 'none' }}>
-            &larr; Back to catalog
-          </Link>
+          <Suspense fallback={<Link href="/catalog/usa" style={{ fontSize: 13, color: 'var(--text-secondary)', textDecoration: 'none' }}>← Back to catalog</Link>}>
+            <BackToCatalog />
+          </Suspense>
         </div>
       </div>
     </div>

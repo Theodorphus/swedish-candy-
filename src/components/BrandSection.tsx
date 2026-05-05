@@ -51,6 +51,21 @@ function BrandCard({ brand }: { brand: typeof brands[0] }) {
         el.style.transform = 'translateY(0)'
         el.style.borderColor = 'var(--border)'
       }}
+      onFocus={e => {
+        const el = e.currentTarget as HTMLDivElement
+        el.style.boxShadow = 'var(--shadow-md)'
+        el.style.transform = 'translateY(-3px)'
+        el.style.borderColor = 'var(--accent)'
+      }}
+      onBlur={e => {
+        const el = e.currentTarget as HTMLDivElement
+        el.style.boxShadow = 'var(--shadow-xs)'
+        el.style.transform = 'translateY(0)'
+        el.style.borderColor = 'var(--border)'
+      }}
+      tabIndex={0}
+      role="article"
+      aria-label={brand.name}
     >
       {/* Subtle corner glow in brand accent color */}
       <div style={{ position: 'absolute', top: 0, right: 0, width: 60, height: 60, background: `radial-gradient(circle at top right, ${brand.accent}18 0%, transparent 70%)`, pointerEvents: 'none' }} />

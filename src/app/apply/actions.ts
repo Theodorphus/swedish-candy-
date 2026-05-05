@@ -27,8 +27,14 @@ export async function submitApplication(
   if (!firstName || !lastName || !email || !password) {
     return { error: 'Please fill in all required fields.' }
   }
+  if (firstName.length > 100 || lastName.length > 100) {
+    return { error: 'Name is too long.' }
+  }
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return { error: 'Please enter a valid email address.' }
+  }
+  if (phone && !/^[+\d\s\-().]{7,20}$/.test(phone)) {
+    return { error: 'Please enter a valid phone number.' }
   }
   if (password !== confirmPassword) {
     return { error: 'Passwords do not match.' }
@@ -106,10 +112,14 @@ export async function submitApplication(
     )
   }
 
-  // ── 4. Notify Karen via email ─────────────────────────────────
-  await resend.emails.send({
+  // ── 4. Notify admin via email ─────────────────────────────────
+  const adminEmails = process.env.ADMIN_NOTIFICATION_EMAILS
+    ? process.env.ADMIN_NOTIFICATION_EMAILS.split(',').map(e => e.trim())
+    : ['karen@thenordichype.com', 'webbdevstudio@gmail.com']
+
+  const emailResult = await resend.emails.send({
     from: 'SwedenSweet <noreply@swedensweet.com>',
-    to: ['karen@thenordichype.com', 'webbdevstudio@gmail.com'],
+    to: adminEmails,
     subject: `New B2B application — ${firstName} ${lastName}`,
     text: [
       `New wholesale application received on SwedenSweet.`,
@@ -125,7 +135,14 @@ export async function submitApplication(
       `Go to Shopify Admin to review and approve:`,
       `https://admin.shopify.com/store/vv4yu4-cj/customers`,
     ].join('\n'),
-  }).catch(() => null) // Don't fail the request if email fails
+  }).catch((err) => {
+    console.error('[apply] Failed to send admin notification email:', err)
+    return null
+  })
+
+  if (!emailResult) {
+    console.error('[apply] Admin email failed for application from:', email)
+  }
 
   return { success: true }
 }

@@ -111,11 +111,11 @@ export async function getCurrentCart(): Promise<Cart | null> {
 export async function proceedToCheckout(): Promise<void> {
   const cookieStore = await cookies()
   const cartId = cookieStore.get(CART_COOKIE)?.value
-  if (!cartId) return
+  if (!cartId) redirect('/catalog/usa')
 
   const customerToken = cookieStore.get('shopify_customer_token')?.value
   let cart = await getCart(cartId)
-  if (!cart) return
+  if (!cart || cart.lines.length === 0) redirect('/cart')
 
   if (customerToken) {
     const updated = await cartBuyerIdentityUpdate(cartId, customerToken)

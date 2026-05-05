@@ -1,4 +1,7 @@
 import Link from 'next/link'
+
+export const revalidate = 3600
+
 import ProductCard from '@/components/ProductCard'
 import SectionHeader from '@/components/SectionHeader'
 import BrandSection from '@/components/BrandSection'
@@ -32,7 +35,7 @@ const tiers = [
     features: [
       'Full catalog access',
       'Faire-matched wholesale pricing',
-      'Fast domestic shipping from Chicago',
+      'Fast domestic shipping from Santa Fe Springs, CA',
       'NET-15 terms after 3 orders',
       'Email support',
       'No platform fees',
@@ -123,10 +126,11 @@ export default async function Home() {
             }}
           >
             Bulk Swedish candy from BUBS, Malaco, Matthijs, Vidal and more —
-            delivered to your US shelves in 3–5 days from our Chicago warehouse.
+            delivered to your US shelves in 3–5 days from our Santa Fe Springs warehouse.
+            No customs, no FDA hassle — we handle it all.
           </p>
 
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+          <div className="hero-cta" style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
             <Link href="/catalog/usa" className="btn-white" style={{ padding: 'clamp(11px, 2vw, 14px) clamp(20px, 4vw, 32px)', fontSize: 13 }}>
               Browse USA catalog
             </Link>
@@ -147,9 +151,9 @@ export default async function Home() {
             key={i}
             className="section-px"
             style={{
-              paddingTop: 32,
-              paddingBottom: 32,
-              borderRight: i < 3 ? '1px solid var(--border)' : 'none',
+              paddingTop: 28,
+              paddingBottom: 28,
+              borderRight: i % 2 === 0 ? '1px solid var(--border)' : 'none',
               borderBottom: i < 2 ? '1px solid var(--border)' : 'none',
             }}
           >
@@ -218,7 +222,7 @@ export default async function Home() {
             <SectionHeader
               eyebrow="USA Catalog"
               title="Bestsellers"
-              subtitle="Top-selling lines available from our Chicago warehouse."
+              subtitle="Top-selling lines available from our Santa Fe Springs warehouse."
               link={{ label: 'View full catalog', href: '/catalog/usa' }}
             />
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -254,6 +258,7 @@ export default async function Home() {
             {/* USA */}
             <ScrollReveal delay={0}>
             <div
+              className="warehouse-card"
               style={{
                 background: 'var(--bg)',
                 border: '1px solid var(--border)',
@@ -265,10 +270,13 @@ export default async function Home() {
             >
               <p className="eyebrow-muted" style={{ marginBottom: 12 }}>USA Warehouse</p>
               <h3 className="display" style={{ fontSize: 22, color: 'var(--text)', marginBottom: 10 }}>
-                Chicago, IL
+                Santa Fe Springs, CA
               </h3>
-              <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: 28 }}>
-                Core assortment. Domestic shipping in 3–5 business days.
+              <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: 16 }}>
+                FDA-approved facility. All products are customs-cleared and ready for immediate delivery. Domestic shipping in 3–5 business days.
+              </p>
+              <p style={{ fontSize: 12, color: 'var(--text-tertiary)', lineHeight: 1.6, marginBottom: 28 }}>
+                No import paperwork. No tariffs. One invoice — everything included.
               </p>
               <Link href="/catalog/usa" className="btn-primary" style={{ fontSize: 13, padding: '10px 22px' }}>
                 Shop USA catalog →
@@ -279,6 +287,7 @@ export default async function Home() {
             {/* Sweden */}
             <ScrollReveal delay={120}>
             <div
+              className="warehouse-card"
               style={{
                 background: 'var(--bg)',
                 border: '1px solid var(--border)',
@@ -304,6 +313,57 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* ══ SERVICES ══════════════════════════════════════════ */}
+      <section style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
+        <div className="section-px content-max" style={{ paddingTop: 'clamp(48px, 8vw, 88px)', paddingBottom: 'clamp(48px, 8vw, 88px)' }}>
+          <SectionHeader
+            eyebrow="More than wholesale"
+            title="A complete candy partner"
+            subtitle="From bulk import to branded retail-ready bags — we support your business end to end."
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+            {[
+              {
+                icon: '📦',
+                title: 'Bulk wholesale',
+                body: 'Full catalog access from two warehouses. Competitive pricing, flexible MOQs, and NET payment terms for approved accounts.',
+              },
+              {
+                icon: '🏭',
+                title: 'Co-packing',
+                body: 'Our FDA-approved Santa Fe Springs facility prepares candy mixes to your specifications. You buy the candy, we pack it — finished bags ready for sale.',
+              },
+              {
+                icon: '🏷️',
+                title: 'Private label',
+                body: 'Launch Swedish candy under your own brand. We support you from concept and product selection through production, import, and delivery.',
+              },
+            ].map(({ icon, title, body }, i) => (
+              <ScrollReveal key={title} delay={i * 100}>
+                <div style={{
+                  background: 'var(--bg)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 10,
+                  padding: '32px 28px',
+                  height: '100%',
+                }}>
+                  <div style={{ fontSize: 28, marginBottom: 16 }}>{icon}</div>
+                  <h3 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', marginBottom: 10 }}>{title}</h3>
+                  <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.75 }}>{body}</p>
+                </div>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <div style={{ marginTop: 32 }}>
+            <Link href="/contact" className="btn-secondary" style={{ fontSize: 13 }}>
+              Ask about co-packing & private label →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ══ PRICING ════════════════════════════════════════════ */}
       <section id="pricing" style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
         <div className="section-px content-max" style={{ paddingTop: 'clamp(48px, 8vw, 88px)', paddingBottom: 'clamp(48px, 8vw, 88px)' }}>
@@ -313,10 +373,11 @@ export default async function Home() {
             subtitle="No platform fees. No 15–25% commission. Start at $300 MOQ and keep more margin."
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {tiers.map((tier, i) => (
               <ScrollReveal key={tier.name} delay={i * 100}>
               <div
+                className="tier-card"
                 style={{
                   background: tier.dark
                     ? 'linear-gradient(160deg, #2D0B18 0%, #1A0A0E 100%)'
@@ -503,11 +564,11 @@ export default async function Home() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-12" style={{ maxWidth: 880, position: 'relative', zIndex: 1 }}>
+          <div className="why-grid grid grid-cols-1 sm:grid-cols-3 gap-12" style={{ maxWidth: 880, position: 'relative', zIndex: 1 }}>
             {[
-              { n: '01', title: 'Fast fulfillment', body: 'Orders ship from our Chicago warehouse within 1–2 business days.' },
-              { n: '02', title: 'Authentic brands', body: 'BUBS, Malaco, Matthijs, Vidal, Bulgari and more — directly sourced from Sweden.' },
-              { n: '03', title: 'Individual pricing', body: 'Every account gets custom pricing based on your order volume.' },
+              { n: '01', title: 'No customs hassle', body: 'We handle FDA requirements, import procedures, and tariffs. You get one clean invoice — door to door.' },
+              { n: '02', title: 'Co-packing & private label', body: 'Our FDA-approved Santa Fe Springs facility can prepare custom candy mixes under your own brand, ready for retail.' },
+              { n: '03', title: 'Built by retailers', body: 'Our founders ran food stores and candy shops. We understand what your shelves need — and what sells.' },
             ].map(({ n, title, body }, i) => (
               <ScrollReveal key={n} delay={i * 120}>
                 <div>
@@ -588,7 +649,7 @@ export default async function Home() {
           >
             Apply for a wholesale account and get access to 500+ SKUs at competitive pricing.
           </p>
-          <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
+          <div className="cta-buttons" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
             <Link href="/apply" className="btn-white" style={{ padding: '14px 34px', fontSize: 14 }}>
               Apply for wholesale account
             </Link>

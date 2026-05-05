@@ -24,9 +24,13 @@ export async function submitContact(
     return { error: 'Please enter a valid email address.' }
   }
 
+  const adminEmails = process.env.ADMIN_NOTIFICATION_EMAILS
+    ? process.env.ADMIN_NOTIFICATION_EMAILS.split(',').map(e => e.trim())
+    : ['karen@thenordichype.com', 'webbdevstudio@gmail.com']
+
   const { error } = await resend.emails.send({
     from: 'SwedenSweet <noreply@swedensweet.com>',
-    to: 'karen@thenordichype.com',
+    to: adminEmails,
     replyTo: email,
     subject: subject ? `Contact: ${subject}` : `New message from ${name}`,
     text: `Name: ${name}\nEmail: ${email}\n\n${message}`,

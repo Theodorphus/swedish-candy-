@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import type { ShopifyProduct } from '@/lib/shopify'
 
-export default function ProductCard({ product }: { product: ShopifyProduct }) {
+export default function ProductCard({ product, market = 'usa' }: { product: ShopifyProduct; market?: 'usa' | 'sweden' }) {
   const price = parseFloat(product.priceRange.minVariantPrice.amount)
   const [whole, dec] = price.toFixed(2).split('.')
   const vendorIsStore = !product.vendor ||
@@ -11,7 +11,7 @@ export default function ProductCard({ product }: { product: ShopifyProduct }) {
     product.vendor.toLowerCase() === 'swedensweet'
 
   return (
-    <Link href={`/products/${product.handle}`} className="product-card group">
+    <Link href={`/products/${product.handle}?from=${market}`} className="product-card group">
       {/* Image */}
       <div className="relative aspect-square bg-[var(--bg-secondary)] overflow-hidden">
         {product.featuredImage ? (
@@ -25,6 +25,11 @@ export default function ProductCard({ product }: { product: ShopifyProduct }) {
         ) : (
           <div className="flex items-center justify-center w-full h-full text-4xl opacity-15">
             🍬
+          </div>
+        )}
+        {!product.availableForSale && (
+          <div style={{ position: 'absolute', top: 8, left: 8, background: 'rgba(26,10,14,0.75)', color: '#fff', fontSize: 9, fontWeight: 700, letterSpacing: '1.2px', textTransform: 'uppercase', padding: '3px 8px', borderRadius: 3 }}>
+            Out of stock
           </div>
         )}
         <div className="product-card-view absolute inset-x-0 bottom-0 bg-[var(--accent)] text-white text-[11px] font-semibold tracking-wide text-center py-2.5">

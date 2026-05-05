@@ -8,19 +8,24 @@ import MarketToggle from './MarketToggle'
 const links = [
   { label: 'Catalog',  href: '/catalog' },
   { label: 'Pricing',  href: '/#pricing' },
+  { label: 'About',    href: '/about' },
   { label: 'Contact',  href: '/contact' },
 ]
 
 export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn?: boolean; market?: 'usa' | 'sweden' }) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
+  const [searching, setSearching] = useState(false)
   const router = useRouter()
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
-    if (query.trim()) {
-      router.push(`/catalog/usa?q=${encodeURIComponent(query.trim())}`)
+    if (query.trim() && !searching) {
+      setSearching(true)
+      const catalogPath = market === 'sweden' ? '/catalog/sweden' : '/catalog/usa'
+      router.push(`${catalogPath}?q=${encodeURIComponent(query.trim())}`)
       setQuery('')
+      setSearching(false)
     }
   }
 
@@ -34,7 +39,7 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
         <span style={{ opacity: 0.4, margin: '0 10px' }}>·</span>
         {/* Hidden on mobile to prevent wrapping */}
         <span className="hidden sm:inline">
-          <span style={{ fontWeight: 400, opacity: 0.75 }}>Ships from Chicago</span>
+          <span style={{ fontWeight: 400, opacity: 0.75 }}>Ships from Santa Fe Springs, CA</span>
           <span style={{ opacity: 0.4, margin: '0 10px' }}>·</span>
         </span>
         <span className="price-num" style={{ fontWeight: 700 }}>3–5</span>
@@ -69,7 +74,7 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
 
           {/* Search */}
           <form onSubmit={handleSearch} className="hidden md:flex" style={{ position: 'relative', width: 192 }}>
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)', pointerEvents: 'none' }}>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: searching ? 'var(--accent)' : 'var(--text-tertiary)', pointerEvents: 'none', transition: 'color 150ms ease' }}>
               <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4"/>
               <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
             </svg>
@@ -78,7 +83,8 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
               placeholder="Search products…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              style={{ width: '100%', border: '1px solid var(--border)', borderRadius: 4, fontSize: 12, padding: '8px 12px 8px 30px', background: 'var(--bg-secondary)', color: 'var(--text)', outline: 'none', fontFamily: 'inherit', transition: 'border-color 150ms ease' }}
+              disabled={searching}
+              style={{ width: '100%', border: '1px solid var(--border)', borderRadius: 4, fontSize: 12, padding: '8px 12px 8px 30px', background: 'var(--bg-secondary)', color: 'var(--text)', outline: 'none', fontFamily: 'inherit', transition: 'border-color 150ms ease', opacity: searching ? 0.6 : 1 }}
               onFocus={e => (e.currentTarget.style.borderColor = 'var(--accent)')}
               onBlur={e => (e.currentTarget.style.borderColor = 'var(--border)')}
             />

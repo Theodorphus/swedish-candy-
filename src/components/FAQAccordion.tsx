@@ -5,7 +5,7 @@ import { useState } from 'react'
 const faqs = [
   {
     q: 'What is the minimum order quantity?',
-    a: 'Our minimum order is $300 per order. Preferred accounts start at $1,000, and Enterprise at $5,000.',
+    a: 'Our minimum order is $300 per order. Preferred accounts start at $1,000, and Enterprise at $5,000+.',
   },
   {
     q: 'How do I apply for a wholesale account?',
@@ -13,11 +13,19 @@ const faqs = [
   },
   {
     q: 'How long does fulfillment take?',
-    a: 'Orders from our Chicago, IL warehouse ship within 1–2 business days and arrive in 3–5 business days across the USA. Swedish warehouse orders vary by destination.',
+    a: 'Orders from our Santa Fe Springs, CA warehouse ship within 1–2 business days and arrive in 3–5 business days across the USA. Swedish warehouse orders vary by destination.',
+  },
+  {
+    q: 'Do I need to handle customs, FDA paperwork, or tariffs?',
+    a: 'No. We take care of the entire import process — FDA requirements, customs clearance, and tariffs are all included. You get a simple door-to-door solution with one invoice.',
   },
   {
     q: 'What payment terms are available?',
     a: 'Starter accounts: NET-15 after three orders. Preferred: NET-30. Enterprise: NET-45. Credit card accepted on all orders.',
+  },
+  {
+    q: 'Do you offer co-packing or private label?',
+    a: 'Yes. Our FDA-approved Santa Fe Springs facility can prepare custom candy mixes under your own brand. You purchase the candy from us, we pack it to your specifications, and deliver finished bags ready for sale. Contact us to discuss your needs.',
   },
   {
     q: 'Can I get custom pricing?',
@@ -25,7 +33,7 @@ const faqs = [
   },
   {
     q: 'Which brands do you carry?',
-    a: 'We carry all major Swedish candy brands: BUBS, Fazer, Marabou, Cloetta, Ahlgrens, Läkerol, Malaco, OLW, and more.',
+    a: 'We carry leading Swedish candy brands including BUBS, Malaco, Matthijs, Vidal, Bulgari, Franssons, S Marke, and Grahns. Contact us for the full brand list.',
   },
   {
     q: 'Do you ship outside the USA?',

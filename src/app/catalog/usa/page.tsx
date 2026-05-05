@@ -3,6 +3,8 @@ import CatalogSearch from '@/components/CatalogSearch'
 import MarketToggle from '@/components/MarketToggle'
 import { getProducts, getProductsByTag } from '@/lib/shopify'
 
+export const revalidate = 3600
+
 export const metadata = {
   title: 'USA Catalog — SwedenSweet',
   description: 'Shop Swedish candy from our Chicago warehouse. Fast domestic shipping across the USA.',
@@ -20,7 +22,7 @@ export default async function UsaCatalogPage() {
       <div className="section-px" style={{ paddingTop: 48, paddingBottom: 40, borderBottom: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
         <div className="content-max" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: 16 }}>
           <div>
-            <p className="eyebrow" style={{ marginBottom: 10 }}>Chicago, IL — Ships in 3–5 days</p>
+            <p className="eyebrow" style={{ marginBottom: 10 }}>Santa Fe Springs, CA — Ships in 3–5 days</p>
             <h1 className="display" style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', marginBottom: 8 }}>
               USA Catalog
             </h1>
@@ -47,7 +49,7 @@ export default async function UsaCatalogPage() {
           <div>
             <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>Looking for a wider selection?</p>
             <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-              Our Swedish warehouse carries 500+ SKUs — more products, more variety.
+              Our Swedish warehouse carries 500+ SKUs — broader selection, same seamless import process.
             </p>
           </div>
           <Link href="/catalog/sweden" className="btn-secondary" style={{ fontSize: 13, flexShrink: 0 }}>

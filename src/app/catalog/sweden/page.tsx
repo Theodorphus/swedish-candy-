@@ -3,6 +3,8 @@ import CatalogSearch from '@/components/CatalogSearch'
 import MarketToggle from '@/components/MarketToggle'
 import { getProducts, getProductsByTag } from '@/lib/shopify'
 
+export const revalidate = 3600
+
 export const metadata = {
   title: 'Swedish Catalog — SwedenSweet',
   description: 'Shop our full Swedish candy assortment from our warehouse in Sweden. Broadest selection available.',
@@ -36,7 +38,7 @@ export default async function SwedenCatalogPage() {
 
       {/* Product grid */}
       <div className="section-px content-max" style={{ paddingTop: 48, paddingBottom: 48 }}>
-        <CatalogSearch products={products} />
+        <CatalogSearch products={products} market="sweden" />
       </div>
 
       {/* Bottom banners */}
@@ -64,7 +66,7 @@ export default async function SwedenCatalogPage() {
               <p style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Get 50% off and free shipping on your first Faire order.</p>
             </div>
           </div>
-          <Link href="https://www.faire.com/direct/swedishcandystore1" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, fontWeight: 600, color: 'var(--accent)', textDecoration: 'none', flexShrink: 0 }}>
+          <Link href="https://www.faire.com/direct/swedishcandystoreus" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, fontWeight: 600, color: 'var(--accent)', textDecoration: 'none', flexShrink: 0 }}>
             Order on Faire →
           </Link>
         </div>
