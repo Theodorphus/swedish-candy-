@@ -33,17 +33,15 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
     <header className="sticky top-0 z-50">
 
       {/* Announcement bar */}
-      <div style={{ background: 'var(--accent)', color: '#fff', fontSize: 11, textAlign: 'center', padding: '9px 16px', letterSpacing: '0.04em' }}>
-        <span className="price-num" style={{ fontWeight: 700 }}>$300</span>
-        <span style={{ fontWeight: 400, opacity: 0.75 }}> MOQ</span>
-        <span style={{ opacity: 0.4, margin: '0 10px' }}>·</span>
-        {/* Hidden on mobile to prevent wrapping */}
+      <div style={{ background: 'var(--accent)', color: '#fff', fontSize: 11, textAlign: 'center', padding: '12px 16px', letterSpacing: '0.04em' }}>
+        <span style={{ fontWeight: 600, opacity: 0.9 }}>✓</span>
+        <span style={{ fontWeight: 400, opacity: 0.82 }}> $300 MOQ</span>
+        <span style={{ opacity: 0.35, margin: '0 10px' }}>·</span>
         <span className="hidden sm:inline">
-          <span style={{ fontWeight: 400, opacity: 0.75 }}>Ships from Santa Fe Springs, CA</span>
-          <span style={{ opacity: 0.4, margin: '0 10px' }}>·</span>
+          <span style={{ fontWeight: 400, opacity: 0.82 }}>Free customs &amp; FDA handling</span>
+          <span style={{ opacity: 0.35, margin: '0 10px' }}>·</span>
         </span>
-        <span className="price-num" style={{ fontWeight: 700 }}>3–5</span>
-        <span style={{ fontWeight: 400, opacity: 0.75 }}> day delivery</span>
+        <span style={{ fontWeight: 400, opacity: 0.82 }}>Ships in 3–5 days from Santa Fe Springs</span>
       </div>
 
       {/* Main nav */}
@@ -51,7 +49,7 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
         <div className="section-px content-max" style={{ height: 62, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 24 }}>
 
           {/* Logo */}
-          <Link href="/" style={{ flexShrink: 0, textDecoration: 'none', fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 18, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--text)' }}>
+          <Link href="/" style={{ flexShrink: 0, textDecoration: 'none', fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 22, fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--text)' }}>
             Sweden<span style={{ color: 'var(--accent)' }}>Sweet</span>
           </Link>
 
@@ -80,7 +78,7 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
             </svg>
             <input
               type="text"
-              placeholder="Search products…"
+              placeholder="Search by brand, SKU or type…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               disabled={searching}
@@ -92,9 +90,9 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
 
           {/* Right actions */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-            <Link href={isLoggedIn ? '/account' : '/login'} className="hidden md:block" style={{ fontSize: 13, color: 'var(--text-secondary)', textDecoration: 'none', padding: '8px 12px', transition: 'color 150ms ease' }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
+            <Link href={isLoggedIn ? '/account' : '/login'} className="hidden md:block" style={{ fontSize: 14, color: 'var(--text-secondary)', textDecoration: 'none', padding: '8px 12px', borderRadius: 6, transition: 'color 150ms ease, background 150ms ease' }}
+              onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent)'; e.currentTarget.style.background = 'var(--bg-secondary)' }}
+              onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.background = 'transparent' }}
             >
               {isLoggedIn ? 'My account' : 'Sign in'}
             </Link>
@@ -145,7 +143,7 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
             </svg>
             <input
               type="text"
-              placeholder="Search products…"
+              placeholder="Search by brand, SKU or type…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               style={{ width: '100%', border: '1px solid var(--border)', borderRadius: 4, fontSize: 13, padding: '10px 12px 10px 30px', background: 'var(--bg-secondary)', color: 'var(--text)', outline: 'none', fontFamily: 'inherit' }}

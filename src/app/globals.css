@@ -23,17 +23,19 @@
   /* Accent — Raspberry + Sand */
   --accent:       #9B2248;
   --accent-hover: #7D1A38;
-  --accent-light: #F8EEF1;
+  --accent-light: #F0CEDB;
   --accent-soft:  #F5F0EA;
   --sand:         #D7C9B8;
   --sand-dark:    #B8A898;
-  --gold:         #9B2248;
+  --success:      #1a7a3e;
+  --success-bg:   #edf7f1;
+  --success-border: #a8dfc0;
 
-  /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(155,34,72,0.06);
-  --shadow-sm: 0 2px 6px rgba(155,34,72,0.08);
-  --shadow-md: 0 6px 20px rgba(155,34,72,0.10);
-  --shadow-lg: 0 16px 40px rgba(155,34,72,0.13);
+  /* Shadows — neutral gray for better contrast on light backgrounds */
+  --shadow-xs: 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md: 0 6px 24px rgba(0,0,0,0.10);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.14);
 
   --transition: 150ms ease;
 }
@@ -91,7 +93,7 @@ body {
   background: var(--accent);
   color: #FFFFFF;
   padding: 13px 28px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
@@ -103,8 +105,8 @@ body {
 }
 .btn-primary:hover {
   background: var(--accent-hover);
-  box-shadow: 0 4px 14px rgba(155,34,72,0.30);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(155,34,72,0.28);
+  transform: translateY(-2px);
 }
 
 .btn-secondary {
@@ -115,17 +117,19 @@ body {
   color: var(--text);
   border: 1px solid var(--border);
   padding: 13px 28px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 13px;
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
   font-family: inherit;
-  transition: border-color var(--transition), color var(--transition), background var(--transition);
+  transition: border-color var(--transition), color var(--transition), background var(--transition), transform var(--transition);
 }
 .btn-secondary:hover {
-  border-color: var(--text-tertiary);
-  background: var(--bg-secondary);
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+  transform: translateY(-2px);
 }
 
 /* White — for dark/accent section backgrounds */
@@ -136,7 +140,7 @@ body {
   background: #FFFFFF;
   color: var(--accent);
   padding: 13px 28px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
@@ -144,11 +148,12 @@ body {
   cursor: pointer;
   font-family: inherit;
   letter-spacing: 0.1px;
-  transition: background var(--transition), transform var(--transition);
+  transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 .btn-white:hover {
-  background: var(--accent-light);
-  transform: translateY(-1px);
+  background: #f5f5f5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
 }
 
 /* Ghost — on accent backgrounds only */
@@ -156,21 +161,38 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.10);
   color: #fff;
-  border: 1px solid rgba(255,255,255,0.30);
+  border: 1px solid rgba(255,255,255,0.28);
   padding: 13px 28px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 13px;
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
   font-family: inherit;
-  transition: background var(--transition), border-color var(--transition);
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
 }
 .btn-ghost:hover {
-  background: rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.20);
   border-color: rgba(255,255,255,0.50);
+  transform: translateY(-2px);
+}
+
+/* ─── Badge ───────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--text-tertiary);
+  background: transparent;
+  white-space: nowrap;
 }
 
 /* ─── Nav link ────────────────────────────────────── */
@@ -199,7 +221,8 @@ body {
 }
 .input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(42,78,110,0.10);
+  border-left-width: 3px;
+  box-shadow: 0 0 0 3px rgba(155,34,72,0.08);
 }
 .input::placeholder { color: var(--text-tertiary); }
 
@@ -219,6 +242,7 @@ body {
   border-color: var(--accent);
   box-shadow: var(--shadow-md);
   transform: translateY(-2px);
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
 }
 .product-card-img { transition: transform 500ms ease; }
 .product-card:hover .product-card-img { transform: scale(1.04); }

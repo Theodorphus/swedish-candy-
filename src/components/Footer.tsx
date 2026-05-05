@@ -29,9 +29,15 @@ export default function Footer() {
             <div style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 20, fontWeight: 700, letterSpacing: '-0.02em', color: '#FFFFFF', marginBottom: 14 }}>
               Sweden<span style={{ color: 'var(--sand)' }}>Sweet</span>
             </div>
-            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.75, maxWidth: 220, marginBottom: 28 }}>
+            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.5)', lineHeight: 1.75, maxWidth: 220, marginBottom: 20 }}>
               Premium Swedish confectionery, sourced direct and shipped to your US shelves.
             </p>
+            <a href="mailto:karen@thenordichype.com" style={{ display: 'block', fontSize: 13, color: 'rgba(255,255,255,0.5)', textDecoration: 'none', marginBottom: 8, transition: 'color 150ms ease' }}
+              onMouseEnter={e => (e.currentTarget.style.color = '#fff')}
+              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(255,255,255,0.5)')}
+            >
+              karen@thenordichype.com
+            </a>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
               {['Visa', 'Mastercard', 'ACH'].map((m) => (
                 <span key={m} style={{

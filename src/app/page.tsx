@@ -30,7 +30,7 @@ const tiers = [
     name: 'Starter',
     moq: '$300',
     // Direct Faire comparison — no platform cut
-    tag: 'Faire alternative',
+    tag: 'Direct wholesale',
     desc: 'For independent retailers & single-location stores',
     features: [
       'Full catalog access',
@@ -95,44 +95,42 @@ export default async function Home() {
       <section style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#1A0A0E', position: 'relative', overflow: 'hidden' }}>
         <HeroVideo />
         {/* Overlay — låter videon andas men håller texten läsbar */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(26,10,14,0.55) 0%, rgba(26,10,14,0.45) 100%)' }} />
+        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(26,10,14,0.42) 0%, rgba(26,10,14,0.28) 100%)' }} />
 
         <div className="section-px content-max" style={{ paddingTop: 'clamp(56px, 8vw, 96px)', paddingBottom: 'clamp(48px, 7vw, 80px)', position: 'relative', zIndex: 1 }}>
-          <p className="eyebrow" style={{ marginBottom: 20, color: 'rgba(255,255,255,0.45)' }}>B2B Wholesale · USA Market</p>
+          <p className="eyebrow" style={{ marginBottom: 16, color: 'rgba(255,255,255,0.45)' }}>B2B Wholesale · USA Market</p>
 
           <h1
             className="display"
             style={{
               fontSize: 'clamp(32px, 7vw, 68px)',
               maxWidth: 780,
-              marginBottom: 20,
+              marginBottom: 24,
               color: '#FFFFFF',
               lineHeight: 1.1,
             }}
           >
             The complete source of Swedish candy{' '}
-            <em style={{ color: 'var(--sand)', fontStyle: 'italic' }}>
+            <strong style={{ color: 'var(--sand)', fontWeight: 700 }}>
               for wholesale buyers.
-            </em>
+            </strong>
           </h1>
 
           <p
             style={{
               fontSize: 'clamp(14px, 2vw, 16px)',
-              color: 'rgba(255,255,255,0.62)',
+              color: 'rgba(255,255,255,0.68)',
               lineHeight: 1.8,
-              maxWidth: 460,
+              maxWidth: 480,
               marginBottom: 36,
             }}
           >
-            Bulk Swedish candy from BUBS, Malaco, Matthijs, Vidal and more —
-            delivered to your US shelves in 3–5 days from our Santa Fe Springs warehouse.
-            No customs, no FDA hassle — we handle it all.
+            Skip the import hassle. 500+ Swedish candy SKUs delivered to your US shelves in 3–5 days — no customs, no FDA paperwork. We handle it all.
           </p>
 
           <div className="hero-cta" style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
             <Link href="/catalog/usa" className="btn-white" style={{ padding: 'clamp(11px, 2vw, 14px) clamp(20px, 4vw, 32px)', fontSize: 13 }}>
-              Browse USA catalog
+              View wholesale pricing
             </Link>
             <Link href="/apply" className="btn-ghost" style={{ padding: 'clamp(11px, 2vw, 14px) clamp(20px, 4vw, 32px)', fontSize: 13 }}>
               Apply for account
@@ -180,7 +178,7 @@ export default async function Home() {
           <SectionHeader
             eyebrow="Assortment"
             title="What we carry"
-            subtitle="Bulk Swedish candy across every category — all available from our USA warehouse."
+            subtitle="5 core categories, 300+ SKUs. Everything you need to stock and sell."
             link={{ label: 'Browse full catalog', href: '/catalog/usa' }}
           />
 
@@ -243,7 +241,7 @@ export default async function Home() {
           <SectionHeader
             eyebrow="Brand partners"
             title="Direct from Sweden's leading producers"
-            subtitle="Every brand sourced and imported directly — no middlemen, no markups, full catalog access from day one."
+            subtitle="Direct relationships with 8 of Sweden's top candy makers — full catalog, no markups, from day one."
           />
           <BrandSection />
         </div>
@@ -325,17 +323,36 @@ export default async function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
               {
-                icon: '📦',
+                icon: (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                    <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                    <line x1="12" y1="22.08" x2="12" y2="12"/>
+                  </svg>
+                ),
                 title: 'Bulk wholesale',
                 body: 'Full catalog access from two warehouses. Competitive pricing, flexible MOQs, and NET payment terms for approved accounts.',
               },
               {
-                icon: '🏭',
+                icon: (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                  </svg>
+                ),
                 title: 'Co-packing',
                 body: 'Our FDA-approved Santa Fe Springs facility prepares candy mixes to your specifications. You buy the candy, we pack it — finished bags ready for sale.',
               },
               {
-                icon: '🏷️',
+                icon: (
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20.59 13.41 13.42 20.58 6.58 13.42 13.41 6.59 20.59 13.41"/>
+                    <line x1="8" y1="8" x2="12" y2="4"/>
+                    <line x1="12" y1="4" x2="16" y2="8"/>
+                    <line x1="8" y1="16" x2="12" y2="20"/>
+                    <line x1="12" y1="20" x2="16" y2="16"/>
+                  </svg>
+                ),
                 title: 'Private label',
                 body: 'Launch Swedish candy under your own brand. We support you from concept and product selection through production, import, and delivery.',
               },
@@ -348,8 +365,8 @@ export default async function Home() {
                   padding: '32px 28px',
                   height: '100%',
                 }}>
-                  <div style={{ fontSize: 28, marginBottom: 16 }}>{icon}</div>
-                  <h3 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', marginBottom: 10 }}>{title}</h3>
+                  <div style={{ width: 44, height: 44, borderRadius: 10, background: 'var(--accent-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>{icon}</div>
+                  <h3 style={{ fontSize: 15, fontWeight: 600, color: 'var(--text)', marginBottom: 10 }}>{title}</h3>
                   <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.75 }}>{body}</p>
                 </div>
               </ScrollReveal>
@@ -381,9 +398,13 @@ export default async function Home() {
                 style={{
                   background: tier.dark
                     ? 'linear-gradient(160deg, #2D0B18 0%, #1A0A0E 100%)'
+                    : tier.featured
+                    ? 'linear-gradient(160deg, rgba(155,34,72,0.03) 0%, #FFFFFF 60%)'
                     : 'var(--bg-card)',
                   border: tier.dark
                     ? '1px solid rgba(215,201,184,0.15)'
+                    : tier.featured
+                    ? '1px solid rgba(155,34,72,0.18)'
                     : '1px solid var(--border)',
                   borderTop: tier.featured
                     ? '3px solid var(--accent)'
@@ -394,7 +415,7 @@ export default async function Home() {
                   padding: '32px 28px',
                   position: 'relative',
                   boxShadow: tier.featured
-                    ? 'var(--shadow-md)'
+                    ? 'var(--shadow-lg)'
                     : tier.dark
                     ? '0 8px 40px rgba(45,11,24,0.5), inset 0 1px 0 rgba(215,201,184,0.08)'
                     : 'var(--shadow-xs)',
@@ -651,7 +672,7 @@ export default async function Home() {
           </p>
           <div className="cta-buttons" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
             <Link href="/apply" className="btn-white" style={{ padding: '14px 34px', fontSize: 14 }}>
-              Apply for wholesale account
+              Get approved in 1–2 business days
             </Link>
             <Link href="/contact" className="btn-ghost" style={{ padding: '14px 34px', fontSize: 14 }}>
               Talk to sales
