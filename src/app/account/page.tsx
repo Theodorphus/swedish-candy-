@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getCustomer } from '@/lib/shopify'
 import LogoutButton from './LogoutButton'
+import ReorderButton from './ReorderButton'
 
 export const metadata = {
   title: 'My Account — SwedenSweet',
@@ -116,6 +117,7 @@ export default async function AccountPage() {
                             View →
                           </a>
                         )}
+                        <ReorderButton lineItems={order.lineItems} />
                       </div>
                     </div>
                   )

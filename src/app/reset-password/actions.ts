@@ -31,6 +31,13 @@ export async function resetPassword(
     expires: new Date(result.expiresAt),
     path: '/',
   })
+  cookieStore.set('shopify_customer_token_expires', result.expiresAt, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    expires: new Date(result.expiresAt),
+    path: '/',
+  })
 
   redirect('/account')
 }

@@ -12,7 +12,9 @@ type Variant = {
 
 export default function VariantSelector({ variants }: { variants: Variant[] }) {
   const firstAvailable = variants.find((v) => v.availableForSale) ?? variants[0]
-  const [selected, setSelected] = useState<Variant>(firstAvailable)
+  const [selected, setSelected] = useState<Variant | undefined>(firstAvailable)
+
+  if (!selected) return null
 
   return (
     <div className="flex flex-col gap-3">

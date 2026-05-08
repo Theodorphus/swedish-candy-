@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next'
-import { getAllProductHandles } from '@/lib/shopify'
+import { getAllProductHandles, getVendors } from '@/lib/shopify'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = 'https://swedensweet.com'
@@ -30,5 +30,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // Fail silently — sitemap still works without products
   }
 
-  return [...staticRoutes, ...productRoutes]
+  let brandRoutes: MetadataRoute.Sitemap = []
+  try {
+    const vendors = await getVendors()
+    brandRoutes = [
+      { url: `${base}/brands`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7 },
+      ...vendors.map((v) => ({
+        url: `${base}/brands/${v}`,
+        lastModified: new Date(),
+        changeFrequency: 'weekly' as const,
+        priority: 0.6,
+      })),
+    ]
+  } catch {
+    // Fail silently
+  }
+
+  return [...staticRoutes, ...productRoutes, ...brandRoutes]
 }

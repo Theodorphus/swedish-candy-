@@ -11,6 +11,13 @@ export default async function ResetPasswordPage({
   const { url } = await searchParams
   if (!url) redirect('/forgot-password')
 
+  let decodedUrl: string
+  try {
+    decodedUrl = decodeURIComponent(url)
+  } catch {
+    redirect('/forgot-password')
+  }
+
   return (
     <main className="section-px" style={{ paddingTop: 80, paddingBottom: 80 }}>
       <div className="content-max">
@@ -18,7 +25,7 @@ export default async function ResetPasswordPage({
         <p style={{ fontSize: 14, color: 'var(--text-secondary)', marginBottom: 32 }}>
           Choose a new password for your account.
         </p>
-        <ResetPasswordForm resetUrl={decodeURIComponent(url)} />
+        <ResetPasswordForm resetUrl={decodedUrl} />
       </div>
     </main>
   )

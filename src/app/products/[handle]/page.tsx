@@ -6,6 +6,7 @@ import { getProductByHandle, getAllProductHandles } from '@/lib/shopify'
 import VariantSelector from '@/components/VariantSelector'
 import ProductGallery from '@/components/ProductGallery'
 import BackToCatalog from '@/components/BackToCatalog'
+import NotifyMe from '@/components/NotifyMe'
 
 export const revalidate = 3600
 
@@ -23,6 +24,14 @@ export async function generateMetadata(
   return {
     title: `${product.title} — SwedenSweet`,
     description: product.description.slice(0, 160),
+    alternates: {
+      canonical: `https://swedensweet.com/products/${handle}`,
+    },
+    openGraph: {
+      title: `${product.title} — SwedenSweet`,
+      description: product.description.slice(0, 160),
+      images: product.featuredImage ? [{ url: product.featuredImage.url, width: 800, height: 800 }] : [{ url: '/OG.png', width: 1200, height: 630 }],
+    },
   }
 }
 
@@ -33,6 +42,41 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
 
   const minPrice = parseFloat(product.priceRange.minVariantPrice.amount)
   const maxPrice = parseFloat(product.priceRange.maxVariantPrice.amount)
+
+  const currency = product.priceRange.minVariantPrice.currencyCode
+  const offerBase = {
+    availability: product.availableForSale
+      ? 'https://schema.org/InStock'
+      : 'https://schema.org/OutOfStock',
+    seller: { '@type': 'Organization', name: 'Sweden Sweet Corporation' },
+  }
+  const productSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.title,
+    description: product.description || undefined,
+    image: product.featuredImage?.url,
+    brand: product.vendor ? { '@type': 'Brand', name: product.vendor } : undefined,
+    offers: minPrice === maxPrice
+      ? { '@type': 'Offer', priceCurrency: currency, price: minPrice.toFixed(2), ...offerBase }
+      : {
+          '@type': 'AggregateOffer',
+          priceCurrency: currency,
+          lowPrice: minPrice.toFixed(2),
+          highPrice: maxPrice.toFixed(2),
+          ...offerBase,
+        },
+  }
+
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://swedensweet.com' },
+      { '@type': 'ListItem', position: 2, name: 'Catalog', item: 'https://swedensweet.com/catalog/usa' },
+      { '@type': 'ListItem', position: 3, name: product.title, item: `https://swedensweet.com/products/${handle}` },
+    ],
+  }
   const priceDisplay =
     minPrice === maxPrice
       ? minPrice.toFixed(2)
@@ -51,6 +95,8 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
 
   return (
     <div className="bg-[var(--bg)]">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <div className="section-px content-max" style={{ paddingTop: 40, paddingBottom: 80 }}>
 
         {/* Breadcrumb */}
@@ -121,6 +167,13 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
             <div style={{ marginBottom: 24 }}>
               <VariantSelector variants={product.variants} />
             </div>
+
+            {/* Notify me (out of stock) */}
+            {!product.availableForSale && (
+              <div style={{ marginBottom: 20 }}>
+                <NotifyMe productTitle={product.title} productHandle={product.handle} />
+              </div>
+            )}
 
             <Link
               href={`/contact?product=${encodeURIComponent(product.title)}`}

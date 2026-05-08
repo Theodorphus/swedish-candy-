@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Suspense } from 'react'
 import CatalogSearch from '@/components/CatalogSearch'
 import MarketToggle from '@/components/MarketToggle'
 import { getProducts, getProductsByTag } from '@/lib/shopify'
@@ -8,6 +9,7 @@ export const revalidate = 3600
 export const metadata = {
   title: 'USA Wholesale Candy Catalog — SwedenSweet',
   description: 'Browse 300+ Swedish candy SKUs available from our Santa Fe Springs, CA warehouse. Fast 3–5 day domestic shipping. BUBS, Malaco, Matthijs, Vidal and more.',
+  alternates: { canonical: 'https://swedensweet.com/catalog/usa' },
   openGraph: {
     title: 'USA Wholesale Candy Catalog — SwedenSweet',
     description: 'Browse 300+ Swedish candy SKUs. Fast 3–5 day domestic shipping from Santa Fe Springs, CA. No customs, no FDA hassle.',
@@ -43,7 +45,9 @@ export default async function UsaCatalogPage() {
 
       {/* Product grid */}
       <div className="section-px content-max" style={{ paddingTop: 48, paddingBottom: 48 }}>
-        <CatalogSearch products={products} />
+        <Suspense fallback={null}>
+          <CatalogSearch products={products} />
+        </Suspense>
       </div>
 
       {/* Bottom banners */}

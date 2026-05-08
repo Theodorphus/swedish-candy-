@@ -142,6 +142,7 @@ export async function submitApplication(
 
   if (!emailResult) {
     console.error('[apply] Admin email failed for application from:', email)
+    return { error: 'Your account was created but we could not send the admin notification. Please contact us directly at karen@thenordichype.com.' }
   }
 
   return { success: true }

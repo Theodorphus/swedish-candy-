@@ -136,6 +136,8 @@ export type ShopifyCustomer = {
   lastName: string | null
   email: string
   phone: string | null
+  numberOfOrders: number
+  tags: string[]
   orders: {
     id: string
     orderNumber: number
@@ -143,6 +145,7 @@ export type ShopifyCustomer = {
     financialStatus: string
     fulfillmentStatus: string
     currentTotalPrice: { amount: string; currencyCode: string }
+    lineItems: { variantId: string; quantity: number; title: string }[]
   }[]
 }
 
@@ -187,6 +190,8 @@ export async function getCustomer(accessToken: string): Promise<ShopifyCustomer 
         lastName
         email
         phone
+        numberOfOrders
+        tags
         orders(first: 10, sortKey: PROCESSED_AT, reverse: true) {
           nodes {
             id
@@ -195,6 +200,13 @@ export async function getCustomer(accessToken: string): Promise<ShopifyCustomer 
             financialStatus
             fulfillmentStatus
             currentTotalPrice { amount currencyCode }
+            lineItems(first: 50) {
+              nodes {
+                variant { id }
+                quantity
+                title
+              }
+            }
           }
         }
       }
@@ -204,7 +216,20 @@ export async function getCustomer(accessToken: string): Promise<ShopifyCustomer 
   if (errors || !data?.customer) return null
 
   const c = data.customer
-  return { ...c, orders: c.orders.nodes }
+  return {
+    ...c,
+    numberOfOrders: c.numberOfOrders ?? 0,
+    tags: c.tags ?? [],
+    orders: c.orders.nodes.map((o: {
+      lineItems: { nodes: { variant: { id: string } | null; quantity: number; title: string }[] }
+      [key: string]: unknown
+    }) => ({
+      ...o,
+      lineItems: o.lineItems.nodes
+        .filter((li) => li.variant?.id)
+        .map((li) => ({ variantId: li.variant!.id, quantity: li.quantity, title: li.title })),
+    })),
+  }
 }
 
 // ─── Password recovery ────────────────────────────────────────────────────
@@ -262,6 +287,39 @@ export async function customerLogout(accessToken: string): Promise<void> {
       }
     }
   `, { variables: { customerAccessToken: accessToken } })
+}
+
+export async function getProductsByVendor(vendor: string, first = 100): Promise<ShopifyProduct[]> {
+  const { data, errors } = await shopify.request(`
+    query ProductsByVendor($query: String!, $first: Int!) {
+      products(first: $first, query: $query) {
+        nodes { ${PRODUCT_FIELDS} }
+      }
+    }
+  `, { variables: { query: `vendor:"${vendor}"`, first } })
+
+  if (errors) return []
+  return data?.products?.nodes ?? []
+}
+
+export async function getVendors(first = 250): Promise<string[]> {
+  const { data, errors } = await shopify.request(`
+    query Vendors($first: Int!) {
+      products(first: $first) {
+        nodes { vendor }
+      }
+    }
+  `, { variables: { first } })
+
+  if (errors) return []
+  const nodes: { vendor: string }[] = data?.products?.nodes ?? []
+  const set = new Set<string>()
+  for (const n of nodes) {
+    if (n.vendor && !n.vendor.toLowerCase().includes('.store') && !n.vendor.toLowerCase().includes('.com') && n.vendor.toLowerCase() !== 'swedensweet') {
+      set.add(n.vendor)
+    }
+  }
+  return Array.from(set).sort()
 }
 
 export async function getCollections() {

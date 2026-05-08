@@ -1,17 +1,27 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import type { ShopifyProduct } from '@/lib/shopify'
 
 export default function ProductCard({ product, market = 'usa' }: { product: ShopifyProduct; market?: 'usa' | 'sweden' }) {
+  const router = useRouter()
   const price = parseFloat(product.priceRange.minVariantPrice.amount)
-  const [whole, dec] = price.toFixed(2).split('.')
+  const [whole, dec = '00'] = price.toFixed(2).split('.')
   const vendorIsStore = !product.vendor ||
     product.vendor.toLowerCase().includes('.store') ||
     product.vendor.toLowerCase().includes('.com') ||
     product.vendor.toLowerCase() === 'swedensweet'
 
+  const productHref = `/products/${product.handle}?from=${market}`
+
   return (
-    <Link href={`/products/${product.handle}?from=${market}`} className="product-card group">
+    <div
+      className="product-card group"
+      onClick={() => router.push(productHref)}
+      style={{ cursor: 'pointer' }}
+    >
       {/* Image */}
       <div className="relative aspect-square bg-[var(--bg-secondary)] overflow-hidden">
         {product.featuredImage ? (
@@ -40,9 +50,13 @@ export default function ProductCard({ product, market = 'usa' }: { product: Shop
       {/* Info */}
       <div style={{ padding: '14px 16px 16px', borderTop: '1px solid var(--border)' }}>
         {!vendorIsStore && (
-          <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '1.8px', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: 5 }}>
+          <Link
+            href={`/brands/${encodeURIComponent(product.vendor)}`}
+            onClick={(e) => e.stopPropagation()}
+            style={{ fontSize: 10, fontWeight: 700, letterSpacing: '1.8px', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: 5, textDecoration: 'none', display: 'block' }}
+          >
             {product.vendor}
-          </p>
+          </Link>
         )}
 
         <p style={{ fontSize: 13, fontWeight: 500, color: 'var(--text)', lineHeight: 1.4, marginBottom: 14, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
@@ -67,6 +81,6 @@ export default function ProductCard({ product, market = 'usa' }: { product: Shop
           )}
         </div>
       </div>
-    </Link>
+    </div>
   )
 }

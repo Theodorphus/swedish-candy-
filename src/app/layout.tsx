@@ -41,9 +41,37 @@ export const metadata: Metadata = {
   },
 }
 
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Sweden Sweet Corporation',
+  url: 'https://swedensweet.com',
+  logo: 'https://swedensweet.com/Favicon.png',
+  description: 'B2B wholesale partner for Swedish and European confectionery in the USA.',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'karen@thenordichype.com',
+    contactType: 'customer service',
+  },
+  address: [
+    {
+      '@type': 'PostalAddress',
+      addressLocality: 'Santa Fe Springs',
+      addressRegion: 'CA',
+      addressCountry: 'US',
+    },
+  ],
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+        />
+      </head>
       <body>
         <NavWrapper />
         {children}

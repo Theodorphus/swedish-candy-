@@ -14,7 +14,7 @@
   /* Typography */
   --text:           #1A0A0E;
   --text-secondary: #5C4A50;
-  --text-tertiary:  #A08890;
+  --text-tertiary:  #7A6570;
 
   /* Borders */
   --border:       #E8DEDE;
@@ -108,6 +108,10 @@ body {
   box-shadow: 0 4px 16px rgba(155,34,72,0.28);
   transform: translateY(-2px);
 }
+.btn-primary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
 
 .btn-secondary {
   display: inline-flex;
@@ -130,6 +134,10 @@ body {
   color: var(--accent);
   background: var(--accent-light);
   transform: translateY(-2px);
+}
+.btn-secondary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 /* White — for dark/accent section backgrounds */
@@ -155,6 +163,10 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(0,0,0,0.12);
 }
+.btn-white:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
 
 /* Ghost — on accent backgrounds only */
 .btn-ghost {
@@ -177,6 +189,10 @@ body {
   background: rgba(255,255,255,0.20);
   border-color: rgba(255,255,255,0.50);
   transform: translateY(-2px);
+}
+.btn-ghost:focus-visible {
+  outline: 2px solid rgba(255,255,255,0.8);
+  outline-offset: 3px;
 }
 
 /* ─── Badge ───────────────────────────────────────── */

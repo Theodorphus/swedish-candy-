@@ -11,7 +11,7 @@ export default function CartLineItem({ line }: { line: CartLine }) {
   const { merchandise } = line
   const price = parseFloat(merchandise.price.amount)
   const lineTotal = (price * line.quantity).toFixed(2)
-  const [ltWhole, ltDec] = lineTotal.split('.')
+  const [ltWhole, ltDec = '00'] = lineTotal.split('.')
 
   function handleQuantity(newQty: number) {
     startTransition(() => updateCartLine(line.id, newQty))

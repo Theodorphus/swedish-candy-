@@ -1,13 +1,30 @@
 import Link from 'next/link'
+import { cookies } from 'next/headers'
 import { getCurrentCart, proceedToCheckout } from './actions'
 import CartLineItem from './CartLineItem'
+import { getCustomer } from '@/lib/shopify'
 
 export const metadata = {
   title: 'Cart — SwedenSweet',
   robots: { index: false },
 }
 
+function getNetTerms(numberOfOrders: number, tags: string[]): string | null {
+  if (tags.includes('wholesale_pending')) return null
+  if (numberOfOrders >= 3) {
+    if (numberOfOrders >= 10) return 'NET-45'
+    if (numberOfOrders >= 6) return 'NET-30'
+    return 'NET-15'
+  }
+  return null
+}
+
 export default async function CartPage() {
+  const cookieStore = await cookies()
+  const token = cookieStore.get('shopify_customer_token')?.value
+  const customer = token ? await getCustomer(token) : null
+  const netTerms = customer ? getNetTerms(customer.numberOfOrders, customer.tags) : null
+
   const cart = await getCurrentCart()
   const isEmpty = !cart || cart.lines.length === 0
 
@@ -83,6 +100,14 @@ export default async function CartPage() {
                   <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>B2B discount</span>
                   <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>Applied at checkout</span>
                 </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>Payment terms</span>
+                  {netTerms ? (
+                    <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--accent)' }}>{netTerms}</span>
+                  ) : (
+                    <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>{customer ? 'Due at checkout' : 'Sign in to view'}</span>
+                  )}
+                </div>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
@@ -92,7 +117,7 @@ export default async function CartPage() {
                   <span className="price-num display" style={{ fontSize: 32, color: 'var(--accent)', lineHeight: 1 }}>
                     {total.split('.')[0]}
                   </span>
-                  <span className="price-dec" style={{ fontSize: 15 }}>.{total.split('.')[1]}</span>
+                  <span className="price-dec" style={{ fontSize: 15 }}>.{total.split('.')[1] ?? '00'}</span>
                   <span style={{ fontSize: 10, fontWeight: 600, color: 'var(--text-tertiary)', letterSpacing: '1px', textTransform: 'uppercase', marginLeft: 6, alignSelf: 'flex-end', paddingBottom: 3 }}>{currency}</span>
                 </div>
               </div>

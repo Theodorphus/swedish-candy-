@@ -51,10 +51,13 @@ export default function AboutPage() {
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.85 }}>
-                Sweden Sweet Corporation is operated by two owners with a genuine passion for premium candy and many years of experience in retail, grocery, and candy stores. Our journey began in the retail world, where we built and operated food stores and candy shops ourselves.
+                Sweden Sweet Corporation is a modern wholesale partner specializing in Swedish and European confectionery. The company is operated by two owners with a genuine passion for premium candy and many years of experience in retail, grocery, and candy stores.
               </p>
               <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.85 }}>
-                That experience gave us a deep understanding of what our customers truly need: the right products, reliable deliveries, clear terms, and a partner who understands the market from the inside out. Over time, our business evolved from retail into wholesale — with one clear mission: to make it easier for stores, online retailers, and businesses to source Swedish and European candy in a safe, efficient, and profitable way.
+                Our journey began in the retail world, where we built and operated food stores and candy shops ourselves. That experience gave us a deep understanding of what our customers truly need: the right products, reliable deliveries, clear terms, and a partner who understands the market from the inside out.
+              </p>
+              <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.85 }}>
+                Over time, our business evolved from retail into wholesale — with one clear mission: to make it easier for stores, online retailers, and businesses to source Swedish and European candy in a safe, efficient, and profitable way.
               </p>
             </div>
           </section>
@@ -126,7 +129,7 @@ export default function AboutPage() {
               {[
                 {
                   title: 'Wholesale',
-                  body: 'Full catalog access from two warehouses. Competitive pricing, flexible MOQs ($300 minimum), and NET-15 to NET-45 payment terms for approved accounts.',
+                  body: 'Full catalog access from two warehouses. We help our customers with everything from purchasing and importing to finished candy mixes and customized solutions — whether you operate a physical store, sell online, or already offer ready-made candy mixes.',
                 },
                 {
                   title: 'Co-packing',
@@ -134,7 +137,7 @@ export default function AboutPage() {
                 },
                 {
                   title: 'Private label',
-                  body: 'Want to create Swedish candy under your own brand? Thanks to our established relationships with Sweden\'s leading candy manufacturers, we can help you develop products tailored to your brand — from concept and product selection through production, import, and final delivery.',
+                  body: 'Want to create Swedish candy under your own brand? Thanks to our established relationships with many of Sweden\'s leading candy manufacturers, we can help you develop products tailored to your brand — from concept and product selection through production, import, and final delivery.',
                 },
               ].map(({ title, body }) => (
                 <div key={title} style={{ borderLeft: '2px solid var(--accent)', paddingLeft: 20 }}>
@@ -143,6 +146,17 @@ export default function AboutPage() {
                 </div>
               ))}
             </div>
+          </section>
+
+          {/* Our strength */}
+          <section>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: 'var(--accent)', marginBottom: 16 }}>Our strength</p>
+            <h2 style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: 700, color: 'var(--text)', marginBottom: 20, lineHeight: 1.25 }}>
+              More than a wholesaler
+            </h2>
+            <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.85 }}>
+              With Sweden Sweet, you get a partner who understands retail, e-commerce, import, logistics, and customer expectations. We combine Swedish product quality with a strong U.S. presence, reliable logistics, and a complete solution that allows you to focus on what matters most: growing your business.
+            </p>
           </section>
 
           {/* CTA */}
