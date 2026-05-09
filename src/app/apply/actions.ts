@@ -57,7 +57,6 @@ export async function submitApplication(
         firstName,
         lastName,
         email,
-        ...(phone && { phone }),
         password,
         acceptsMarketing: false,
       },
