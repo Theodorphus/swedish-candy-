@@ -39,8 +39,8 @@ export async function submitApplication(
   if (password !== confirmPassword) {
     return { error: 'Passwords do not match.' }
   }
-  if (password.length < 5) {
-    return { error: 'Password must be at least 5 characters.' }
+  if (password.length < 8) {
+    return { error: 'Password must be at least 8 characters.' }
   }
 
   // ── 2. Create customer via Storefront API ──────────────────────
@@ -72,7 +72,7 @@ export async function submitApplication(
   if (userErrors.length > 0) {
     const code = userErrors[0].code
     if (code === 'TAKEN')             return { error: 'An account with this email already exists.' }
-    if (code === 'PASSWORD_TOO_SHORT') return { error: 'Password must be at least 5 characters.' }
+    if (code === 'PASSWORD_TOO_SHORT') return { error: 'Password must be at least 8 characters.' }
     return { error: userErrors[0].message }
   }
 
@@ -109,7 +109,9 @@ export async function submitApplication(
         },
         body: JSON.stringify({ customer: { id: numericId, tags } }),
       }
-    )
+    ).catch((err) => {
+      console.error('[apply] Failed to tag customer in Shopify Admin:', err)
+    })
   }
 
   // ── 4. Notify admin via email ─────────────────────────────────
@@ -133,7 +135,7 @@ export async function submitApplication(
       `Est. monthly: ${estimatedMonthly || '—'}`,
       ``,
       `Go to Shopify Admin to review and approve:`,
-      `https://admin.shopify.com/store/vv4yu4-cj/customers`,
+      process.env.SHOPIFY_ADMIN_CUSTOMERS_URL ?? `https://admin.shopify.com/store/vv4yu4-cj/customers`,
     ].join('\n'),
   }).catch((err) => {
     console.error('[apply] Failed to send admin notification email:', err)

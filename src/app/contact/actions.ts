@@ -12,7 +12,7 @@ export async function submitContact(
 ): Promise<ContactState> {
   const name = (formData.get('name') as string).trim()
   const email = (formData.get('email') as string).trim()
-  const subject = ((formData.get('subject') as string) || '').trim()
+  const subject = ((formData.get('subject') as string) || '').trim().replace(/[\r\n]+/g, ' ')
   const message = (formData.get('message') as string).trim()
 
   if (!name || !email || !message) {

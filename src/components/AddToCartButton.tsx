@@ -11,6 +11,7 @@ type Props = {
 export default function AddToCartButton({ variantId, availableForSale }: Props) {
   const [isPending, startTransition] = useTransition()
   const [added, setAdded] = useState(false)
+  const [error, setError] = useState(false)
 
   function handleAddToCart() {
     startTransition(async () => {
@@ -18,6 +19,9 @@ export default function AddToCartButton({ variantId, availableForSale }: Props) 
       if (result.success) {
         setAdded(true)
         setTimeout(() => setAdded(false), 2000)
+      } else {
+        setError(true)
+        setTimeout(() => setError(false), 3000)
       }
     })
   }
@@ -55,7 +59,7 @@ export default function AddToCartButton({ variantId, availableForSale }: Props) 
         borderRadius: 8,
         fontSize: 14,
         fontWeight: 500,
-        background: added ? '#2D7A3A' : isPending ? 'var(--text-secondary)' : 'var(--accent)',
+        background: added ? '#2D7A3A' : error ? '#c0392b' : isPending ? 'var(--text-secondary)' : 'var(--accent)',
         color: '#fff',
         border: 'none',
         cursor: isPending ? 'not-allowed' : 'pointer',
@@ -63,7 +67,7 @@ export default function AddToCartButton({ variantId, availableForSale }: Props) 
         fontFamily: 'inherit',
       }}
     >
-      {added ? '✓ Added to cart' : isPending ? 'Adding…' : 'Add to cart'}
+      {added ? '✓ Added to cart' : error ? 'Failed — try again' : isPending ? 'Adding…' : 'Add to cart'}
     </button>
   )
 }

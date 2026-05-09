@@ -17,7 +17,8 @@ export default async function AccountPage() {
 
   // Validate token expiry from cookie (set to Shopify expiresAt on login)
   const tokenExpiry = cookieStore.get('shopify_customer_token_expires')?.value
-  if (tokenExpiry && new Date(tokenExpiry) < new Date()) {
+  const expiryDate = tokenExpiry ? new Date(tokenExpiry) : null
+  if (expiryDate && !isNaN(expiryDate.getTime()) && expiryDate < new Date()) {
     cookieStore.delete('shopify_customer_token')
     cookieStore.delete('shopify_customer_token_expires')
     redirect('/login')

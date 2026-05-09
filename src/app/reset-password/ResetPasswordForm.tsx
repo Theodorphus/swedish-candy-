@@ -40,7 +40,8 @@ export default function ResetPasswordForm({ resetUrl }: { resetUrl: string }) {
             required
             autoComplete="new-password"
             style={inputStyle}
-            placeholder="At least 5 characters"
+            minLength={8}
+            placeholder="At least 8 characters"
           />
         </div>
 

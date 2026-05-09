@@ -222,7 +222,12 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
                 </p>
                 <div
                   style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.8 }}
-                  dangerouslySetInnerHTML={{ __html: product.descriptionHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') }}
+                  dangerouslySetInnerHTML={{ __html: product.descriptionHtml
+                    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+                    .replace(/<iframe\b[^>]*>.*?<\/iframe>/gi, '')
+                    .replace(/<(?:object|embed|form)\b[^>]*>.*?<\/(?:object|embed|form)>/gi, '')
+                    .replace(/\bon\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+                    .replace(/javascript\s*:/gi, '') }}
                 />
               </div>
             )}

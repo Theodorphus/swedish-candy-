@@ -18,8 +18,8 @@ export async function reorder(lineItems: { variantId: string; quantity: number }
   if (cartId) {
     const existing = await getCart(cartId)
     if (existing) {
-      await cartLinesAdd(cartId, lines)
-      redirect('/cart')
+      const updated = await cartLinesAdd(cartId, lines)
+      if (updated) redirect('/cart')
     }
   }
 
