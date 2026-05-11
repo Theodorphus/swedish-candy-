@@ -23,13 +23,13 @@ export async function generateMetadata(
   if (!product) return {}
   return {
     title: `${product.title} — SwedenSweet`,
-    description: product.description.slice(0, 160),
+    description: (product.description ?? '').slice(0, 160),
     alternates: {
       canonical: `https://swedensweet.com/products/${handle}`,
     },
     openGraph: {
       title: `${product.title} — SwedenSweet`,
-      description: product.description.slice(0, 160),
+      description: (product.description ?? '').slice(0, 160),
       images: product.featuredImage ? [{ url: product.featuredImage.url, width: 800, height: 800 }] : [{ url: '/OG.png', width: 1200, height: 630 }],
     },
   }
@@ -80,7 +80,7 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
   const priceDisplay =
     minPrice === maxPrice
       ? minPrice.toFixed(2)
-      : `${minPrice.toFixed(2)} – $${maxPrice.toFixed(2)}`
+      : `${minPrice.toFixed(2)} – ${maxPrice.toFixed(2)}`
 
   const galleryImages = product.images.length > 0
     ? product.images
@@ -222,7 +222,12 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
                 </p>
                 <div
                   style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.8 }}
-                  dangerouslySetInnerHTML={{ __html: product.descriptionHtml.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '') }}
+                  dangerouslySetInnerHTML={{ __html: product.descriptionHtml
+                    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+                    .replace(/<iframe\b[^>]*>.*?<\/iframe>/gi, '')
+                    .replace(/<(?:object|embed|form)\b[^>]*>.*?<\/(?:object|embed|form)>/gi, '')
+                    .replace(/\bon\w+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi, '')
+                    .replace(/javascript\s*:/gi, '') }}
                 />
               </div>
             )}

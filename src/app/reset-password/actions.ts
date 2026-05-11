@@ -18,10 +18,11 @@ export async function resetPassword(
 
   if (!resetUrl || !password) return { error: 'Invalid reset link.' }
   if (password !== confirm) return { error: 'Passwords do not match.' }
-  if (password.length < 5) return { error: 'Password must be at least 5 characters.' }
+  if (password.length < 8) return { error: 'Password must be at least 8 characters.' }
 
   const result = await customerResetByUrl(resetUrl, password)
   if ('error' in result) return { error: result.error }
+  if (!result.accessToken || !result.expiresAt) return { error: 'Reset failed. Please try again.' }
 
   const cookieStore = await cookies()
   cookieStore.set('shopify_customer_token', result.accessToken, {

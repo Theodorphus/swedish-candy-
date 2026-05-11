@@ -36,7 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     brandRoutes = [
       { url: `${base}/brands`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.7 },
       ...vendors.map((v) => ({
-        url: `${base}/brands/${v}`,
+        url: `${base}/brands/${encodeURIComponent(v)}`,
         lastModified: new Date(),
         changeFrequency: 'weekly' as const,
         priority: 0.6,

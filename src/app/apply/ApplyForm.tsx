@@ -137,8 +137,8 @@ export default function ApplyForm() {
               Password <span style={{ color: 'var(--accent)' }}>*</span>
             </label>
             <input
-              id="password" name="password" type="password" required minLength={5}
-              className="input" placeholder="Min. 5 characters"
+              id="password" name="password" type="password" required minLength={8}
+              className="input" placeholder="Min. 8 characters"
               value={pw} onChange={e => setPw(e.target.value)}
             />
           </div>
@@ -147,7 +147,7 @@ export default function ApplyForm() {
               Confirm password <span style={{ color: 'var(--accent)' }}>*</span>
             </label>
             <input
-              id="confirmPassword" name="confirmPassword" type="password" required minLength={5}
+              id="confirmPassword" name="confirmPassword" type="password" required minLength={8}
               className="input" placeholder="Repeat password"
               value={confirmPw} onChange={e => setConfirmPw(e.target.value)}
               style={pwMismatch ? { borderColor: '#E53935' } : undefined}

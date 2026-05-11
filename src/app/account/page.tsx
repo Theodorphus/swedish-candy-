@@ -17,7 +17,8 @@ export default async function AccountPage() {
 
   // Validate token expiry from cookie (set to Shopify expiresAt on login)
   const tokenExpiry = cookieStore.get('shopify_customer_token_expires')?.value
-  if (tokenExpiry && new Date(tokenExpiry) < new Date()) {
+  const expiryDate = tokenExpiry ? new Date(tokenExpiry) : null
+  if (expiryDate && !isNaN(expiryDate.getTime()) && expiryDate < new Date()) {
     cookieStore.delete('shopify_customer_token')
     cookieStore.delete('shopify_customer_token_expires')
     redirect('/login')
@@ -61,7 +62,7 @@ export default async function AccountPage() {
             {customer.orders.length === 0 ? (
               <div style={{ background: 'var(--bg-secondary)', border: '0.5px solid var(--border)', borderRadius: 10, padding: '40px 24px', textAlign: 'center' }}>
                 <p style={{ fontSize: 14, color: 'var(--text-secondary)', marginBottom: 16 }}>No orders yet.</p>
-                <Link href="/catalog" style={{ fontSize: 13, color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>
+                <Link href="/catalog/usa" style={{ fontSize: 13, color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>
                   Browse catalog →
                 </Link>
               </div>
@@ -153,7 +154,7 @@ export default async function AccountPage() {
               <div style={{ fontSize: 13, fontWeight: 500, marginBottom: 14 }}>Quick links</div>
               <div className="flex flex-col gap-2">
                 {[
-                  { label: 'Browse catalog', href: '/catalog' },
+                  { label: 'Browse catalog', href: '/catalog/usa' },
                   { label: 'Contact us', href: '/contact' },
                 ].map((l) => (
                   <Link key={l.href} href={l.href} style={{ fontSize: 13, color: 'var(--accent)', textDecoration: 'none' }}>

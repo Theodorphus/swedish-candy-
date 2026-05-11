@@ -39,8 +39,8 @@ export async function submitApplication(
   if (password !== confirmPassword) {
     return { error: 'Passwords do not match.' }
   }
-  if (password.length < 5) {
-    return { error: 'Password must be at least 5 characters.' }
+  if (password.length < 8) {
+    return { error: 'Password must be at least 8 characters.' }
   }
 
   // ── 2. Create customer via Storefront API ──────────────────────
@@ -57,7 +57,6 @@ export async function submitApplication(
         firstName,
         lastName,
         email,
-        ...(phone && { phone }),
         password,
         acceptsMarketing: false,
       },
@@ -72,7 +71,7 @@ export async function submitApplication(
   if (userErrors.length > 0) {
     const code = userErrors[0].code
     if (code === 'TAKEN')             return { error: 'An account with this email already exists.' }
-    if (code === 'PASSWORD_TOO_SHORT') return { error: 'Password must be at least 5 characters.' }
+    if (code === 'PASSWORD_TOO_SHORT') return { error: 'Password must be at least 8 characters.' }
     return { error: userErrors[0].message }
   }
 
@@ -86,7 +85,7 @@ export async function submitApplication(
   // If the token is missing we still return success — tagging can be done
   // manually in Shopify Admin until the token is configured.
   const adminToken = process.env.SHOPIFY_ADMIN_TOKEN
-  const storeDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!
+  const storeDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN ?? ''
 
   if (adminToken) {
     const numericId = customerId.replace('gid://shopify/Customer/', '')
@@ -109,7 +108,9 @@ export async function submitApplication(
         },
         body: JSON.stringify({ customer: { id: numericId, tags } }),
       }
-    )
+    ).catch((err) => {
+      console.error('[apply] Failed to tag customer in Shopify Admin:', err)
+    })
   }
 
   // ── 4. Notify admin via email ─────────────────────────────────
@@ -133,7 +134,7 @@ export async function submitApplication(
       `Est. monthly: ${estimatedMonthly || '—'}`,
       ``,
       `Go to Shopify Admin to review and approve:`,
-      `https://admin.shopify.com/store/vv4yu4-cj/customers`,
+      process.env.SHOPIFY_ADMIN_CUSTOMERS_URL ?? `https://admin.shopify.com/store/${storeDomain.split('.')[0]}/customers`,
     ].join('\n'),
   }).catch((err) => {
     console.error('[apply] Failed to send admin notification email:', err)
@@ -142,7 +143,6 @@ export async function submitApplication(
 
   if (!emailResult) {
     console.error('[apply] Admin email failed for application from:', email)
-    return { error: 'Your account was created but we could not send the admin notification. Please contact us directly at karen@thenordichype.com.' }
   }
 
   return { success: true }

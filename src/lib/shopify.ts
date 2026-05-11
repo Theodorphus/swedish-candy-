@@ -226,8 +226,8 @@ export async function getCustomer(accessToken: string): Promise<ShopifyCustomer 
     }) => ({
       ...o,
       lineItems: o.lineItems.nodes
-        .filter((li) => li.variant?.id)
-        .map((li) => ({ variantId: li.variant!.id, quantity: li.quantity, title: li.title })),
+        .filter((li): li is { variant: { id: string }; quantity: number; title: string } => !!li.variant?.id)
+        .map((li) => ({ variantId: li.variant.id, quantity: li.quantity, title: li.title })),
     })),
   }
 }
@@ -296,7 +296,7 @@ export async function getProductsByVendor(vendor: string, first = 100): Promise<
         nodes { ${PRODUCT_FIELDS} }
       }
     }
-  `, { variables: { query: `vendor:"${vendor}"`, first } })
+  `, { variables: { query: `vendor:"${vendor.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`, first } })
 
   if (errors) return []
   return data?.products?.nodes ?? []

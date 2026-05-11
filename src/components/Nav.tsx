@@ -8,7 +8,6 @@ import MarketToggle from './MarketToggle'
 const links = [
   { label: 'Catalog',  href: '/catalog' },
   { label: 'Brands',   href: '/brands' },
-  { label: 'Pricing',  href: '/#pricing' },
   { label: 'About',    href: '/about' },
   { label: 'Contact',  href: '/contact' },
 ]
@@ -26,7 +25,6 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
       const catalogPath = market === 'sweden' ? '/catalog/sweden' : '/catalog/usa'
       router.push(`${catalogPath}?q=${encodeURIComponent(query.trim())}`)
       setQuery('')
-      setSearching(false)
     }
   }
 

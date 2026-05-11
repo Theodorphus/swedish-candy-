@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { customerLogin } from '@/lib/shopify'
+import { customerLogin, customerLogout } from '@/lib/shopify'
 
 export type LoginState = { error?: string }
 
@@ -45,7 +45,9 @@ export async function login(
 
 export async function logout(): Promise<void> {
   const cookieStore = await cookies()
+  const token = cookieStore.get('shopify_customer_token')?.value
   cookieStore.delete('shopify_customer_token')
   cookieStore.delete('shopify_customer_token_expires')
+  if (token) await customerLogout(token).catch(() => {})
   redirect('/')
 }
