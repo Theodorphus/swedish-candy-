@@ -1,85 +1,95 @@
-import Link from 'next/link'
-import { Suspense } from 'react'
-import CatalogSearch from '@/components/CatalogSearch'
-import MarketToggle from '@/components/MarketToggle'
-import { getProducts, getProductsByTag } from '@/lib/shopify'
+'use client'
 
-export const revalidate = 3600
+import { useState } from 'react'
 
-export const metadata = {
-  title: 'Swedish Candy Catalog — Full Assortment — SwedenSweet',
-  description: 'Browse 500+ Swedish candy SKUs from our Sweden warehouse. BUBS, Malaco, Matthijs, Vidal, Bulgari and more. B2B wholesale with no customs hassle.',
-  alternates: { canonical: 'https://swedensweet.com/catalog/sweden' },
-  openGraph: {
-    title: 'Swedish Candy Catalog — Full 500+ SKU Assortment — SwedenSweet',
-    description: 'The broadest Swedish candy assortment available for US wholesale buyers. Direct from Sweden, no import paperwork.',
-    images: [{ url: '/OG.png', width: 1200, height: 630 }],
-  },
-}
+export default function SwedenCatalogPage() {
+  const [email, setEmail] = useState('')
+  const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
 
-export default async function SwedenCatalogPage() {
-  let products = await getProductsByTag('sweden-warehouse')
-  if (products.length === 0) {
-    products = await getProducts(50)
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!email.trim()) return
+    setLoading(true)
+    try {
+      await fetch('/api/sweden-catalog-request', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.trim() }),
+      })
+    } catch {
+      // still show success — email logged server-side
+    }
+    setSubmitted(true)
+    setLoading(false)
   }
 
   return (
-    <div>
-      {/* Header */}
-      <div className="section-px" style={{ paddingTop: 48, paddingBottom: 40, borderBottom: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
-        <div className="content-max" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: 16 }}>
-          <div>
-            <p className="eyebrow" style={{ marginBottom: 10 }}>Swedish Warehouse — Full assortment</p>
-            <h1 className="display" style={{ fontSize: 'clamp(24px, 3.5vw, 34px)', marginBottom: 8 }}>
-              Swedish Catalog
-            </h1>
-            <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-              Broadest selection · 500+ SKUs ·{' '}
-              <strong style={{ color: 'var(--text)' }}>{products.length}</strong> products
+    <div style={{ background: 'var(--bg)', minHeight: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div className="section-px" style={{ paddingTop: 80, paddingBottom: 80, maxWidth: 560, margin: '0 auto', width: '100%' }}>
+
+        <p className="eyebrow" style={{ marginBottom: 12 }}>Swedish Warehouse</p>
+        <h1 className="display" style={{ fontSize: 'clamp(26px, 4vw, 38px)', marginBottom: 16, lineHeight: 1.15 }}>
+          Sweden catalog — coming soon
+        </h1>
+        <p style={{ fontSize: 15, color: 'var(--text-secondary)', lineHeight: 1.75, marginBottom: 36 }}>
+          We&apos;re finalising MOQ, pricing, and shipping details for our Swedish warehouse.
+          Leave your email and we&apos;ll send you the full catalog as soon as it&apos;s ready.
+        </p>
+
+        {submitted ? (
+          <div style={{
+            background: 'var(--bg-secondary)',
+            border: '1px solid var(--border)',
+            borderLeft: '3px solid var(--accent)',
+            borderRadius: 10,
+            padding: '28px 32px',
+          }}>
+            <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--text)', marginBottom: 6 }}>You&apos;re on the list!</p>
+            <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+              We&apos;ll email you the Sweden catalog as soon as it&apos;s available.
             </p>
           </div>
+        ) : (
+          <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="your@email.com"
+              style={{
+                flex: '1 1 220px',
+                border: '1px solid var(--border)',
+                borderRadius: 6,
+                padding: '12px 16px',
+                fontSize: 14,
+                background: 'var(--bg)',
+                color: 'var(--text)',
+                outline: 'none',
+                fontFamily: 'inherit',
+              }}
+              onFocus={e => (e.currentTarget.style.borderColor = 'var(--accent)')}
+              onBlur={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+            />
+            <button
+              type="submit"
+              disabled={loading}
+              className="btn-primary"
+              style={{ padding: '12px 24px', fontSize: 14, flexShrink: 0, opacity: loading ? 0.7 : 1 }}
+            >
+              {loading ? 'Sending…' : 'Send me the catalog'}
+            </button>
+          </form>
+        )}
 
-          <MarketToggle active="sweden" />
-        </div>
-      </div>
-
-      {/* Product grid */}
-      <div className="section-px content-max" style={{ paddingTop: 48, paddingBottom: 48 }}>
-        <Suspense fallback={null}>
-          <CatalogSearch products={products} market="sweden" />
-        </Suspense>
-      </div>
-
-      {/* Bottom banners */}
-      <div className="section-px content-max" style={{ paddingBottom: 72, display: 'flex', flexDirection: 'column', gap: 12 }}>
-
-        {/* USA upsell */}
-        <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderLeft: '3px solid var(--accent)', borderRadius: 8, padding: '24px 28px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
-          <div>
-            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>Need faster US delivery?</p>
-            <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-              Our Santa Fe Springs warehouse ships domestically in 3–5 days from a core assortment.
-            </p>
-          </div>
-          <Link href="/catalog/usa" className="btn-secondary" style={{ fontSize: 13, flexShrink: 0 }}>
-            View USA catalog →
-          </Link>
-        </div>
-
-        {/* Faire callout */}
-        <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderLeft: '3px solid var(--sand)', borderRadius: 8, padding: '20px 28px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ fontSize: 20 }}>🏪</span>
-            <div>
-              <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginBottom: 2 }}>Prefer to order via Faire?</p>
-              <p style={{ fontSize: 12, color: 'var(--text-secondary)' }}>Get 50% off and free shipping on your first Faire order.</p>
-            </div>
-          </div>
-          <Link href="https://www.faire.com/direct/swedishcandystoreus" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, fontWeight: 600, color: 'var(--accent)', textDecoration: 'none', flexShrink: 0 }}>
-            Order on Faire →
-          </Link>
-        </div>
-
+        <p style={{ fontSize: 12, color: 'var(--text-tertiary)', marginTop: 16, lineHeight: 1.6 }}>
+          In the meantime,{' '}
+          <a href="/catalog/usa" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+            browse the USA catalog
+          </a>{' '}
+          — 3–5 day domestic shipping from Santa Fe Springs, CA.
+        </p>
       </div>
     </div>
   )

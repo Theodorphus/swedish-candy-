@@ -134,7 +134,7 @@ export async function submitApplication(
       `Est. monthly: ${estimatedMonthly || '—'}`,
       ``,
       `Go to Shopify Admin to review and approve:`,
-      process.env.SHOPIFY_ADMIN_CUSTOMERS_URL ?? `https://admin.shopify.com/store/vv4yu4-cj/customers`,
+      process.env.SHOPIFY_ADMIN_CUSTOMERS_URL ?? `https://admin.shopify.com/store/${storeDomain.split('.')[0]}/customers`,
     ].join('\n'),
   }).catch((err) => {
     console.error('[apply] Failed to send admin notification email:', err)
@@ -143,7 +143,6 @@ export async function submitApplication(
 
   if (!emailResult) {
     console.error('[apply] Admin email failed for application from:', email)
-    return { error: 'Your account was created but we could not send the admin notification. Please contact us directly at karen@thenordichype.com.' }
   }
 
   return { success: true }

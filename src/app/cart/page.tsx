@@ -11,11 +11,9 @@ export const metadata = {
 
 function getNetTerms(numberOfOrders: number, tags: string[]): string | null {
   if (tags.includes('wholesale_pending')) return null
-  if (numberOfOrders >= 3) {
-    if (numberOfOrders >= 10) return 'NET-45'
-    if (numberOfOrders >= 6) return 'NET-30'
-    return 'NET-15'
-  }
+  if (tags.includes('enterprise')) return 'NET-45'
+  if (tags.includes('preferred')) return 'NET-30'
+  if (numberOfOrders >= 3) return 'NET-15'
   return null
 }
 

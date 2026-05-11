@@ -80,7 +80,7 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
   const priceDisplay =
     minPrice === maxPrice
       ? minPrice.toFixed(2)
-      : `${minPrice.toFixed(2)} – $${maxPrice.toFixed(2)}`
+      : `${minPrice.toFixed(2)} – ${maxPrice.toFixed(2)}`
 
   const galleryImages = product.images.length > 0
     ? product.images

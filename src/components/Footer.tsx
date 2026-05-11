@@ -3,11 +3,10 @@
 import Link from 'next/link'
 
 const navLinks = [
-  { label: 'USA Catalog',    href: '/catalog/usa' },
-  { label: 'Sweden Catalog', href: '/catalog/sweden' },
-  { label: 'Apply',          href: '/apply' },
-  { label: 'About',          href: '/about' },
-  { label: 'Contact',        href: '/contact' },
+  { label: 'USA Catalog', href: '/catalog/usa' },
+  { label: 'Apply',       href: '/apply' },
+  { label: 'About',       href: '/about' },
+  { label: 'Contact',     href: '/contact' },
 ]
 
 const legalLinks = [
@@ -102,10 +101,6 @@ export default function Footer() {
               <div style={{ paddingLeft: 12, borderLeft: '2px solid var(--accent)' }}>
                 <p style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF', marginBottom: 4 }}>Santa Fe Springs, CA — USA</p>
                 <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>3–5 day domestic shipping</p>
-              </div>
-              <div style={{ paddingLeft: 12, borderLeft: '2px solid var(--sand)' }}>
-                <p style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF', marginBottom: 4 }}>Sweden</p>
-                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>500+ SKU full assortment</p>
               </div>
             </div>
           </div>

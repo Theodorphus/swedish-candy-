@@ -53,19 +53,6 @@ export default async function UsaCatalogPage() {
       {/* Bottom banners */}
       <div className="section-px content-max" style={{ paddingBottom: 72, display: 'flex', flexDirection: 'column', gap: 12 }}>
 
-        {/* Sweden upsell */}
-        <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderLeft: '3px solid var(--accent)', borderRadius: 8, padding: '24px 28px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
-          <div>
-            <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>Looking for a wider selection?</p>
-            <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>
-              Our Swedish warehouse carries 500+ SKUs — broader selection, same seamless import process.
-            </p>
-          </div>
-          <Link href="/catalog/sweden" className="btn-secondary" style={{ fontSize: 13, flexShrink: 0 }}>
-            View Swedish catalog →
-          </Link>
-        </div>
-
         {/* Faire callout */}
         <div style={{ background: 'var(--bg)', border: '1px solid var(--border)', borderLeft: '3px solid var(--sand)', borderRadius: 8, padding: '20px 28px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>

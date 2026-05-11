@@ -203,7 +203,7 @@ export default async function Home() {
       {/* ══ WAREHOUSES ════════════════════════════════════════ */}
       <section style={{ borderBottom: '1px solid var(--border)' }}>
         <div className="section-px content-max" style={{ paddingTop: 'clamp(48px, 8vw, 88px)', paddingBottom: 'clamp(48px, 8vw, 88px)' }}>
-          <SectionHeader eyebrow="Fulfillment" title="Two warehouses, one catalog" />
+          <SectionHeader eyebrow="Fulfillment" title="USA warehouse" />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5" style={{ maxWidth: 760 }}>
             {/* USA */}
@@ -231,32 +231,6 @@ export default async function Home() {
               </p>
               <Link href="/catalog/usa" className="btn-primary" style={{ fontSize: 13, padding: '10px 22px' }}>
                 Shop USA catalog →
-              </Link>
-            </div>
-            </ScrollReveal>
-
-            {/* Sweden */}
-            <ScrollReveal delay={120}>
-            <div
-              className="warehouse-card"
-              style={{
-                background: 'var(--bg)',
-                border: '1px solid var(--border)',
-                borderTop: '3px solid var(--sand)',
-                borderRadius: 8,
-                padding: '36px 32px',
-                boxShadow: 'var(--shadow-sm)',
-              }}
-            >
-              <p className="eyebrow-muted" style={{ marginBottom: 12 }}>Swedish Warehouse</p>
-              <h3 className="display" style={{ fontSize: 22, color: 'var(--text)', marginBottom: 10 }}>
-                Sweden
-              </h3>
-              <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: 28 }}>
-                Full 500+ SKU assortment. Broader selection, competitive pricing.
-              </p>
-              <Link href="/catalog/sweden" className="btn-secondary" style={{ fontSize: 13, padding: '10px 22px' }}>
-                Shop Sweden catalog →
               </Link>
             </div>
             </ScrollReveal>
@@ -334,8 +308,8 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ══ PRICING ════════════════════════════════════════════ */}
-      <section id="pricing" style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
+      {/* ══ PRICING — hidden until pricing/MOQ is finalised ══════ */}
+      {false && <section id="pricing" style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
         <div className="section-px content-max" style={{ paddingTop: 'clamp(48px, 8vw, 88px)', paddingBottom: 'clamp(48px, 8vw, 88px)' }}>
           <SectionHeader
             eyebrow="Pricing"
@@ -512,7 +486,7 @@ export default async function Home() {
             ))}
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* ══ WHY US ══════════════════════════════════════════════ */}
       <section style={{
