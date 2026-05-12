@@ -10,10 +10,10 @@ export async function submitContact(
   _prevState: ContactState,
   formData: FormData
 ): Promise<ContactState> {
-  const name = (formData.get('name') as string).trim().replace(/[\r\n]+/g, ' ')
-  const email = (formData.get('email') as string).trim()
-  const subject = ((formData.get('subject') as string) || '').trim().replace(/[\r\n]+/g, ' ')
-  const message = (formData.get('message') as string).trim().replace(/[\r\n]{3,}/g, '\n\n')
+  const name = ((formData.get('name') as string) ?? '').trim().replace(/[\r\n]+/g, ' ')
+  const email = ((formData.get('email') as string) ?? '').trim()
+  const subject = ((formData.get('subject') as string) ?? '').trim().replace(/[\r\n]+/g, ' ')
+  const message = ((formData.get('message') as string) ?? '').trim().replace(/[\r\n]{3,}/g, '\n\n')
 
   if (!name || !email || !message) {
     return { error: 'Please fill in all required fields.' }

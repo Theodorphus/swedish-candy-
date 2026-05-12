@@ -25,7 +25,6 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
       const catalogPath = market === 'sweden' ? '/catalog/sweden' : '/catalog/usa'
       router.push(`${catalogPath}?q=${encodeURIComponent(query.trim())}`)
       setQuery('')
-      setSearching(false)
     }
   }
 

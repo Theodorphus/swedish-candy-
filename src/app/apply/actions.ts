@@ -85,7 +85,7 @@ export async function submitApplication(
   // If the token is missing we still return success — tagging can be done
   // manually in Shopify Admin until the token is configured.
   const adminToken = process.env.SHOPIFY_ADMIN_TOKEN
-  const storeDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!
+  const storeDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN ?? ''
 
   if (adminToken) {
     const numericId = customerId.replace('gid://shopify/Customer/', '')

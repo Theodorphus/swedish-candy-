@@ -23,13 +23,13 @@ export async function generateMetadata(
   if (!product) return {}
   return {
     title: `${product.title} — SwedenSweet`,
-    description: product.description.slice(0, 160),
+    description: (product.description ?? '').slice(0, 160),
     alternates: {
       canonical: `https://swedensweet.com/products/${handle}`,
     },
     openGraph: {
       title: `${product.title} — SwedenSweet`,
-      description: product.description.slice(0, 160),
+      description: (product.description ?? '').slice(0, 160),
       images: product.featuredImage ? [{ url: product.featuredImage.url, width: 800, height: 800 }] : [{ url: '/OG.png', width: 1200, height: 630 }],
     },
   }

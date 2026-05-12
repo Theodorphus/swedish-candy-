@@ -12,13 +12,14 @@ export default function SwedenCatalogPage() {
     if (!email.trim()) return
     setLoading(true)
     try {
-      await fetch('/api/sweden-catalog-request', {
+      const res = await fetch('/api/sweden-catalog-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.trim() }),
       })
-    } catch {
-      // still show success — email logged server-side
+      if (!res.ok) console.error('[sweden-catalog] Request failed:', res.status)
+    } catch (err) {
+      console.error('[sweden-catalog] Fetch error:', err)
     }
     setSubmitted(true)
     setLoading(false)

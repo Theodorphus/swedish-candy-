@@ -22,6 +22,7 @@ export async function resetPassword(
 
   const result = await customerResetByUrl(resetUrl, password)
   if ('error' in result) return { error: result.error }
+  if (!result.accessToken || !result.expiresAt) return { error: 'Reset failed. Please try again.' }
 
   const cookieStore = await cookies()
   cookieStore.set('shopify_customer_token', result.accessToken, {

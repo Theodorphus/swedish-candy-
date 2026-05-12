@@ -5,7 +5,7 @@ import Link from 'next/link'
 import type { ShopifyProduct } from '@/lib/shopify'
 
 export default function ProductCard({ product, market = 'usa' }: { product: ShopifyProduct; market?: 'usa' | 'sweden' }) {
-  const price = parseFloat(product.priceRange.minVariantPrice.amount)
+  const price = parseFloat(product.priceRange.minVariantPrice.amount) || 0
   const [whole, dec = '00'] = price.toFixed(2).split('.')
   const vendorIsStore = !product.vendor ||
     product.vendor.toLowerCase().includes('.store') ||
