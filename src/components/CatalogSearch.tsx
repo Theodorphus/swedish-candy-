@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useMemo, useEffect } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useSearchParams } from 'next/navigation'
 import ProductCard from './ProductCard'
 import type { ShopifyProduct } from '@/lib/shopify'
@@ -9,20 +9,10 @@ type SortOption = 'default' | 'price-asc' | 'price-desc' | 'name-asc'
 
 export default function CatalogSearch({ products, market = 'usa' }: { products: ShopifyProduct[]; market?: 'usa' | 'sweden' }) {
   const searchParams = useSearchParams()
-  const [query, setQuery] = useState(searchParams.get('q') ?? '')
-  const [brand, setBrand] = useState(searchParams.get('brand') ?? '')
-  const [type, setType] = useState(searchParams.get('type') ?? '')
+  const [query, setQuery] = useState(() => searchParams.get('q') ?? '')
+  const [brand, setBrand] = useState(() => searchParams.get('brand') ?? '')
+  const [type, setType] = useState(() => searchParams.get('type') ?? '')
   const [sort, setSort] = useState<SortOption>('default')
-
-  const qParam = searchParams.get('q') ?? ''
-  const brandParam = searchParams.get('brand') ?? ''
-  const typeParam = searchParams.get('type') ?? ''
-
-  useEffect(() => {
-    setQuery(qParam)
-    setBrand(brandParam)
-    setType(typeParam)
-  }, [qParam, brandParam, typeParam])
 
   const brands = useMemo(() => {
     const set = new Set<string>()
