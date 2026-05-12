@@ -87,7 +87,7 @@ export async function submitApplication(
   const adminToken = process.env.SHOPIFY_ADMIN_TOKEN
   const storeDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN ?? ''
 
-  if (adminToken) {
+  if (adminToken && storeDomain) {
     const numericId = customerId.replace('gid://shopify/Customer/', '')
 
     const tags = [

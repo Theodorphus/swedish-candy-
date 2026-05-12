@@ -14,11 +14,15 @@ export default function CatalogSearch({ products, market = 'usa' }: { products: 
   const [type, setType] = useState(searchParams.get('type') ?? '')
   const [sort, setSort] = useState<SortOption>('default')
 
+  const qParam = searchParams.get('q') ?? ''
+  const brandParam = searchParams.get('brand') ?? ''
+  const typeParam = searchParams.get('type') ?? ''
+
   useEffect(() => {
-    setQuery(searchParams.get('q') ?? '')
-    setBrand(searchParams.get('brand') ?? '')
-    setType(searchParams.get('type') ?? '')
-  }, [searchParams])
+    setQuery(qParam)
+    setBrand(brandParam)
+    setType(typeParam)
+  }, [qParam, brandParam, typeParam])
 
   const brands = useMemo(() => {
     const set = new Set<string>()
