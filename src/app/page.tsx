@@ -12,71 +12,11 @@ import { getProducts } from '@/lib/shopify'
 
 const stats = [
   { value: '500+', label: 'Swedish SKUs' },
-  { value: '$300', label: 'Minimum order' },
   { value: '3–5 days', label: 'USA delivery' },
   { value: '2', label: 'Warehouses' },
 ]
 
 
-const tiers = [
-  {
-    name: 'Starter',
-    moq: '$300',
-    // Direct Faire comparison — no platform cut
-    tag: 'Direct wholesale',
-    desc: 'For independent retailers & single-location stores',
-    features: [
-      'Full catalog access',
-      'Faire-matched wholesale pricing',
-      'Fast domestic shipping from Santa Fe Springs, CA',
-      'NET-15 terms after 3 orders',
-      'Email support',
-      'No platform fees',
-    ],
-    featured: false,
-    dark: false,
-    cta: 'Apply now',
-    href: '/apply',
-  },
-  {
-    name: 'Preferred',
-    moq: '$1,000',
-    // Highlighted as best value for growing retailers
-    tag: 'Most popular',
-    desc: 'For multi-location retailers & recurring buyers',
-    features: [
-      '10% below standard wholesale pricing',
-      'Free shipping on orders over $1,500',
-      'Dedicated account manager',
-      'NET-30 payment terms',
-      'Priority fulfillment',
-      'Early access to restocks',
-    ],
-    featured: true,
-    dark: false,
-    cta: 'Apply now',
-    href: '/apply',
-  },
-  {
-    name: 'Enterprise',
-    moq: '$5,000+',
-    // Dark card signals exclusivity for high-volume buyers
-    tag: 'High volume',
-    desc: 'For chains, distributors & high-volume buyers',
-    features: [
-      '15–20% below standard wholesale',
-      'Private label options',
-      'Custom assortments & pallet pricing',
-      'NET-45 payment terms',
-      'Dedicated logistics support',
-      'Priority production & restock allocation',
-    ],
-    featured: false,
-    dark: true,
-    cta: 'Contact sales',
-    href: '/contact',
-  },
-]
 
 export default async function Home() {
   const products = await getProducts(8).catch(() => [])
@@ -134,7 +74,7 @@ export default async function Home() {
 
       {/* ══ STATS BAR ════════════════════════════════════════ */}
       <section
-        className="grid grid-cols-2 sm:grid-cols-4"
+        className="grid grid-cols-3"
         style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-secondary)' }}
       >
         {stats.map((s, i) => (
@@ -144,8 +84,7 @@ export default async function Home() {
             style={{
               paddingTop: 28,
               paddingBottom: 28,
-              borderRight: i % 2 === 0 ? '1px solid var(--border)' : 'none',
-              borderBottom: i < 2 ? '1px solid var(--border)' : 'none',
+              borderRight: i < 2 ? '1px solid var(--border)' : 'none',
             }}
           >
             <ScrollReveal delay={i * 80}>
@@ -165,6 +104,53 @@ export default async function Home() {
         ))}
       </section>
 
+      {/* ══ PRICE GUARANTEE ══════════════════════════════════════ */}
+      <section style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#1A0A0E', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 60% at 50% 100%, rgba(155,34,72,0.12) 0%, transparent 70%)' }} />
+        <div className="section-px content-max" style={{ paddingTop: 'clamp(48px, 8vw, 88px)', paddingBottom: 'clamp(48px, 8vw, 88px)', position: 'relative', zIndex: 1 }}>
+          <ScrollReveal>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', maxWidth: 680, margin: '0 auto' }}>
+              <p className="eyebrow" style={{ marginBottom: 16, color: 'rgba(255,255,255,0.4)' }}>Member benefit</p>
+              <h2 className="display" style={{ fontSize: 'clamp(26px, 4vw, 42px)', color: '#FFFFFF', marginBottom: 20, lineHeight: 1.15 }}>
+                Become a member and get our{' '}
+                <strong style={{ color: 'var(--sand)' }}>price guarantee</strong>
+              </h2>
+              <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, marginBottom: 32, maxWidth: 560 }}>
+                Already receiving better prices from another distributor? We don't just aim to match the price — we aim to beat it.
+              </p>
+
+              <div style={{
+                background: 'rgba(255,255,255,0.04)',
+                border: '1px solid rgba(215,201,184,0.15)',
+                borderLeft: '3px solid var(--sand)',
+                borderRadius: 10,
+                padding: 'clamp(24px, 4vw, 36px) clamp(24px, 4vw, 40px)',
+                textAlign: 'left',
+                marginBottom: 36,
+                width: '100%',
+              }}>
+                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.72)', lineHeight: 1.85 }}>
+                  Show us your landed cost — including shipping, duties, and any other fees — and we guarantee a{' '}
+                  <strong style={{ color: 'var(--sand)', fontWeight: 600 }}>5–10% better price</strong>{' '}
+                  whenever possible.
+                </p>
+                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.85, marginTop: 14 }}>
+                  Once you've created an account and shared your volumes, we'll prepare a tailored offer designed to make us your best partner for Swedish and European candy.
+                </p>
+              </div>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 10 }}>
+                <Link href="/apply" className="btn-white" style={{ padding: '13px 30px', fontSize: 13 }}>
+                  Create an account
+                </Link>
+                <Link href="/contact" className="btn-ghost" style={{ padding: '13px 30px', fontSize: 13 }}>
+                  Share your current pricing
+                </Link>
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
 
       {/* ══ USA CATALOG ════════════════════════════════════════ */}
       {featuredProducts.length > 0 && (
@@ -308,186 +294,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ══ PRICING — hidden until pricing/MOQ is finalised ══════ */}
-      {false && <section id="pricing" style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-secondary)' }}>
-        <div className="section-px content-max" style={{ paddingTop: 'clamp(48px, 8vw, 88px)', paddingBottom: 'clamp(48px, 8vw, 88px)' }}>
-          <SectionHeader
-            eyebrow="Pricing"
-            title="Direct pricing beats Faire every time"
-            subtitle="No platform fees. No 15–25% commission. Start at $300 MOQ and keep more margin."
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {tiers.map((tier, i) => (
-              <ScrollReveal key={tier.name} delay={i * 100}>
-              <div
-                className="tier-card"
-                style={{
-                  background: tier.dark
-                    ? 'linear-gradient(160deg, #2D0B18 0%, #1A0A0E 100%)'
-                    : tier.featured
-                    ? 'linear-gradient(160deg, rgba(155,34,72,0.03) 0%, #FFFFFF 60%)'
-                    : 'var(--bg-card)',
-                  border: tier.dark
-                    ? '1px solid rgba(215,201,184,0.15)'
-                    : tier.featured
-                    ? '1px solid rgba(155,34,72,0.18)'
-                    : '1px solid var(--border)',
-                  borderTop: tier.featured
-                    ? '3px solid var(--accent)'
-                    : tier.dark
-                    ? '3px solid var(--sand)'
-                    : '1px solid var(--border)',
-                  borderRadius: 10,
-                  padding: '32px 28px',
-                  position: 'relative',
-                  boxShadow: tier.featured
-                    ? 'var(--shadow-lg)'
-                    : tier.dark
-                    ? '0 8px 40px rgba(45,11,24,0.5), inset 0 1px 0 rgba(215,201,184,0.08)'
-                    : 'var(--shadow-xs)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                }}
-              >
-                {/* Subtle radial shine in top-right corner for Enterprise card */}
-                {tier.dark && (
-                  <div style={{
-                    position: 'absolute', top: 0, right: 0,
-                    width: 180, height: 180, borderRadius: '0 10px 0 0',
-                    background: 'radial-gradient(circle at top right, rgba(215,201,184,0.07) 0%, transparent 70%)',
-                    pointerEvents: 'none',
-                  }} />
-                )}
-
-                {/* Tier badge — "Faire alternative", "Most popular", "High volume" */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-                  <p style={{
-                    fontSize: 10,
-                    fontWeight: 700,
-                    letterSpacing: '2px',
-                    textTransform: 'uppercase',
-                    color: tier.dark ? 'rgba(255,255,255,0.4)' : 'var(--text-tertiary)',
-                  }}>
-                    {tier.name}
-                  </p>
-                  <span style={{
-                    fontSize: 9,
-                    fontWeight: 700,
-                    letterSpacing: '1px',
-                    textTransform: 'uppercase',
-                    padding: '3px 9px',
-                    borderRadius: 20,
-                    // Featured = accent fill, Dark = sand fill, default = outlined
-                    background: tier.featured
-                      ? 'var(--accent)'
-                      : tier.dark
-                      ? 'rgba(215,201,184,0.15)'
-                      : 'transparent',
-                    color: tier.featured
-                      ? '#fff'
-                      : tier.dark
-                      ? 'var(--sand)'
-                      : 'var(--text-tertiary)',
-                    border: tier.featured
-                      ? 'none'
-                      : tier.dark
-                      ? '1px solid rgba(215,201,184,0.25)'
-                      : '1px solid var(--border)',
-                  }}>
-                    {tier.tag}
-                  </span>
-                </div>
-
-                {/* MOQ — split $ and number for visual clarity */}
-                <div style={{ display: 'inline-flex', alignItems: 'baseline', marginBottom: 4 }}>
-                  <span className="price-currency" style={{
-                    paddingTop: 7,
-                    fontSize: 15,
-                    color: tier.dark ? 'rgba(255,255,255,0.3)' : 'var(--text-tertiary)',
-                  }}>$</span>
-                  <span className="price-num display" style={{
-                    fontSize: 52,
-                    lineHeight: 1,
-                    color: tier.featured
-                      ? 'var(--accent)'
-                      : tier.dark
-                      ? '#FFFFFF'
-                      : 'var(--text)',
-                  }}>
-                    {tier.moq.replace('$', '').replace('+', '').replace(',', '')}
-                  </span>
-                  {tier.moq.includes('+') && (
-                    <span style={{
-                      fontSize: 26,
-                      fontWeight: 600,
-                      lineHeight: 1,
-                      marginLeft: 2,
-                      color: tier.dark ? 'rgba(255,255,255,0.3)' : 'var(--text-tertiary)',
-                    }}>+</span>
-                  )}
-                </div>
-
-                {/* Uppercase MOQ label */}
-                <p style={{
-                  fontSize: 9,
-                  fontWeight: 700,
-                  letterSpacing: '2px',
-                  textTransform: 'uppercase',
-                  color: tier.dark ? 'rgba(255,255,255,0.3)' : 'var(--text-tertiary)',
-                  marginBottom: 12,
-                }}>
-                  Minimum order
-                </p>
-
-                {/* Desc — ideal customer type */}
-                <p style={{
-                  fontSize: 13,
-                  lineHeight: 1.6,
-                  color: tier.dark ? 'rgba(255,255,255,0.5)' : 'var(--text-secondary)',
-                  paddingBottom: 20,
-                  marginBottom: 20,
-                  borderBottom: `1px solid ${tier.dark ? 'rgba(255,255,255,0.08)' : 'var(--border-light)'}`,
-                }}>
-                  {tier.desc}
-                </p>
-
-                {/* Feature list */}
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 11, marginBottom: 28, flex: 1 }}>
-                  {tier.features.map((f) => (
-                    <li key={f} style={{ fontSize: 13, display: 'flex', alignItems: 'flex-start', gap: 10,
-                      color: tier.dark ? 'rgba(255,255,255,0.65)' : 'var(--text-secondary)',
-                    }}>
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style={{ flexShrink: 0, marginTop: 1 }}>
-                        <circle cx="7" cy="7" r="6.5"
-                          stroke={tier.dark ? 'var(--sand)' : 'var(--accent)'}
-                          strokeOpacity={tier.dark ? '0.4' : '0.3'}
-                        />
-                        <path d="M4.5 7l1.8 1.8L9.5 5.5"
-                          stroke={tier.dark ? 'var(--sand)' : 'var(--accent)'}
-                          strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"
-                        />
-                      </svg>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTA — Preferred = btn-primary, Enterprise = btn-white, Starter = btn-secondary */}
-                <Link
-                  href={tier.href}
-                  className={tier.featured ? 'btn-primary' : tier.dark ? 'btn-white' : 'btn-secondary'}
-                  style={{ display: 'block', textAlign: 'center', padding: '13px', fontWeight: 600, letterSpacing: '0.02em' }}
-                >
-                  {tier.cta} →
-                </Link>
-              </div>
-              </ScrollReveal>
-            ))}
-          </div>
-        </div>
-      </section>}
-
       {/* ══ WHY US ══════════════════════════════════════════════ */}
       <section style={{
         borderBottom: '1px solid rgba(255,255,255,0.06)',
@@ -548,26 +354,6 @@ export default async function Home() {
               </Link>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* ══ FAIRE CALLOUT ════════════════════════════════════════ */}
-      <section style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg)' }}>
-        <div className="section-px content-max" style={{ paddingTop: 40, paddingBottom: 40 }}>
-          <ScrollReveal>
-            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 16, background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderLeft: '3px solid var(--sand)', borderRadius: 8, padding: '20px 28px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-                <span style={{ fontSize: 22, flexShrink: 0 }}>🏪</span>
-                <div>
-                  <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: 3 }}>Prefer to order via Faire?</p>
-                  <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>Get 50% off and free shipping on your first Faire order.</p>
-                </div>
-              </div>
-              <Link href="https://www.faire.com/direct/swedishcandystoreus" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, fontWeight: 600, color: 'var(--accent)', textDecoration: 'none', flexShrink: 0 }}>
-                Order on Faire →
-              </Link>
-            </div>
-          </ScrollReveal>
         </div>
       </section>
 

@@ -33,14 +33,12 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
 
       {/* Announcement bar */}
       <div style={{ background: 'var(--accent)', color: '#fff', fontSize: 11, textAlign: 'center', padding: '12px 16px', letterSpacing: '0.05em', fontWeight: 500 }}>
-        <span style={{ fontWeight: 700 }}>✓</span>
-        <span> $300 MOQ</span>
-        <span style={{ opacity: 0.45, margin: '0 10px' }}>·</span>
         <span className="hidden sm:inline">
-          <span>Free customs &amp; FDA handling</span>
+          <span style={{ fontWeight: 700 }}>✓</span>
+          <span> Free customs &amp; FDA handling</span>
           <span style={{ opacity: 0.45, margin: '0 10px' }}>·</span>
         </span>
-        <span>Ships in 3–5 days from Santa Fe Springs</span>
+        <span><span style={{ fontWeight: 700 }} className="sm:hidden">✓ </span>Ships in 3–5 days from Santa Fe Springs</span>
       </div>
 
       {/* Main nav */}
