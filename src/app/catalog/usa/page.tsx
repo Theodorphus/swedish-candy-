@@ -13,7 +13,7 @@ export const metadata = {
   openGraph: {
     title: 'USA Wholesale Candy Catalog — SwedenSweet',
     description: 'Browse 300+ Swedish candy SKUs. Fast 3–5 day domestic shipping from Santa Fe Springs, CA. No customs, no FDA hassle.',
-    images: [{ url: '/OG.png', width: 1200, height: 630 }],
+    images: [{ url: '/OG2.png', width: 1200, height: 630 }],
   },
 }
 

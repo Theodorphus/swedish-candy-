@@ -30,7 +30,7 @@ export async function generateMetadata(
     openGraph: {
       title: `${product.title} — SwedenSweet`,
       description: (product.description ?? '').slice(0, 160),
-      images: product.featuredImage ? [{ url: product.featuredImage.url, width: 800, height: 800 }] : [{ url: '/OG.png', width: 1200, height: 630 }],
+      images: product.featuredImage ? [{ url: product.featuredImage.url, width: 800, height: 800 }] : [{ url: '/OG2.png', width: 1200, height: 630 }],
     },
   }
 }

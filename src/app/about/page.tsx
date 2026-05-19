@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'About SwedenSweet — B2B Swedish Candy Wholesale',
     description: 'Built by retailers, for retailers. Two warehouses, FDA-approved co-packing, and direct relationships with Sweden\'s top candy makers.',
-    images: [{ url: '/OG.png', width: 1200, height: 630 }],
+    images: [{ url: '/OG2.png', width: 1200, height: 630 }],
   },
 }
 

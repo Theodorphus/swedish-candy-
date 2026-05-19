@@ -7,7 +7,7 @@ export const metadata = {
   openGraph: {
     title: 'Create a Wholesale Account — SwedenSweet',
     description: 'Instant access to 500+ Swedish candy SKUs at wholesale pricing. No approval wait — start ordering the same day.',
-    images: [{ url: '/OG.png', width: 1200, height: 630 }],
+    images: [{ url: '/OG2.png', width: 1200, height: 630 }],
   },
 }
 

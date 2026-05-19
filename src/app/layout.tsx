@@ -27,13 +27,13 @@ export const metadata: Metadata = {
     siteName: 'SwedenSweet',
     title: 'SwedenSweet — B2B Swedish Candy Wholesale',
     description: 'Wholesale Swedish candy for retailers and distributors across the USA. 500+ SKUs, no customs hassle, fast fulfillment.',
-    images: [{ url: '/OG.png', width: 1200, height: 630, alt: 'SwedenSweet — B2B Swedish Candy Wholesale' }],
+    images: [{ url: '/OG2.png', width: 1200, height: 630, alt: 'SwedenSweet — B2B Swedish Candy Wholesale' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'SwedenSweet — B2B Swedish Candy Wholesale',
     description: 'Wholesale Swedish candy for retailers and distributors across the USA. 500+ SKUs, no customs hassle, fast fulfillment.',
-    images: ['/OG.png'],
+    images: ['/OG2.png'],
   },
   icons: {
     icon: '/Favicon.png',

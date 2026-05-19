@@ -7,7 +7,7 @@ export const metadata = {
   openGraph: {
     title: 'Contact SwedenSweet — B2B Swedish Candy Wholesale',
     description: 'Questions about wholesale pricing, co-packing or private label? We respond within 1 business day.',
-    images: [{ url: '/OG.png', width: 1200, height: 630 }],
+    images: [{ url: '/OG2.png', width: 1200, height: 630 }],
   },
 }
 
