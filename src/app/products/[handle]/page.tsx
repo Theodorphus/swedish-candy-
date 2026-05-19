@@ -8,7 +8,7 @@ import ProductGallery from '@/components/ProductGallery'
 import BackToCatalog from '@/components/BackToCatalog'
 import NotifyMe from '@/components/NotifyMe'
 
-export const revalidate = 3600
+export const revalidate = 300
 
 export async function generateStaticParams() {
   const handles = await getAllProductHandles()
@@ -194,25 +194,6 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
             >
               Request a quote
             </Link>
-
-            {/* MOQ notice */}
-            <div
-              style={{
-                background: 'var(--bg-secondary)',
-                border: '1px solid var(--border)',
-                borderRadius: 6,
-                padding: '14px 18px',
-                marginBottom: 28,
-              }}
-            >
-              <p style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.7 }}>
-                <strong style={{ color: 'var(--text)', fontWeight: 600 }}>$300 minimum order</strong> across all items.
-                NET-15 available after 3 orders.{' '}
-                <Link href="/contact" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
-                  Contact us for volume pricing.
-                </Link>
-              </p>
-            </div>
 
             {/* Description */}
             {product.descriptionHtml && (

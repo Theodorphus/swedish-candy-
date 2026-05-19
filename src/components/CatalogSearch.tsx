@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 import ProductCard from './ProductCard'
 import type { ShopifyProduct } from '@/lib/shopify'
@@ -12,6 +12,10 @@ export default function CatalogSearch({ products, market = 'usa' }: { products: 
   const [query, setQuery] = useState(() => searchParams.get('q') ?? '')
   const [brand, setBrand] = useState(() => searchParams.get('brand') ?? '')
   const [type, setType] = useState(() => searchParams.get('type') ?? '')
+
+  useEffect(() => {
+    setQuery(searchParams.get('q') ?? '')
+  }, [searchParams])
   const [sort, setSort] = useState<SortOption>('default')
 
   const brands = useMemo(() => {

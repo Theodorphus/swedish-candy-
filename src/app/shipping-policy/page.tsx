@@ -22,10 +22,6 @@ const sections = [
     body: 'Shipping costs are calculated at checkout based on order weight and destination. For large or recurring orders, contact us to discuss freight options and potential volume discounts.',
   },
   {
-    title: 'Minimum Order',
-    body: 'A minimum order value of $300 USD is required for all wholesale orders.',
-  },
-  {
     title: 'Tracking',
     body: 'A tracking number will be emailed to you once your order ships. If you have not received tracking information within 3 business days of placing your order, please contact us.',
   },

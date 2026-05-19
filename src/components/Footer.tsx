@@ -113,7 +113,7 @@ export default function Footer() {
             © {new Date().getFullYear()} SwedenSweet · Gramlux Foods AB
           </span>
           <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', letterSpacing: '0.05em' }}>
-            $300 MOQ · USD · B2B only
+            USD · B2B only
           </span>
         </div>
 

@@ -7,7 +7,6 @@ import MarketToggle from './MarketToggle'
 
 const links = [
   { label: 'Catalog',  href: '/catalog' },
-  { label: 'Brands',   href: '/brands' },
   { label: 'About',    href: '/about' },
   { label: 'Contact',  href: '/contact' },
 ]

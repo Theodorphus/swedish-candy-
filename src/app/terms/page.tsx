@@ -10,10 +10,6 @@ const sections = [
     body: 'SwedenSweet is a B2B wholesale platform open to registered businesses only. By placing an order you confirm that you are purchasing for resale or business use, not personal consumption.',
   },
   {
-    title: 'Minimum Order',
-    body: 'A minimum order value of $300 USD applies to all orders. Orders below this threshold will not be processed.',
-  },
-  {
     title: 'Pricing',
     body: 'All prices are listed in USD and are exclusive of applicable taxes and shipping. Pricing is subject to change without notice. Your confirmed order price is locked at the time of checkout.',
   },

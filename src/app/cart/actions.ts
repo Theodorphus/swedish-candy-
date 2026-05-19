@@ -116,7 +116,6 @@ export async function proceedToCheckout(): Promise<void> {
   const customerToken = cookieStore.get('shopify_customer_token')?.value
   let cart = await getCart(cartId)
   if (!cart || cart.lines.length === 0) redirect('/cart')
-  if (parseFloat(cart.cost.subtotalAmount.amount) < 300) redirect('/cart')
 
   if (customerToken) {
     const updated = await cartBuyerIdentityUpdate(cartId, customerToken)

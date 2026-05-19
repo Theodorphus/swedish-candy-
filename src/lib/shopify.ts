@@ -72,7 +72,7 @@ export async function getProducts(first = 6): Promise<ShopifyProduct[]> {
   return data?.products?.nodes ?? []
 }
 
-export async function getProductsByTag(tag: string, first = 50): Promise<ShopifyProduct[]> {
+export async function getProductsByTag(tag: string, first = 250): Promise<ShopifyProduct[]> {
   const { data, errors } = await shopify.request(`
     query ProductsByTag($query: String!, $first: Int!) {
       products(first: $first, query: $query) {

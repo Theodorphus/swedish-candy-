@@ -30,7 +30,6 @@ export default async function CartPage() {
   const total    = cart ? parseFloat(cart.cost.totalAmount.amount).toFixed(2) : '0.00'
   const currency = cart?.cost.totalAmount.currencyCode ?? 'USD'
 
-  const belowMoq = cart && parseFloat(cart.cost.subtotalAmount.amount) < 300
 
   return (
     <div style={{ background: 'var(--bg)', minHeight: '60vh' }}>
@@ -56,7 +55,7 @@ export default async function CartPage() {
             </div>
             <h2 className="display" style={{ fontSize: 24, marginBottom: 12 }}>Your cart is empty</h2>
             <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.75, marginBottom: 32 }}>
-              Browse our catalog and add products to start your wholesale order. Minimum order is $300.
+              Browse our catalog and add products to start your wholesale order.
             </p>
             <Link href="/catalog/usa" className="btn-primary" style={{ padding: '13px 32px' }}>
               Browse USA catalog
@@ -120,19 +119,11 @@ export default async function CartPage() {
                 </div>
               </div>
 
-              {/* MOQ warning */}
-              {belowMoq && (
-                <div style={{ background: '#FEF9EC', border: '1px solid #F5E2A0', borderRadius: 6, padding: '10px 14px', marginBottom: 16, fontSize: 12, color: '#8A6800', lineHeight: 1.55 }}>
-                  Add ${(300 - parseFloat(cart.cost.subtotalAmount.amount)).toFixed(2)} more to reach the $300 minimum order.
-                </div>
-              )}
-
               <form action={proceedToCheckout}>
                 <button
                   type="submit"
-                  disabled={!!belowMoq}
                   className="btn-primary"
-                  style={{ width: '100%', display: 'block', padding: '14px', fontSize: 14, borderRadius: 8, marginBottom: 12, opacity: belowMoq ? 0.45 : 1, cursor: belowMoq ? 'not-allowed' : 'pointer' }}
+                  style={{ width: '100%', display: 'block', padding: '14px', fontSize: 14, borderRadius: 8, marginBottom: 12 }}
                 >
                   Proceed to checkout →
                 </button>

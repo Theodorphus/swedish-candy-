@@ -14,7 +14,7 @@ export const metadata = {
 const perks = [
   { label: 'Instant access — no waiting',        sub: 'Your account is active immediately' },
   { label: 'Access to 500+ Swedish candy SKUs',  sub: 'Full catalog from day one' },
-  { label: 'Wholesale pricing from $300 MOQ',    sub: 'Competitive case pricing' },
+  { label: 'Competitive wholesale pricing',       sub: 'Case pricing on all products' },
   { label: 'USA & Sweden warehouse fulfillment', sub: '3–5 day domestic shipping' },
   { label: 'Dedicated account support',          sub: 'Direct line to our team' },
 ]
