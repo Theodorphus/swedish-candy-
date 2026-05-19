@@ -15,21 +15,8 @@ export default async function AccountPage() {
 
   if (!token) redirect('/login')
 
-  // Validate token expiry from cookie (set to Shopify expiresAt on login)
-  const tokenExpiry = cookieStore.get('shopify_customer_token_expires')?.value
-  const expiryDate = tokenExpiry ? new Date(tokenExpiry) : null
-  if (expiryDate && !isNaN(expiryDate.getTime()) && expiryDate < new Date()) {
-    cookieStore.delete('shopify_customer_token')
-    cookieStore.delete('shopify_customer_token_expires')
-    redirect('/login')
-  }
-
   const customer = await getCustomer(token)
-  if (!customer) {
-    cookieStore.delete('shopify_customer_token')
-    cookieStore.delete('shopify_customer_token_expires')
-    redirect('/login')
-  }
+  if (!customer) redirect('/login')
 
 
   const fullName = [customer.firstName, customer.lastName].filter(Boolean).join(' ')

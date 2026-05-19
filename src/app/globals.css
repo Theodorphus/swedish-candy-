@@ -337,6 +337,13 @@ body {
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 
+/* ─── Stats bar ───────────────────────────────────── */
+.stat-cell { border-bottom: 1px solid var(--border); }
+@media (min-width: 640px) {
+  .stat-cell { border-bottom: none; }
+  .stat-cell-not-last { border-right: 1px solid var(--border); }
+}
+
 /* ─── Mobile ──────────────────────────────────────── */
 @media (max-width: 640px) {
   /* Reduce section vertical breathing room */

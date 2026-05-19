@@ -1,9 +1,20 @@
 import { createStorefrontApiClient } from '@shopify/storefront-api-client'
 
+// Private token — server-side product/catalog queries only
 export const shopify = createStorefrontApiClient({
   storeDomain: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!,
   apiVersion: '2026-04',
   privateAccessToken: process.env.SHOPIFY_STOREFRONT_PRIVATE_TOKEN!,
+})
+
+// Public token — required for all customer auth queries (Shopify restriction)
+// Falls back to private token until SHOPIFY_STOREFRONT_PUBLIC_TOKEN is configured
+const shopifyPublic = createStorefrontApiClient({
+  storeDomain: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!,
+  apiVersion: '2026-04',
+  ...(process.env.SHOPIFY_STOREFRONT_PUBLIC_TOKEN
+    ? { publicAccessToken: process.env.SHOPIFY_STOREFRONT_PUBLIC_TOKEN }
+    : { privateAccessToken: process.env.SHOPIFY_STOREFRONT_PRIVATE_TOKEN! }),
 })
 
 export type ShopifyProduct = {
@@ -155,7 +166,7 @@ export async function customerLogin(
   email: string,
   password: string
 ): Promise<{ accessToken: string; expiresAt: string } | { error: string }> {
-  const { data, errors } = await shopify.request(`
+  const { data, errors } = await shopifyPublic.request(`
     mutation CustomerLogin($input: CustomerAccessTokenCreateInput!) {
       customerAccessTokenCreate(input: $input) {
         customerAccessToken { accessToken expiresAt }
@@ -182,7 +193,7 @@ export async function customerLogin(
 // ─── Get customer by token ─────────────────────────────────────────────────
 
 export async function getCustomer(accessToken: string): Promise<ShopifyCustomer | null> {
-  const { data, errors } = await shopify.request(`
+  const { data, errors } = await shopifyPublic.request(`
     query Customer($customerAccessToken: String!) {
       customer(customerAccessToken: $customerAccessToken) {
         id
@@ -235,7 +246,7 @@ export async function getCustomer(accessToken: string): Promise<ShopifyCustomer 
 // ─── Password recovery ────────────────────────────────────────────────────
 
 export async function customerRecover(email: string): Promise<{ success: true } | { error: string }> {
-  const { data, errors } = await shopify.request(`
+  const { data, errors } = await shopifyPublic.request(`
     mutation CustomerRecover($email: String!) {
       customerRecover(email: $email) {
         customerUserErrors { code message }
@@ -257,7 +268,7 @@ export async function customerResetByUrl(
   resetUrl: string,
   password: string
 ): Promise<{ accessToken: string; expiresAt: string } | { error: string }> {
-  const { data, errors } = await shopify.request(`
+  const { data, errors } = await shopifyPublic.request(`
     mutation CustomerResetByUrl($resetUrl: URL!, $password: String!) {
       customerResetByUrl(resetUrl: $resetUrl, password: $password) {
         customerAccessToken { accessToken expiresAt }
@@ -280,7 +291,7 @@ export async function customerResetByUrl(
 // ─── Customer logout ───────────────────────────────────────────────────────
 
 export async function customerLogout(accessToken: string): Promise<void> {
-  await shopify.request(`
+  await shopifyPublic.request(`
     mutation CustomerLogout($customerAccessToken: String!) {
       customerAccessTokenDelete(customerAccessToken: $customerAccessToken) {
         deletedAccessToken

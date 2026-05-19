@@ -8,8 +8,8 @@ const faqs = [
     a: 'Our minimum order is $300 per order. Preferred accounts start at $1,000, and Enterprise at $5,000+.',
   },
   {
-    q: 'How do I apply for a wholesale account?',
-    a: "Click \"Apply for account\" and fill in your business details. We review all applications within 1–2 business days. Once approved, you'll receive individual wholesale pricing.",
+    q: 'How do I create a wholesale account?',
+    a: "Click \"Create account\" and fill in your business details. Your account is activated immediately — you can start browsing and ordering the same day.",
   },
   {
     q: 'How long does fulfillment take?',

@@ -18,7 +18,8 @@ const details = [
   { label: 'Sweden warehouse', value: 'Sweden' },
 ]
 
-export default function ContactPage() {
+export default async function ContactPage({ searchParams }: { searchParams: Promise<{ product?: string }> }) {
+  const { product } = await searchParams
   return (
     <div>
       <div
@@ -58,7 +59,7 @@ export default function ContactPage() {
                 and we&apos;ll get back to you within one business day.
               </p>
             </div>
-            <ContactForm />
+            <ContactForm product={product} />
           </div>
 
           {/* Sidebar */}
@@ -114,7 +115,7 @@ export default function ContactPage() {
                   marginBottom: 18,
                 }}
               >
-                Apply for a wholesale account to get access to pricing and place orders directly.
+                Create a free wholesale account to get instant access to pricing and place orders directly.
               </p>
               <Link
                 href="/apply"
@@ -130,7 +131,7 @@ export default function ContactPage() {
                   textDecoration: 'none',
                 }}
               >
-                Apply for account →
+                Create account →
               </Link>
             </div>
           </div>

@@ -66,7 +66,7 @@ export default async function Home() {
               View wholesale pricing
             </Link>
             <Link href="/apply" className="btn-ghost" style={{ padding: 'clamp(11px, 2vw, 14px) clamp(20px, 4vw, 32px)', fontSize: 13 }}>
-              Apply for account
+              Create account
             </Link>
           </div>
         </div>
@@ -74,18 +74,14 @@ export default async function Home() {
 
       {/* ══ STATS BAR ════════════════════════════════════════ */}
       <section
-        className="grid grid-cols-3"
+        className="grid grid-cols-1 sm:grid-cols-3"
         style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg-secondary)' }}
       >
         {stats.map((s, i) => (
           <div
             key={i}
-            className="section-px"
-            style={{
-              paddingTop: 28,
-              paddingBottom: 28,
-              borderRight: i < 2 ? '1px solid var(--border)' : 'none',
-            }}
+            className={`section-px stat-cell${i < 2 ? ' stat-cell-not-last' : ''}`}
+            style={{ paddingTop: 28, paddingBottom: 28 }}
           >
             <ScrollReveal delay={i * 80}>
               <div style={{ display: 'inline-flex', alignItems: 'baseline', marginBottom: 6 }}>
@@ -105,51 +101,76 @@ export default async function Home() {
       </section>
 
       {/* ══ PRICE GUARANTEE ══════════════════════════════════════ */}
-      <section style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#1A0A0E', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 70% 60% at 50% 100%, rgba(155,34,72,0.12) 0%, transparent 70%)' }} />
-        <div className="section-px content-max" style={{ paddingTop: 'clamp(48px, 8vw, 88px)', paddingBottom: 'clamp(48px, 8vw, 88px)', position: 'relative', zIndex: 1 }}>
-          <ScrollReveal>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', maxWidth: 680, margin: '0 auto' }}>
-              <p className="eyebrow" style={{ marginBottom: 16, color: 'rgba(255,255,255,0.4)' }}>Member benefit</p>
-              <h2 className="display" style={{ fontSize: 'clamp(26px, 4vw, 42px)', color: '#FFFFFF', marginBottom: 20, lineHeight: 1.15 }}>
+      <section style={{ background: 'var(--bg-secondary)', padding: 'clamp(48px, 8vw, 88px) clamp(20px, 5vw, 48px)' }}>
+        <ScrollReveal>
+          <div style={{
+            maxWidth: 720,
+            margin: '0 auto',
+            background: 'linear-gradient(135deg, #ffffff 0%, #f7f7fb 100%)',
+            border: '1px solid #e4e4ec',
+            borderRadius: 20,
+            boxShadow: '0 2px 4px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06)',
+            padding: 'clamp(40px, 6vw, 64px) clamp(32px, 5vw, 56px)',
+            position: 'relative',
+            overflow: 'hidden',
+          }}>
+            {/* noise texture overlay */}
+            <div style={{
+              position: 'absolute', inset: 0, borderRadius: 20, pointerEvents: 'none',
+              backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E\")",
+              backgroundRepeat: 'repeat', opacity: 0.6,
+            }} />
+
+            <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+              <span style={{
+                display: 'inline-block', marginBottom: 20,
+                fontSize: 11, fontWeight: 700, letterSpacing: '1.8px', textTransform: 'uppercase',
+                color: 'var(--accent)', background: 'rgba(155,34,72,0.07)',
+                border: '1px solid rgba(155,34,72,0.15)', borderRadius: 100,
+                padding: '5px 14px',
+              }}>Member benefit</span>
+
+              <h2 className="display" style={{ fontSize: 'clamp(26px, 4vw, 42px)', color: 'var(--text)', marginBottom: 16, lineHeight: 1.15 }}>
                 Become a member and get our{' '}
-                <strong style={{ color: 'var(--sand)' }}>price guarantee</strong>
+                <em style={{ fontStyle: 'normal', color: 'var(--accent)' }}>price guarantee</em>
               </h2>
-              <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.65)', lineHeight: 1.8, marginBottom: 32, maxWidth: 560 }}>
+
+              <p style={{ fontSize: 15, color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: 36, maxWidth: 520 }}>
                 Already receiving better prices from another distributor? We don't just aim to match the price — we aim to beat it.
               </p>
 
               <div style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '1px solid rgba(215,201,184,0.15)',
-                borderLeft: '3px solid var(--sand)',
-                borderRadius: 10,
+                width: '100%',
+                background: '#ffffff',
+                border: '1px solid #e8e8f0',
+                borderLeft: '3px solid var(--accent)',
+                borderRadius: 12,
                 padding: 'clamp(24px, 4vw, 36px) clamp(24px, 4vw, 40px)',
                 textAlign: 'left',
-                marginBottom: 36,
-                width: '100%',
+                marginBottom: 40,
+                boxShadow: '0 1px 3px rgba(0,0,0,0.04)',
               }}>
-                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.72)', lineHeight: 1.85 }}>
+                <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.9, margin: 0 }}>
                   Show us your landed cost — including shipping, duties, and any other fees — and we guarantee a{' '}
-                  <strong style={{ color: 'var(--sand)', fontWeight: 600 }}>5–10% better price</strong>{' '}
+                  <strong style={{ color: 'var(--text)', fontWeight: 600 }}>5–10% better price</strong>{' '}
                   whenever possible.
                 </p>
-                <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.55)', lineHeight: 1.85, marginTop: 14 }}>
+                <p style={{ fontSize: 14, color: 'var(--text-tertiary)', lineHeight: 1.9, marginTop: 14, marginBottom: 0 }}>
                   Once you've created an account and shared your volumes, we'll prepare a tailored offer designed to make us your best partner for Swedish and European candy.
                 </p>
               </div>
 
               <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 10 }}>
-                <Link href="/apply" className="btn-white" style={{ padding: '13px 30px', fontSize: 13 }}>
+                <Link href="/apply" className="btn-primary" style={{ padding: '13px 30px', fontSize: 13 }}>
                   Create an account
                 </Link>
-                <Link href="/contact" className="btn-ghost" style={{ padding: '13px 30px', fontSize: 13 }}>
+                <Link href="/contact" className="btn-secondary" style={{ padding: '13px 30px', fontSize: 13 }}>
                   Share your current pricing
                 </Link>
               </div>
             </div>
-          </ScrollReveal>
-        </div>
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* ══ USA CATALOG ════════════════════════════════════════ */}
@@ -381,11 +402,11 @@ export default async function Home() {
               lineHeight: 1.8,
             }}
           >
-            Apply for a wholesale account and get access to 500+ SKUs at competitive pricing.
+            Create a free account and get access to 500+ SKUs at competitive wholesale pricing.
           </p>
           <div className="cta-buttons" style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 12 }}>
             <Link href="/apply" className="btn-white" style={{ padding: '14px 34px', fontSize: 14 }}>
-              Get approved in 1–2 business days
+              Create your free account
             </Link>
             <Link href="/contact" className="btn-ghost" style={{ padding: '14px 34px', fontSize: 14 }}>
               Talk to sales

@@ -2,21 +2,21 @@ import Link from 'next/link'
 import ApplyForm from './ApplyForm'
 
 export const metadata = {
-  title: 'Apply for a Wholesale Account — SwedenSweet',
-  description: 'Apply for a B2B wholesale account with SwedenSweet. Get access to 500+ Swedish candy SKUs at wholesale pricing.',
+  title: 'Create a Wholesale Account — SwedenSweet',
+  description: 'Create a free B2B wholesale account with SwedenSweet. Instant access to 500+ Swedish candy SKUs at wholesale pricing.',
   openGraph: {
-    title: 'Apply for a Wholesale Account — SwedenSweet',
-    description: 'Get approved in 1–2 business days. Access 500+ Swedish candy SKUs at wholesale pricing with no platform fees.',
+    title: 'Create a Wholesale Account — SwedenSweet',
+    description: 'Instant access to 500+ Swedish candy SKUs at wholesale pricing. No approval wait — start ordering the same day.',
     images: [{ url: '/OG.png', width: 1200, height: 630 }],
   },
 }
 
 const perks = [
-  { label: 'Access to 500+ Swedish candy SKUs', sub: 'Full catalog from day one' },
-  { label: 'Wholesale pricing from $300 MOQ',   sub: 'Competitive case pricing' },
+  { label: 'Instant access — no waiting',        sub: 'Your account is active immediately' },
+  { label: 'Access to 500+ Swedish candy SKUs',  sub: 'Full catalog from day one' },
+  { label: 'Wholesale pricing from $300 MOQ',    sub: 'Competitive case pricing' },
   { label: 'USA & Sweden warehouse fulfillment', sub: '3–5 day domestic shipping' },
   { label: 'Dedicated account support',          sub: 'Direct line to our team' },
-  { label: 'NET-15 to NET-45 payment terms',     sub: 'For approved accounts' },
 ]
 
 export default function ApplyPage() {
@@ -28,7 +28,7 @@ export default function ApplyPage() {
         <div style={{ fontSize: 12, color: 'var(--text-tertiary)', marginBottom: 40, display: 'flex', alignItems: 'center', gap: 8 }}>
           <Link href="/" style={{ color: 'var(--text-tertiary)', textDecoration: 'none' }}>Home</Link>
           <span style={{ opacity: 0.4 }}>›</span>
-          <span>Apply</span>
+          <span>Create account</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-[1fr_300px] gap-10 md:gap-16 items-start">
@@ -36,13 +36,13 @@ export default function ApplyPage() {
           {/* Form side */}
           <div>
             <div style={{ marginBottom: 40 }}>
-              <p className="eyebrow" style={{ marginBottom: 12 }}>Wholesale application</p>
+              <p className="eyebrow" style={{ marginBottom: 12 }}>Free wholesale account</p>
               <h1 className="display" style={{ fontSize: 'clamp(26px, 4vw, 36px)', marginBottom: 14 }}>
-                Apply for a wholesale account
+                Create your wholesale account
               </h1>
               <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.8, maxWidth: 520 }}>
-                Fill in the form and we'll review your application within 1–2 business days.
-                Once approved, you'll get immediate access to wholesale pricing across our full catalog.
+                Sign up and get instant access to wholesale pricing across our full catalog.
+                No approval process — start browsing and ordering the same day.
               </p>
             </div>
             <ApplyForm />
@@ -81,20 +81,6 @@ export default function ApplyPage() {
               <Link href="/contact" style={{ fontSize: 13, color: 'var(--accent)', textDecoration: 'none', fontWeight: 600 }}>
                 Talk to us →
               </Link>
-            </div>
-
-            {/* Faire */}
-            <div style={{ border: '1px solid var(--border)', borderRadius: 10, padding: 20, display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-              <div style={{ fontSize: 18, flexShrink: 0 }}>🏪</div>
-              <div>
-                <p style={{ fontSize: 12, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>Already on Faire?</p>
-                <p style={{ fontSize: 12, color: 'var(--text-secondary)', lineHeight: 1.6, marginBottom: 10 }}>
-                  First-time orders get 50% off and free shipping on Faire.
-                </p>
-                <Link href="https://www.faire.com/direct/swedishcandystoreus" target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, fontWeight: 600, color: 'var(--sand)', textDecoration: 'none' }}>
-                  Order on Faire →
-                </Link>
-              </div>
             </div>
 
           </div>

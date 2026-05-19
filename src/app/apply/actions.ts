@@ -1,11 +1,13 @@
 'use server'
 
-import { shopify } from '@/lib/shopify'
+import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
+import { shopify, customerLogin } from '@/lib/shopify'
 import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-export type ApplyState = { error?: string; success?: boolean }
+export type ApplyState = { error?: string }
 
 export async function submitApplication(
   _prevState: ApplyState,
@@ -22,7 +24,7 @@ export async function submitApplication(
   const businessName     = (formData.get('businessName')    as string ?? '').trim()
   const businessType     = (formData.get('businessType')    as string ?? '').trim()
   const cityState        = (formData.get('location')        as string ?? '').trim()
-  const estimatedMonthly = (formData.get('volume')          as string ?? '').trim()
+  const estimatedMonthly = ''
 
   if (!firstName || !lastName || !email || !password) {
     return { error: 'Please fill in all required fields.' }
@@ -53,45 +55,31 @@ export async function submitApplication(
     }
   `, {
     variables: {
-      input: {
-        firstName,
-        lastName,
-        email,
-        password,
-        acceptsMarketing: false,
-      },
+      input: { firstName, lastName, email, password, acceptsMarketing: false },
     },
   })
 
-  if (errors) {
-    return { error: 'Something went wrong. Please try again.' }
-  }
+  if (errors) return { error: 'Something went wrong. Please try again.' }
 
   const userErrors = data?.customerCreate?.customerUserErrors ?? []
   if (userErrors.length > 0) {
     const code = userErrors[0].code
-    if (code === 'TAKEN')             return { error: 'An account with this email already exists.' }
+    if (code === 'TAKEN')              return { error: 'An account with this email already exists.' }
     if (code === 'PASSWORD_TOO_SHORT') return { error: 'Password must be at least 8 characters.' }
     return { error: userErrors[0].message }
   }
 
   const customerId: string | undefined = data?.customerCreate?.customer?.id
-  if (!customerId) {
-    return { error: 'Something went wrong. Please try again.' }
-  }
+  if (!customerId) return { error: 'Something went wrong. Please try again.' }
 
   // ── 3. Tag customer via Admin API ─────────────────────────────
-  // Requires SHOPIFY_ADMIN_TOKEN in env (custom app with write_customers scope).
-  // If the token is missing we still return success — tagging can be done
-  // manually in Shopify Admin until the token is configured.
-  const adminToken = process.env.SHOPIFY_ADMIN_TOKEN
+  const adminToken  = process.env.SHOPIFY_ADMIN_TOKEN
   const storeDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN ?? ''
 
   if (adminToken && storeDomain) {
     const numericId = customerId.replace('gid://shopify/Customer/', '')
-
     const tags = [
-      'wholesale_pending',
+      'wholesale',
       businessName     && `businessName:${businessName}`,
       businessType     && `businessType:${businessType}`,
       cityState        && `cityState:${cityState}`,
@@ -102,28 +90,46 @@ export async function submitApplication(
       `https://${storeDomain}/admin/api/2026-04/customers/${numericId}.json`,
       {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Shopify-Access-Token': adminToken,
-        },
+        headers: { 'Content-Type': 'application/json', 'X-Shopify-Access-Token': adminToken },
         body: JSON.stringify({ customer: { id: numericId, tags } }),
       }
-    ).catch((err) => {
-      console.error('[apply] Failed to tag customer in Shopify Admin:', err)
-    })
+    ).catch((err) => console.error('[apply] Failed to tag customer:', err))
   }
 
-  // ── 4. Notify admin via email ─────────────────────────────────
+  // ── 4. Log in immediately ──────────────────────────────────────
+  const session = await customerLogin(email, password)
+  if ('error' in session) {
+    // Account created but auto-login failed — send to login page
+    redirect('/login')
+  }
+  const cookieStore = await cookies()
+  const expiresDate = new Date(session.expiresAt)
+  cookieStore.set('shopify_customer_token', session.accessToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    expires: expiresDate,
+    path: '/',
+  })
+  cookieStore.set('shopify_customer_token_expires', session.expiresAt, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    expires: expiresDate,
+    path: '/',
+  })
+
+  // ── 5. Notify admin (fire-and-forget) ─────────────────────────
   const adminEmails = process.env.ADMIN_NOTIFICATION_EMAILS
     ? process.env.ADMIN_NOTIFICATION_EMAILS.split(',').map(e => e.trim())
     : ['karen@thenordichype.com', 'webbdevstudio@gmail.com']
 
-  const emailResult = await resend.emails.send({
+  resend.emails.send({
     from: 'SwedenSweet <noreply@swedensweet.com>',
     to: adminEmails,
-    subject: `New B2B application — ${firstName} ${lastName}`,
+    subject: `New wholesale account — ${firstName} ${lastName}`,
     text: [
-      `New wholesale application received on SwedenSweet.`,
+      `A new wholesale account was created on SwedenSweet.`,
       ``,
       `Name:         ${firstName} ${lastName}`,
       `Email:        ${email}`,
@@ -133,17 +139,10 @@ export async function submitApplication(
       `Location:     ${cityState || '—'}`,
       `Est. monthly: ${estimatedMonthly || '—'}`,
       ``,
-      `Go to Shopify Admin to review and approve:`,
+      `View in Shopify Admin:`,
       process.env.SHOPIFY_ADMIN_CUSTOMERS_URL ?? `https://admin.shopify.com/store/${storeDomain.split('.')[0]}/customers`,
     ].join('\n'),
-  }).catch((err) => {
-    console.error('[apply] Failed to send admin notification email:', err)
-    return null
-  })
+  }).catch((err) => console.error('[apply] Admin notification failed:', err))
 
-  if (!emailResult) {
-    console.error('[apply] Admin email failed for application from:', email)
-  }
-
-  return { success: true }
+  redirect('/account')
 }

@@ -98,7 +98,7 @@ export default function LoginForm() {
       <p style={{ fontSize: 13, color: 'var(--text-secondary)', marginTop: 12, lineHeight: 1.6 }}>
         Don&apos;t have an account?{' '}
         <Link href="/apply" style={{ color: 'var(--accent)', textDecoration: 'none', fontWeight: 500 }}>
-          Apply for wholesale access →
+          Create a wholesale account →
         </Link>
       </p>
     </form>

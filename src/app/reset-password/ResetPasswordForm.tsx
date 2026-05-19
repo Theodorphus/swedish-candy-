@@ -1,6 +1,6 @@
 'use client'
 
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import { resetPassword, type ResetPasswordState } from './actions'
 
 const inputStyle: React.CSSProperties = {
@@ -25,6 +25,9 @@ const labelStyle: React.CSSProperties = {
 
 export default function ResetPasswordForm({ resetUrl }: { resetUrl: string }) {
   const [state, action, isPending] = useActionState<ResetPasswordState, FormData>(resetPassword, {})
+  const [password, setPassword] = useState('')
+  const [confirm, setConfirm] = useState('')
+  const pwMismatch = confirm.length > 0 && password !== confirm
 
   return (
     <form action={action} style={{ maxWidth: 400 }}>
@@ -42,6 +45,8 @@ export default function ResetPasswordForm({ resetUrl }: { resetUrl: string }) {
             style={inputStyle}
             minLength={8}
             placeholder="At least 8 characters"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
           />
         </div>
 
@@ -53,9 +58,15 @@ export default function ResetPasswordForm({ resetUrl }: { resetUrl: string }) {
             type="password"
             required
             autoComplete="new-password"
-            style={inputStyle}
+            style={{ ...inputStyle, borderColor: pwMismatch ? '#E53E3E' : undefined }}
+            minLength={8}
             placeholder="Repeat your password"
+            value={confirm}
+            onChange={e => setConfirm(e.target.value)}
           />
+          {pwMismatch && (
+            <span style={{ fontSize: 12, color: '#E53E3E', marginTop: 4 }}>Passwords do not match</span>
+          )}
         </div>
       </div>
 
@@ -75,17 +86,17 @@ export default function ResetPasswordForm({ resetUrl }: { resetUrl: string }) {
 
       <button
         type="submit"
-        disabled={isPending}
+        disabled={isPending || pwMismatch}
         style={{
           width: '100%',
-          background: isPending ? 'var(--text-secondary)' : 'var(--accent)',
+          background: isPending || pwMismatch ? 'var(--text-secondary)' : 'var(--accent)',
           color: '#fff',
           border: 'none',
           padding: '12px 24px',
           borderRadius: 6,
           fontSize: 14,
           fontWeight: 500,
-          cursor: isPending ? 'not-allowed' : 'pointer',
+          cursor: isPending || pwMismatch ? 'not-allowed' : 'pointer',
         }}
       >
         {isPending ? 'Saving…' : 'Set new password'}

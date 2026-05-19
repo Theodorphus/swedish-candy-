@@ -25,6 +25,7 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
       const catalogPath = market === 'sweden' ? '/catalog/sweden' : '/catalog/usa'
       router.push(`${catalogPath}?q=${encodeURIComponent(query.trim())}`)
       setQuery('')
+      setTimeout(() => setSearching(false), 1500)
     }
   }
 
@@ -106,7 +107,7 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
             </Link>
 
             <Link href="/apply" className="btn-primary hidden md:inline-flex" style={{ padding: '8px 16px', fontSize: 12, borderRadius: 4, letterSpacing: '0.02em' }}>
-              Apply
+              Create account
             </Link>
 
             {/* Hamburger */}
@@ -162,7 +163,7 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
               {isLoggedIn ? 'My account' : 'Sign in'}
             </Link>
             <Link href="/apply" onClick={() => setOpen(false)} className="btn-primary" style={{ textAlign: 'center', display: 'block', padding: '12px' }}>
-              Apply for wholesale account
+              Create account
             </Link>
           </div>
         </div>

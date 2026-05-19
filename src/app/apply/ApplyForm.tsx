@@ -29,23 +29,6 @@ export default function ApplyForm() {
   // Derived: show mismatch hint only once confirm field has content
   const pwMismatch = confirmPw.length > 0 && pw !== confirmPw
 
-  if (state.success) {
-    return (
-      <div style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border)', borderTop: '3px solid var(--accent)', borderRadius: 10, padding: '56px 40px', textAlign: 'center', maxWidth: 520 }}>
-        <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'var(--accent-light)', border: '1px solid rgba(155,34,72,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
-          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-            <path d="M5 11l4.5 4.5L17 7" stroke="var(--accent)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-        <h2 className="display" style={{ fontSize: 22, marginBottom: 12 }}>Application received</h2>
-        <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.75 }}>
-          We&apos;ll review your application within 1–2 business days.
-          Once approved you&apos;ll receive an email and can log in to access wholesale pricing.
-        </p>
-      </div>
-    )
-  }
-
   return (
     <form action={action} style={{ maxWidth: 640 }}>
 
@@ -82,15 +65,6 @@ export default function ApplyForm() {
             </div>
           </div>
 
-          <div className="flex flex-col">
-            <label htmlFor="volume" style={labelStyle}>Estimated monthly order</label>
-            <select id="volume" name="volume" className="input" style={{ cursor: 'pointer' }}>
-              <option value="">Select range…</option>
-              <option value="300-999">$300 – $999</option>
-              <option value="1000-4999">$1,000 – $4,999</option>
-              <option value="5000+">$5,000+</option>
-            </select>
-          </div>
         </div>
       </div>
 
@@ -176,11 +150,11 @@ export default function ApplyForm() {
         className="btn-primary"
         style={{ width: '100%', display: 'block', padding: '14px', fontSize: 14, opacity: (isPending || pwMismatch) ? 0.6 : 1, cursor: (isPending || pwMismatch) ? 'not-allowed' : 'pointer', borderRadius: 8 }}
       >
-        {isPending ? 'Submitting…' : 'Submit application →'}
+        {isPending ? 'Creating account…' : 'Create account →'}
       </button>
 
       <p style={{ fontSize: 12, color: 'var(--text-tertiary)', marginTop: 14, lineHeight: 1.65 }}>
-        We review all applications within 1–2 business days. You&apos;ll receive an email once approved.
+        Your account is activated immediately. You&apos;ll be taken to your account page right away.
       </p>
     </form>
   )

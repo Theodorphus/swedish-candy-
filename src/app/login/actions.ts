@@ -51,3 +51,10 @@ export async function logout(): Promise<void> {
   if (token) await customerLogout(token).catch(() => {})
   redirect('/')
 }
+
+export async function clearExpiredSession(): Promise<void> {
+  const cookieStore = await cookies()
+  cookieStore.delete('shopify_customer_token')
+  cookieStore.delete('shopify_customer_token_expires')
+  redirect('/login')
+}

@@ -130,8 +130,9 @@ export default async function CartPage() {
               <form action={proceedToCheckout}>
                 <button
                   type="submit"
+                  disabled={!!belowMoq}
                   className="btn-primary"
-                  style={{ width: '100%', display: 'block', padding: '14px', fontSize: 14, borderRadius: 8, marginBottom: 12 }}
+                  style={{ width: '100%', display: 'block', padding: '14px', fontSize: 14, borderRadius: 8, marginBottom: 12, opacity: belowMoq ? 0.45 : 1, cursor: belowMoq ? 'not-allowed' : 'pointer' }}
                 >
                   Proceed to checkout →
                 </button>

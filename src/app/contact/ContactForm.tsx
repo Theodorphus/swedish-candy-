@@ -12,7 +12,7 @@ const labelStyle: React.CSSProperties = {
   letterSpacing: 0.2,
 }
 
-export default function ContactForm() {
+export default function ContactForm({ product }: { product?: string }) {
   const [state, action, isPending] = useActionState<ContactState, FormData>(
     submitContact,
     {}
@@ -88,10 +88,12 @@ export default function ContactForm() {
         <select
           id="subject"
           name="subject"
+          required
           className="input"
           style={{ cursor: 'pointer' }}
+          defaultValue={product ? 'product-question' : ''}
         >
-          <option value="">Select a topic…</option>
+          <option value="" disabled>Select a topic…</option>
           <option value="wholesale-pricing">Wholesale pricing</option>
           <option value="product-question">Product question</option>
           <option value="shipping">Shipping & logistics</option>
@@ -113,6 +115,7 @@ export default function ContactForm() {
           className="input"
           style={{ resize: 'vertical' }}
           placeholder="Tell us about your business and what you're looking for…"
+          defaultValue={product ? `Hi, I'd like to request a quote for: ${product}\n\n` : ''}
         />
       </div>
 

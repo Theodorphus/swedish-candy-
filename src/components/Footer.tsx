@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 const navLinks = [
   { label: 'USA Catalog', href: '/catalog/usa' },
-  { label: 'Apply',       href: '/apply' },
+  { label: 'Create account', href: '/apply' },
   { label: 'About',       href: '/about' },
   { label: 'Contact',     href: '/contact' },
 ]
