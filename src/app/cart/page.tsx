@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { cookies } from 'next/headers'
-import { getCurrentCart, proceedToCheckout } from './actions'
+import { getCurrentCart, proceedToCheckout, clearCart } from './actions'
 import CartLineItem from './CartLineItem'
 import { getCustomer } from '@/lib/shopify'
 
@@ -66,6 +66,16 @@ export default async function CartPage() {
 
             {/* Line items */}
             <div>
+              {cart.lines.some(l => l.quantity === 0) && (
+                <div style={{ background: '#FEF2F0', border: '1px solid #F5C2BA', borderRadius: 8, padding: '14px 18px', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+                  <p style={{ fontSize: 13, color: '#993C1D' }}>Some items are no longer available. Clear your cart to start fresh.</p>
+                  <form action={clearCart}>
+                    <button type="submit" style={{ fontSize: 12, fontWeight: 600, color: '#993C1D', background: 'none', border: '1px solid #F5C2BA', borderRadius: 6, padding: '6px 14px', cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                      Clear cart
+                    </button>
+                  </form>
+                </div>
+              )}
               {cart.lines.map((line) => (
                 <CartLineItem key={line.id} line={line} />
               ))}

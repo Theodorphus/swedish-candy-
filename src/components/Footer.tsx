@@ -21,10 +21,10 @@ export default function Footer() {
     <footer style={{ background: '#0F0608', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
       <div className="section-px content-max" style={{ paddingTop: 72, paddingBottom: 48 }}>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="footer-grid grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
 
           {/* Brand */}
-          <div className="lg:col-span-1">
+          <div className="footer-brand lg:col-span-1">
             <div style={{ fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 20, fontWeight: 700, letterSpacing: '-0.02em', color: '#FFFFFF', marginBottom: 14 }}>
               Sweden<span style={{ color: 'var(--sand)' }}>Sweet</span>
             </div>

@@ -6,20 +6,28 @@ export default function SwedenCatalogPage() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!email.trim()) return
     setLoading(true)
+    setError(null)
     try {
       const res = await fetch('/api/sweden-catalog-request', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.trim() }),
       })
-      if (!res.ok) console.error('[sweden-catalog] Request failed:', res.status)
-    } catch (err) {
-      console.error('[sweden-catalog] Fetch error:', err)
+      if (!res.ok) {
+        setError('Something went wrong. Please try again.')
+        setLoading(false)
+        return
+      }
+    } catch {
+      setError('Something went wrong. Please try again.')
+      setLoading(false)
+      return
     }
     setSubmitted(true)
     setLoading(false)
@@ -52,36 +60,41 @@ export default function SwedenCatalogPage() {
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              style={{
-                flex: '1 1 220px',
-                border: '1px solid var(--border)',
-                borderRadius: 6,
-                padding: '12px 16px',
-                fontSize: 14,
-                background: 'var(--bg)',
-                color: 'var(--text)',
-                outline: 'none',
-                fontFamily: 'inherit',
-              }}
-              onFocus={e => (e.currentTarget.style.borderColor = 'var(--accent)')}
-              onBlur={e => (e.currentTarget.style.borderColor = 'var(--border)')}
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-primary"
-              style={{ padding: '12px 24px', fontSize: 14, flexShrink: 0, opacity: loading ? 0.7 : 1 }}
-            >
-              {loading ? 'Sending…' : 'Send me the catalog'}
-            </button>
-          </form>
+          <>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                style={{
+                  flex: '1 1 220px',
+                  border: '1px solid var(--border)',
+                  borderRadius: 6,
+                  padding: '12px 16px',
+                  fontSize: 14,
+                  background: 'var(--bg)',
+                  color: 'var(--text)',
+                  outline: 'none',
+                  fontFamily: 'inherit',
+                }}
+                onFocus={e => (e.currentTarget.style.borderColor = 'var(--accent)')}
+                onBlur={e => (e.currentTarget.style.borderColor = 'var(--border)')}
+              />
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-primary"
+                style={{ padding: '12px 24px', fontSize: 14, flexShrink: 0, opacity: loading ? 0.7 : 1 }}
+              >
+                {loading ? 'Sending…' : 'Send me the catalog'}
+              </button>
+            </form>
+            {error && (
+              <p style={{ fontSize: 13, color: 'var(--accent)', marginTop: 10 }}>{error}</p>
+            )}
+          </>
         )}
 
         <p style={{ fontSize: 12, color: 'var(--text-tertiary)', marginTop: 16, lineHeight: 1.6 }}>

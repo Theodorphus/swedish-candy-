@@ -7,3 +7,9 @@ export async function POST() {
   cookieStore.delete('shopify_customer_token_expires')
   redirect('/login')
 }
+
+export async function GET() {
+  const cookieStore = await cookies()
+  cookieStore.delete('shopify_cart_id')
+  redirect('/catalog/usa')
+}

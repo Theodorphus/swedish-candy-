@@ -51,7 +51,7 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
           </Link>
 
           {/* Desktop links */}
-          <nav className="hidden lg:flex" style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
+          <nav className="nav-desktop-links">
             {links.map(({ label, href }) => (
               <Link key={label} href={href} style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)', textDecoration: 'none', transition: 'color 150ms ease', letterSpacing: '0.01em' }}
                 onMouseEnter={e => (e.currentTarget.style.color = 'var(--accent)')}
@@ -63,12 +63,12 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
           </nav>
 
           {/* Market toggle — desktop only */}
-          <div className="hidden lg:block">
+          <div className="nav-desktop-toggle">
             <MarketToggle active={market} />
           </div>
 
           {/* Search */}
-          <form onSubmit={handleSearch} className="hidden md:flex" style={{ position: 'relative', width: 192 }}>
+          <form onSubmit={handleSearch} className="nav-search" style={{ position: 'relative', width: 192, flexShrink: 0 }}>
             <svg width="14" height="14" viewBox="0 0 16 16" fill="none" style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', color: searching ? 'var(--accent)' : 'var(--text-tertiary)', pointerEvents: 'none', transition: 'color 150ms ease' }}>
               <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4"/>
               <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
@@ -87,7 +87,7 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
 
           {/* Right actions */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-            <Link href={isLoggedIn ? '/account' : '/login'} className="hidden md:block" style={{ fontSize: 14, color: 'var(--text-secondary)', textDecoration: 'none', padding: '8px 12px', borderRadius: 6, transition: 'color 150ms ease, background 150ms ease' }}
+            <Link href={isLoggedIn ? '/account' : '/login'} className="nav-signin" style={{ fontSize: 14, color: 'var(--text-secondary)', textDecoration: 'none', padding: '8px 12px', borderRadius: 6, transition: 'color 150ms ease, background 150ms ease' }}
               onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent)'; e.currentTarget.style.background = 'var(--bg-secondary)' }}
               onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.background = 'transparent' }}
             >
@@ -105,13 +105,13 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
               </svg>
             </Link>
 
-            <Link href="/apply" className="btn-primary hidden md:inline-flex" style={{ padding: '8px 16px', fontSize: 12, borderRadius: 4, letterSpacing: '0.02em' }}>
+            <Link href="/apply" className="btn-primary nav-create-account" style={{ padding: '8px 16px', fontSize: 12, borderRadius: 4, letterSpacing: '0.02em' }}>
               Create account
             </Link>
 
             {/* Hamburger */}
             <button
-              className="lg:hidden"
+              className="nav-hamburger"
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, border: '1px solid var(--border)', borderRadius: 4, background: 'transparent', cursor: 'pointer', color: 'var(--text)' }}
               onClick={() => setOpen(!open)}
               aria-label={open ? 'Close' : 'Menu'}

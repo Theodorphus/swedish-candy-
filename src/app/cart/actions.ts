@@ -108,6 +108,12 @@ export async function getCurrentCart(): Promise<Cart | null> {
   return getCart(cartId)
 }
 
+export async function clearCart(): Promise<void> {
+  const cookieStore = await cookies()
+  cookieStore.delete(CART_COOKIE)
+  revalidatePath('/cart')
+}
+
 export async function proceedToCheckout(): Promise<void> {
   const cookieStore = await cookies()
   const cartId = cookieStore.get(CART_COOKIE)?.value

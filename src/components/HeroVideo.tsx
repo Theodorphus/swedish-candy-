@@ -75,10 +75,10 @@ export default function HeroVideo({ src = '/hero.mp4', opacity = 0.65 }: { src?:
 
   return (
     <>
-      <video ref={aRef} autoPlay muted playsInline style={{ ...videoStyle, opacity: OPACITY }}>
+      <video ref={aRef} autoPlay muted playsInline loop style={{ ...videoStyle, opacity: OPACITY }}>
         <source src={src} type="video/mp4" />
       </video>
-      <video ref={bRef} muted playsInline style={{ ...videoStyle, opacity: 0 }}>
+      <video ref={bRef} muted playsInline loop style={{ ...videoStyle, opacity: 0 }}>
         <source src={src} type="video/mp4" />
       </video>
     </>

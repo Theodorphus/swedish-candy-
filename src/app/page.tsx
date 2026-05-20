@@ -110,7 +110,7 @@ export default async function Home() {
             border: '1px solid #e4e4ec',
             borderRadius: 20,
             boxShadow: '0 2px 4px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06)',
-            padding: 'clamp(40px, 6vw, 64px) clamp(32px, 5vw, 56px)',
+            padding: 'clamp(28px, 6vw, 64px) clamp(20px, 5vw, 56px)',
             position: 'relative',
             overflow: 'hidden',
           }}>
@@ -160,7 +160,7 @@ export default async function Home() {
                 </p>
               </div>
 
-              <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 10 }}>
+              <div className="cta-buttons" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 10 }}>
                 <Link href="/apply" className="btn-primary" style={{ padding: '13px 30px', fontSize: 13 }}>
                   Create an account
                 </Link>
@@ -185,7 +185,7 @@ export default async function Home() {
             />
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {featuredProducts.map((p, i) => (
-                <ScrollReveal key={p.id} delay={i * 60}>
+                <ScrollReveal key={p.id} delay={i * 30}>
                   <ProductCard product={p} />
                 </ScrollReveal>
               ))}
@@ -254,7 +254,7 @@ export default async function Home() {
             subtitle="From bulk import to branded retail-ready bags — we support your business end to end."
           />
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div className="services-grid grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
               {
                 icon: (
@@ -320,7 +320,6 @@ export default async function Home() {
         borderBottom: '1px solid rgba(255,255,255,0.06)',
         background: '#1A0A0E',
         position: 'relative',
-        overflow: 'hidden',
       }}>
         <div style={{
           position: 'absolute',

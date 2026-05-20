@@ -2,18 +2,13 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { getProductByHandle, getAllProductHandles } from '@/lib/shopify'
+import { getProductByHandle } from '@/lib/shopify'
 import VariantSelector from '@/components/VariantSelector'
 import ProductGallery from '@/components/ProductGallery'
 import BackToCatalog from '@/components/BackToCatalog'
 import NotifyMe from '@/components/NotifyMe'
 
-export const revalidate = 300
-
-export async function generateStaticParams() {
-  const handles = await getAllProductHandles()
-  return handles.map((handle) => ({ handle }))
-}
+export const dynamic = 'force-dynamic'
 
 export async function generateMetadata(
   props: { params: Promise<{ handle: string }> }

@@ -415,7 +415,7 @@ function normalizeCart(cart: { lines: { nodes: CartLine[] } } & Omit<Cart, 'line
 export async function cartCreate(
   lines: { merchandiseId: string; quantity: number }[] = []
 ): Promise<Cart | null> {
-  const { data, errors } = await shopify.request(`
+  const { data, errors } = await shopifyPublic.request(`
     mutation CartCreate($lines: [CartLineInput!]) {
       cartCreate(input: { lines: $lines }) {
         cart { ${CART_FIELDS} }
@@ -428,7 +428,7 @@ export async function cartCreate(
 }
 
 export async function getCart(cartId: string): Promise<Cart | null> {
-  const { data, errors } = await shopify.request(`
+  const { data, errors } = await shopifyPublic.request(`
     query GetCart($cartId: ID!) {
       cart(id: $cartId) { ${CART_FIELDS} }
     }
@@ -442,7 +442,7 @@ export async function cartLinesAdd(
   cartId: string,
   lines: { merchandiseId: string; quantity: number }[]
 ): Promise<Cart | null> {
-  const { data, errors } = await shopify.request(`
+  const { data, errors } = await shopifyPublic.request(`
     mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
       cartLinesAdd(cartId: $cartId, lines: $lines) {
         cart { ${CART_FIELDS} }
@@ -458,7 +458,7 @@ export async function cartLinesUpdate(
   cartId: string,
   lines: { id: string; quantity: number }[]
 ): Promise<Cart | null> {
-  const { data, errors } = await shopify.request(`
+  const { data, errors } = await shopifyPublic.request(`
     mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
       cartLinesUpdate(cartId: $cartId, lines: $lines) {
         cart { ${CART_FIELDS} }
@@ -474,7 +474,7 @@ export async function cartBuyerIdentityUpdate(
   cartId: string,
   customerAccessToken: string
 ): Promise<Cart | null> {
-  const { data, errors } = await shopify.request(`
+  const { data, errors } = await shopifyPublic.request(`
     mutation CartBuyerIdentityUpdate($cartId: ID!, $buyerIdentity: CartBuyerIdentityInput!) {
       cartBuyerIdentityUpdate(cartId: $cartId, buyerIdentity: $buyerIdentity) {
         cart { ${CART_FIELDS} }
@@ -490,7 +490,7 @@ export async function cartLinesRemove(
   cartId: string,
   lineIds: string[]
 ): Promise<Cart | null> {
-  const { data, errors } = await shopify.request(`
+  const { data, errors } = await shopifyPublic.request(`
     mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
       cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
         cart { ${CART_FIELDS} }
