@@ -17,11 +17,19 @@ function getNetTerms(numberOfOrders: number, tags: string[]): string | null {
   return null
 }
 
+function getDiscount(tags: string[]): number | null {
+  if (tags.includes('discount_30')) return 30
+  if (tags.includes('discount_20')) return 20
+  if (tags.includes('discount_10')) return 10
+  return null
+}
+
 export default async function CartPage() {
   const cookieStore = await cookies()
   const token = cookieStore.get('shopify_customer_token')?.value
   const customer = token ? await getCustomer(token) : null
   const netTerms = customer ? getNetTerms(customer.numberOfOrders, customer.tags) : null
+  const discountPct = customer ? getDiscount(customer.tags) : null
 
   const cart = await getCurrentCart()
   const isEmpty = !cart || cart.lines.length === 0
@@ -105,7 +113,11 @@ export default async function CartPage() {
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>B2B discount</span>
-                  <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>Applied at checkout</span>
+                  {discountPct ? (
+                    <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--accent)' }}>{discountPct}% off</span>
+                  ) : (
+                    <span style={{ fontSize: 12, color: 'var(--text-tertiary)' }}>Applied at checkout</span>
+                  )}
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>Payment terms</span>

@@ -164,7 +164,7 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
             </div>
 
             {/* Notify me (out of stock) */}
-            {!product.availableForSale && (
+            {product.variants.every(v => !v.availableForSale) && (
               <div style={{ marginBottom: 20 }}>
                 <NotifyMe productTitle={product.title} productHandle={product.handle} />
               </div>

@@ -90,9 +90,9 @@ export default function CatalogSearch({ products, market = 'usa' }: { products: 
   return (
     <div>
       {/* Controls row */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 24, alignItems: 'center' }}>
-        {/* Search */}
-        <div style={{ position: 'relative', flex: '1 1 200px', maxWidth: 320 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
+        {/* Search — full width */}
+        <div style={{ position: 'relative', width: '100%', maxWidth: 480 }}>
           <svg width="15" height="15" viewBox="0 0 16 16" fill="none" style={{ position: 'absolute', left: 11, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)', pointerEvents: 'none' }}>
             <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4" />
             <path d="M10.5 10.5L14 14" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
@@ -103,47 +103,50 @@ export default function CatalogSearch({ products, market = 'usa' }: { products: 
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="input"
-            style={{ paddingLeft: 34, height: 40, fontSize: 13 }}
+            style={{ paddingLeft: 34, height: 40, fontSize: 13, width: '100%' }}
           />
         </div>
 
-        {/* Brand filter */}
-        {brands.length > 0 && (
-          <select value={brand} onChange={(e) => setBrand(e.target.value)} style={selectStyle}>
-            <option value="">All brands</option>
-            {brands.map((b) => (
-              <option key={b} value={b}>{b}</option>
-            ))}
+        {/* Filters row — wraps on mobile */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, alignItems: 'center' }}>
+          {/* Brand filter */}
+          {brands.length > 0 && (
+            <select value={brand} onChange={(e) => setBrand(e.target.value)} style={{ ...selectStyle, flex: '1 1 120px' }}>
+              <option value="">All brands</option>
+              {brands.map((b) => (
+                <option key={b} value={b}>{b}</option>
+              ))}
+            </select>
+          )}
+
+          {/* Type filter */}
+          {types.length > 0 && (
+            <select value={type} onChange={(e) => setType(e.target.value)} style={{ ...selectStyle, flex: '1 1 120px' }}>
+              <option value="">All types</option>
+              {types.map((t) => (
+                <option key={t} value={t}>{t}</option>
+              ))}
+            </select>
+          )}
+
+          {/* Sort */}
+          <select value={sort} onChange={(e) => setSort(e.target.value as SortOption)} style={{ ...selectStyle, flex: '1 1 140px' }}>
+            <option value="default">Sort: Default</option>
+            <option value="price-asc">Price: Low to high</option>
+            <option value="price-desc">Price: High to low</option>
+            <option value="name-asc">Name: A–Z</option>
           </select>
-        )}
 
-        {/* Type filter */}
-        {types.length > 0 && (
-          <select value={type} onChange={(e) => setType(e.target.value)} style={selectStyle}>
-            <option value="">All types</option>
-            {types.map((t) => (
-              <option key={t} value={t}>{t}</option>
-            ))}
-          </select>
-        )}
-
-        {/* Sort */}
-        <select value={sort} onChange={(e) => setSort(e.target.value as SortOption)} style={selectStyle}>
-          <option value="default">Sort: Default</option>
-          <option value="price-asc">Price: Low to high</option>
-          <option value="price-desc">Price: High to low</option>
-          <option value="name-asc">Name: A–Z</option>
-        </select>
-
-        {/* Clear */}
-        {hasFilters && (
-          <button
-            onClick={clearFilters}
-            style={{ height: 40, padding: '0 14px', fontSize: 12, color: 'var(--text-secondary)', background: 'none', border: '1px solid var(--border)', borderRadius: 6, cursor: 'pointer' }}
-          >
-            Clear
-          </button>
-        )}
+          {/* Clear */}
+          {hasFilters && (
+            <button
+              onClick={clearFilters}
+              style={{ height: 40, padding: '0 14px', fontSize: 12, color: 'var(--text-secondary)', background: 'none', border: '1px solid var(--border)', borderRadius: 6, cursor: 'pointer', whiteSpace: 'nowrap' }}
+            >
+              Clear
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Results count */}
