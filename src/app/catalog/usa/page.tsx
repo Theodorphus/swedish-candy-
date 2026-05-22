@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import CatalogSearch from '@/components/CatalogSearch'
 import MarketToggle from '@/components/MarketToggle'
-import { getProducts, getProductsByTag } from '@/lib/shopify'
+import { getProducts } from '@/lib/shopify'
 
 export const revalidate = 300
 
@@ -18,10 +18,7 @@ export const metadata = {
 }
 
 export default async function UsaCatalogPage() {
-  let products = await getProductsByTag('usa-warehouse')
-  if (products.length === 0) {
-    products = await getProducts(50)
-  }
+  let products = await getProducts(250)
   products = products.filter((p) => p.availableForSale)
 
   return (
