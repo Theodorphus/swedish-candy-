@@ -21,13 +21,16 @@ export default function SectionHeader({ eyebrow, title, subtitle, link }: Sectio
     >
       <div>
         {eyebrow && (
-          <p className="eyebrow" style={{ marginBottom: 12 }}>
-            {eyebrow}
-          </p>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+            <span aria-hidden style={{ display: 'block', width: 24, height: 1, background: 'var(--sand-dark)', opacity: 0.7 }} />
+            <p className="eyebrow" style={{ margin: 0 }}>
+              {eyebrow}
+            </p>
+          </div>
         )}
         <h2
           className="display"
-          style={{ fontSize: 'clamp(24px, 3vw, 36px)', color: 'var(--text)' }}
+          style={{ fontSize: 'clamp(24px, 3vw, 36px)', color: 'var(--text)', letterSpacing: '-0.015em' }}
         >
           {title}
         </h2>

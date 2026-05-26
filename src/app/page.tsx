@@ -19,28 +19,38 @@ const stats = [
 
 
 export default async function Home() {
-  const products = await getProducts(8).catch(() => [])
-  const featuredProducts = products.slice(0, 8)
+  const all = await getProducts(20).catch(() => [])
+  const featuredProducts = all.filter((p) => p.availableForSale).slice(0, 8)
 
   return (
     <div style={{ background: 'var(--bg)' }}>
       {/* ══ HERO ════════════════════════════════════════════ */}
       <section style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', background: '#1A0A0E', position: 'relative', overflow: 'hidden' }}>
         <HeroVideo />
-        {/* Overlay — låter videon andas men håller texten läsbar */}
-        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(160deg, rgba(26,10,14,0.42) 0%, rgba(26,10,14,0.28) 100%)' }} />
+        {/* Vinjettering — mörkare i hörnen, lyfter textområdet */}
+        <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 30% 50%, rgba(26,10,14,0.15) 0%, rgba(26,10,14,0.55) 70%, rgba(26,10,14,0.75) 100%)' }} />
+        {/* Grain — döljer videokomprimering, ger djup */}
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none', mixBlendMode: 'overlay',
+          backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E\")",
+          backgroundRepeat: 'repeat', opacity: 0.5,
+        }} />
 
-        <div className="section-px content-max" style={{ paddingTop: 'clamp(56px, 8vw, 96px)', paddingBottom: 'clamp(48px, 7vw, 80px)', position: 'relative', zIndex: 1 }}>
-          <p className="eyebrow" style={{ marginBottom: 16, color: 'rgba(255,255,255,0.45)' }}>B2B Wholesale · USA Market</p>
+        <div className="section-px content-max" style={{ paddingTop: 'clamp(64px, 9vw, 112px)', paddingBottom: 'clamp(56px, 8vw, 96px)', position: 'relative', zIndex: 1 }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+            <span style={{ display: 'block', width: 28, height: 1, background: 'var(--sand)', opacity: 0.6 }} />
+            <p className="eyebrow" style={{ margin: 0, color: 'rgba(255,255,255,0.72)' }}>B2B Wholesale · USA Market</p>
+          </div>
 
           <h1
             className="display"
             style={{
-              fontSize: 'clamp(32px, 7vw, 68px)',
-              maxWidth: 780,
-              marginBottom: 24,
+              fontSize: 'clamp(40px, 8.5vw, 84px)',
+              maxWidth: 820,
+              marginBottom: 28,
               color: '#FFFFFF',
-              lineHeight: 1.1,
+              lineHeight: 1.05,
+              letterSpacing: '-0.03em',
             }}
           >
             The complete source of Swedish candy{' '}
@@ -81,18 +91,18 @@ export default async function Home() {
           <div
             key={i}
             className={`section-px stat-cell${i < 2 ? ' stat-cell-not-last' : ''}`}
-            style={{ paddingTop: 28, paddingBottom: 28 }}
+            style={{ paddingTop: 32, paddingBottom: 32 }}
           >
             <ScrollReveal delay={i * 80}>
-              <div style={{ display: 'inline-flex', alignItems: 'baseline', marginBottom: 6 }}>
+              <div style={{ display: 'inline-flex', alignItems: 'baseline', marginBottom: 8 }}>
                 {s.value.startsWith('$') && (
                   <span className="price-currency" style={{ fontSize: 14, paddingTop: 5 }}>$</span>
                 )}
-                <span className="display price-num" style={{ fontSize: 36, color: 'var(--accent)', lineHeight: 1 }}>
+                <span className="display price-num" style={{ fontSize: 'clamp(34px, 4.5vw, 44px)', color: 'var(--accent)', lineHeight: 1 }}>
                   {s.value.replace('$', '')}
                 </span>
               </div>
-              <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-tertiary)' }}>
+              <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '1.8px', textTransform: 'uppercase', color: 'var(--text-tertiary)' }}>
                 {s.label}
               </div>
             </ScrollReveal>
@@ -108,7 +118,7 @@ export default async function Home() {
             margin: '0 auto',
             background: 'linear-gradient(135deg, #ffffff 0%, #f7f7fb 100%)',
             border: '1px solid #e4e4ec',
-            borderRadius: 20,
+            borderRadius: 16,
             boxShadow: '0 2px 4px rgba(0,0,0,0.04), 0 8px 32px rgba(0,0,0,0.06)',
             padding: 'clamp(28px, 6vw, 64px) clamp(20px, 5vw, 56px)',
             position: 'relative',
@@ -116,7 +126,7 @@ export default async function Home() {
           }}>
             {/* noise texture overlay */}
             <div style={{
-              position: 'absolute', inset: 0, borderRadius: 20, pointerEvents: 'none',
+              position: 'absolute', inset: 0, borderRadius: 16, pointerEvents: 'none',
               backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E\")",
               backgroundRepeat: 'repeat', opacity: 0.6,
             }} />
@@ -126,7 +136,7 @@ export default async function Home() {
                 display: 'inline-block', marginBottom: 20,
                 fontSize: 11, fontWeight: 700, letterSpacing: '1.8px', textTransform: 'uppercase',
                 color: 'var(--accent)', background: 'rgba(155,34,72,0.07)',
-                border: '1px solid rgba(155,34,72,0.15)', borderRadius: 100,
+                border: '1px solid rgba(155,34,72,0.15)', borderRadius: 999,
                 padding: '5px 14px',
               }}>Member benefit</span>
 
@@ -186,7 +196,7 @@ export default async function Home() {
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {featuredProducts.map((p, i) => (
                 <ScrollReveal key={p.id} delay={i * 30}>
-                  <ProductCard product={p} />
+                  <ProductCard product={p} priority={i < 4} />
                 </ScrollReveal>
               ))}
             </div>
@@ -194,6 +204,39 @@ export default async function Home() {
         </section>
       )}
 
+
+      {/* ══ TESTIMONIAL ═════════════════════════════════════════
+          TODO: byt ut citat/attribution mot riktig kund när tillgängligt */}
+      <section style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg)' }}>
+        <div className="section-px content-max" style={{ paddingTop: 'clamp(56px, 8vw, 88px)', paddingBottom: 'clamp(56px, 8vw, 88px)' }}>
+          <ScrollReveal>
+            <div style={{ maxWidth: 820, margin: '0 auto', textAlign: 'center', position: 'relative' }}>
+              <span className="display" aria-hidden="true" style={{
+                position: 'absolute', top: -28, left: '50%', transform: 'translateX(-50%)',
+                fontSize: 96, lineHeight: 1, color: 'var(--accent)', opacity: 0.12,
+              }}>"</span>
+              <p className="display" style={{
+                fontSize: 'clamp(20px, 2.6vw, 28px)',
+                color: 'var(--text)',
+                lineHeight: 1.5,
+                fontWeight: 500,
+                letterSpacing: '-0.01em',
+                marginBottom: 28,
+                position: 'relative',
+              }}>
+                Their USA stock means we can reorder weekly without thinking about customs or import dates. It feels like sourcing domestically — but with a real Swedish catalog.
+              </p>
+              <div style={{ display: 'inline-flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ display: 'block', width: 24, height: 1, background: 'var(--sand)' }} />
+                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '1.8px', textTransform: 'uppercase', color: 'var(--text-tertiary)' }}>
+                  Independent retailer · California
+                </span>
+                <span style={{ display: 'block', width: 24, height: 1, background: 'var(--sand)' }} />
+              </div>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
 
       {/* ══ BRANDS ════════════════════════════════════════════ */}
       <section style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg)' }}>
@@ -207,41 +250,70 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ══ WAREHOUSES ════════════════════════════════════════ */}
-      <section style={{ borderBottom: '1px solid var(--border)' }}>
+      {/* ══ WAREHOUSE ════════════════════════════════════════ */}
+      <section style={{ borderBottom: '1px solid var(--border)', background: 'var(--bg)' }}>
         <div className="section-px content-max" style={{ paddingTop: 'clamp(48px, 8vw, 88px)', paddingBottom: 'clamp(48px, 8vw, 88px)' }}>
           <SectionHeader eyebrow="Fulfillment" title="USA warehouse" />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5" style={{ maxWidth: 760 }}>
-            {/* USA */}
-            <ScrollReveal delay={0}>
+          <ScrollReveal>
             <div
-              className="warehouse-card"
+              className="warehouse-wide"
               style={{
-                background: 'var(--bg)',
+                position: 'relative',
+                background: 'linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%)',
                 border: '1px solid var(--border)',
-                borderTop: '3px solid var(--accent)',
-                borderRadius: 8,
-                padding: '36px 32px',
+                borderRadius: 16,
+                overflow: 'hidden',
                 boxShadow: 'var(--shadow-sm)',
               }}
             >
-              <p className="eyebrow-muted" style={{ marginBottom: 12 }}>USA Warehouse</p>
-              <h3 className="display" style={{ fontSize: 22, color: 'var(--text)', marginBottom: 10 }}>
-                Santa Fe Springs, CA
-              </h3>
-              <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.7, marginBottom: 16 }}>
-                FDA-approved facility. All products are customs-cleared and ready for immediate delivery. Domestic shipping in 3–5 business days.
-              </p>
-              <p style={{ fontSize: 12, color: 'var(--text-tertiary)', lineHeight: 1.6, marginBottom: 28 }}>
-                No import paperwork. No tariffs. One invoice — everything included.
-              </p>
-              <Link href="/catalog/usa" className="btn-primary" style={{ fontSize: 13, padding: '10px 22px' }}>
-                Shop USA catalog →
-              </Link>
+              {/* Decorative sand stripe */}
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: 'linear-gradient(90deg, var(--accent) 0%, var(--sand) 100%)' }} />
+
+              <div className="warehouse-wide-grid" style={{
+                display: 'grid',
+                gridTemplateColumns: 'minmax(260px, 360px) 1fr',
+                gap: 'clamp(24px, 4vw, 56px)',
+                padding: 'clamp(32px, 5vw, 56px)',
+                alignItems: 'center',
+              }}>
+                {/* Left — big editorial number block */}
+                <div>
+                  <p className="eyebrow-muted" style={{ marginBottom: 18 }}>Santa Fe Springs · CA</p>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 6 }}>
+                    <span className="display" style={{ fontSize: 'clamp(56px, 9vw, 96px)', color: 'var(--accent)', lineHeight: 0.9, letterSpacing: '-0.04em' }}>3–5</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '1.5px' }}>days</span>
+                  </div>
+                  <p style={{ fontSize: 13, color: 'var(--text-tertiary)', lineHeight: 1.6 }}>
+                    Domestic shipping from our FDA-approved Southern California facility.
+                  </p>
+                </div>
+
+                {/* Right — content */}
+                <div>
+                  <h3 className="display" style={{ fontSize: 'clamp(22px, 2.6vw, 28px)', color: 'var(--text)', marginBottom: 14, letterSpacing: '-0.015em' }}>
+                    Customs-cleared. Ready to ship.
+                  </h3>
+                  <p style={{ fontSize: 14, color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: 24, maxWidth: 520 }}>
+                    Every product on our USA catalog is already imported, FDA-cleared, and stocked. No tariffs, no paperwork, no customs delays — one invoice covers everything from warehouse to your shelf.
+                  </p>
+
+                  <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 28px', display: 'grid', gap: 10 }}>
+                    {['FDA-approved facility', 'No customs paperwork on your end', 'Single domestic invoice'].map((t) => (
+                      <li key={t} style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: 'var(--text-secondary)' }}>
+                        <span style={{ display: 'inline-block', width: 5, height: 5, borderRadius: '50%', background: 'var(--accent)' }} />
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+
+                  <Link href="/catalog/usa" className="btn-primary" style={{ fontSize: 13, padding: '12px 26px' }}>
+                    Shop USA catalog →
+                  </Link>
+                </div>
+              </div>
             </div>
-            </ScrollReveal>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -295,11 +367,11 @@ export default async function Home() {
                 <div style={{
                   background: 'var(--bg)',
                   border: '1px solid var(--border)',
-                  borderRadius: 10,
+                  borderRadius: 12,
                   padding: '32px 28px',
                   height: '100%',
                 }}>
-                  <div style={{ width: 44, height: 44, borderRadius: 10, background: 'var(--accent-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>{icon}</div>
+                  <div style={{ width: 44, height: 44, borderRadius: 8, background: 'var(--accent-light)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>{icon}</div>
                   <h3 style={{ fontSize: 15, fontWeight: 600, color: 'var(--text)', marginBottom: 10 }}>{title}</h3>
                   <p style={{ fontSize: 13, color: 'var(--text-secondary)', lineHeight: 1.75 }}>{body}</p>
                 </div>

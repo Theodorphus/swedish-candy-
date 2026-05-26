@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 
 const brands = [
@@ -20,7 +21,8 @@ function BrandCard({ brand }: { brand: typeof brands[0] }) {
   const showLogo = !imgError
 
   return (
-    <div
+    <Link
+      href={`/brands/${encodeURIComponent(brand.name)}`}
       style={{
         scrollSnapAlign: 'start',
         flexShrink: 0,
@@ -28,44 +30,44 @@ function BrandCard({ brand }: { brand: typeof brands[0] }) {
         height: 176,
         background: 'var(--bg-card)',
         border: '1px solid var(--border)',
-        borderRadius: 14,
+        borderRadius: 16,
         padding: '18px 18px 16px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
         boxShadow: 'var(--shadow-xs)',
         transition: 'box-shadow 200ms ease, transform 200ms ease, border-color 200ms ease',
-        cursor: 'default',
+        cursor: 'pointer',
         position: 'relative',
         overflow: 'hidden',
+        textDecoration: 'none',
+        color: 'inherit',
       }}
       onMouseEnter={e => {
-        const el = e.currentTarget as HTMLDivElement
+        const el = e.currentTarget
         el.style.boxShadow = 'var(--shadow-md)'
         el.style.transform = 'translateY(-3px)'
         el.style.borderColor = 'var(--accent)'
       }}
       onMouseLeave={e => {
-        const el = e.currentTarget as HTMLDivElement
+        const el = e.currentTarget
         el.style.boxShadow = 'var(--shadow-xs)'
         el.style.transform = 'translateY(0)'
         el.style.borderColor = 'var(--border)'
       }}
       onFocus={e => {
-        const el = e.currentTarget as HTMLDivElement
+        const el = e.currentTarget
         el.style.boxShadow = 'var(--shadow-md)'
         el.style.transform = 'translateY(-3px)'
         el.style.borderColor = 'var(--accent)'
       }}
       onBlur={e => {
-        const el = e.currentTarget as HTMLDivElement
+        const el = e.currentTarget
         el.style.boxShadow = 'var(--shadow-xs)'
         el.style.transform = 'translateY(0)'
         el.style.borderColor = 'var(--border)'
       }}
-      tabIndex={0}
-      role="article"
-      aria-label={brand.name}
+      aria-label={`${brand.name} — ${brand.desc}`}
     >
       {/* Subtle corner glow in brand accent color */}
       <div style={{ position: 'absolute', top: 0, right: 0, width: 60, height: 60, background: `radial-gradient(circle at top right, ${brand.accent}18 0%, transparent 70%)`, pointerEvents: 'none' }} />
@@ -136,7 +138,7 @@ function BrandCard({ brand }: { brand: typeof brands[0] }) {
           {brand.desc}
         </p>
       </div>
-    </div>
+    </Link>
   )
 }
 

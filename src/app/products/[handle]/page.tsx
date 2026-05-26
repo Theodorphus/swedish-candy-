@@ -2,13 +2,24 @@ import Link from 'next/link'
 import { Suspense } from 'react'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
-import { getProductByHandle } from '@/lib/shopify'
+import { getProductByHandle, getAllProductHandles } from '@/lib/shopify'
 import VariantSelector from '@/components/VariantSelector'
 import ProductGallery from '@/components/ProductGallery'
 import BackToCatalog from '@/components/BackToCatalog'
 import NotifyMe from '@/components/NotifyMe'
 
-export const dynamic = 'force-dynamic'
+function truncateDescription(text: string, max = 160): string {
+  if (text.length <= max) return text
+  const cut = text.lastIndexOf(' ', max)
+  return text.slice(0, cut > 0 ? cut : max) + '…'
+}
+
+export const revalidate = 300
+
+export async function generateStaticParams() {
+  const handles = await getAllProductHandles()
+  return handles.map((handle) => ({ handle }))
+}
 
 export async function generateMetadata(
   props: { params: Promise<{ handle: string }> }
@@ -18,13 +29,13 @@ export async function generateMetadata(
   if (!product) return {}
   return {
     title: `${product.title} — SwedenSweet`,
-    description: (product.description ?? '').slice(0, 160),
+    description: truncateDescription(product.description ?? ''),
     alternates: {
       canonical: `https://swedensweet.com/products/${handle}`,
     },
     openGraph: {
       title: `${product.title} — SwedenSweet`,
-      description: (product.description ?? '').slice(0, 160),
+      description: truncateDescription(product.description ?? ''),
       images: product.featuredImage ? [{ url: product.featuredImage.url, width: 800, height: 800 }] : [{ url: '/OG2.png', width: 1200, height: 630 }],
     },
   }
@@ -95,7 +106,7 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
       <div className="section-px content-max" style={{ paddingTop: 40, paddingBottom: 80 }}>
 
         {/* Breadcrumb */}
-        <div className="flex items-center gap-2" style={{ fontSize: 12, color: 'var(--text-tertiary)', marginBottom: 40 }}>
+        <div className="flex items-center gap-2" style={{ fontSize: 12, color: 'var(--text-tertiary)', marginBottom: 40, flexWrap: 'wrap', overflowWrap: 'anywhere' }}>
           <Link href="/" style={{ color: 'var(--text-tertiary)', textDecoration: 'none' }}>Home</Link>
           <span>/</span>
           <Link href="/catalog/usa" style={{ color: 'var(--text-tertiary)', textDecoration: 'none' }}>Catalog</Link>
@@ -138,12 +149,12 @@ export default async function ProductPage(props: { params: Promise<{ handle: str
               <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: 'var(--text-tertiary)', marginBottom: 8 }}>
                 Price per case
               </p>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 3 }}>
-                <span style={{ fontSize: 18, fontWeight: 600, color: 'var(--text-secondary)', lineHeight: 1 }}>$</span>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 3, flexWrap: 'wrap', overflowWrap: 'anywhere' }}>
+                <span style={{ fontSize: 'clamp(14px, 3vw, 18px)', fontWeight: 600, color: 'var(--text-secondary)', lineHeight: 1 }}>$</span>
                 <span
                   style={{
                     fontFamily: 'var(--font-playfair), Georgia, serif',
-                    fontSize: 42,
+                    fontSize: 'clamp(28px, 7vw, 42px)',
                     fontWeight: 700,
                     color: 'var(--accent)',
                     lineHeight: 1,

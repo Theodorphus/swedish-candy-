@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import MarketToggle from './MarketToggle'
 
@@ -16,6 +16,19 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
   const [query, setQuery] = useState('')
   const [searching, setSearching] = useState(false)
   const router = useRouter()
+  const hamburgerRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        setOpen(false)
+        hamburgerRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [open])
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault()
@@ -32,13 +45,9 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
     <header className="sticky top-0 z-50">
 
       {/* Announcement bar */}
-      <div style={{ background: 'var(--accent)', color: '#fff', fontSize: 11, textAlign: 'center', padding: '12px 16px', letterSpacing: '0.05em', fontWeight: 500 }}>
-        <span className="hidden sm:inline">
-          <span style={{ fontWeight: 700 }}>✓</span>
-          <span> Free customs &amp; FDA handling</span>
-          <span style={{ opacity: 0.45, margin: '0 10px' }}>·</span>
-        </span>
-        <span><span style={{ fontWeight: 700 }} className="sm:hidden">✓ </span>Ships in 3–5 days from Santa Fe Springs</span>
+      <div style={{ background: '#2D0B18', color: 'rgba(255,255,255,0.85)', fontSize: 11, textAlign: 'center', padding: '10px 16px', letterSpacing: '0.08em', fontWeight: 500, borderBottom: '1px solid rgba(215,201,184,0.12)' }}>
+        <span style={{ color: 'var(--sand)', marginRight: 8, letterSpacing: 0 }}>✓</span>
+        Ships in 3–5 days from Santa Fe Springs — customs &amp; FDA included
       </div>
 
       {/* Main nav */}
@@ -79,7 +88,7 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               disabled={searching}
-              style={{ width: '100%', border: '1px solid var(--border)', borderRadius: 4, fontSize: 12, padding: '8px 12px 8px 30px', background: 'var(--bg-secondary)', color: 'var(--text)', outline: 'none', fontFamily: 'inherit', transition: 'border-color 150ms ease', opacity: searching ? 0.6 : 1 }}
+              style={{ width: '100%', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12, padding: '8px 12px 8px 30px', background: 'var(--bg-secondary)', color: 'var(--text)', outline: 'none', fontFamily: 'inherit', transition: 'border-color 150ms ease', opacity: searching ? 0.6 : 1 }}
               onFocus={e => (e.currentTarget.style.borderColor = 'var(--accent)')}
               onBlur={e => (e.currentTarget.style.borderColor = 'var(--border)')}
             />
@@ -87,14 +96,25 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
 
           {/* Right actions */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
-            <Link href={isLoggedIn ? '/account' : '/login'} className="nav-signin" style={{ fontSize: 14, color: 'var(--text-secondary)', textDecoration: 'none', padding: '8px 12px', borderRadius: 6, transition: 'color 150ms ease, background 150ms ease' }}
+            <Link href={isLoggedIn ? '/account' : '/login'} className="nav-signin" style={{ fontSize: 14, color: 'var(--text-secondary)', textDecoration: 'none', padding: '8px 12px', borderRadius: 8, transition: 'color 150ms ease, background 150ms ease' }}
               onMouseEnter={e => { e.currentTarget.style.color = 'var(--accent)'; e.currentTarget.style.background = 'var(--bg-secondary)' }}
               onMouseLeave={e => { e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.background = 'transparent' }}
             >
               {isLoggedIn ? 'My account' : 'Sign in'}
             </Link>
 
-            <Link href="/cart" aria-label="Cart" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, border: '1px solid var(--border)', borderRadius: 4, color: 'var(--text)', textDecoration: 'none', transition: 'border-color 150ms ease, color 150ms ease' }}
+            <Link href="/bulk-order" aria-label="Bulk order" title="Bulk order" className="touch-target" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, border: '1px solid var(--border)', borderRadius: 8, color: 'var(--text)', textDecoration: 'none', transition: 'border-color 150ms ease, color 150ms ease' }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent)' }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text)' }}
+            >
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
+                <path d="M2 4h12M2 8h9M2 12h6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+                <circle cx="13" cy="12" r="2" stroke="currentColor" strokeWidth="1.3"/>
+                <path d="M13 10.5V9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+              </svg>
+            </Link>
+
+            <Link href="/cart" aria-label="Cart" className="touch-target" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, border: '1px solid var(--border)', borderRadius: 8, color: 'var(--text)', textDecoration: 'none', transition: 'border-color 150ms ease, color 150ms ease' }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent)' }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text)' }}
             >
@@ -105,16 +125,19 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
               </svg>
             </Link>
 
-            <Link href="/apply" className="btn-primary nav-create-account" style={{ padding: '8px 16px', fontSize: 12, borderRadius: 4, letterSpacing: '0.02em' }}>
+            <Link href="/apply" className="btn-primary nav-create-account" style={{ padding: '8px 16px', fontSize: 12, borderRadius: 8, letterSpacing: '0.02em' }}>
               Create account
             </Link>
 
             {/* Hamburger */}
             <button
-              className="nav-hamburger"
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, border: '1px solid var(--border)', borderRadius: 4, background: 'transparent', cursor: 'pointer', color: 'var(--text)' }}
+              ref={hamburgerRef}
+              className="nav-hamburger touch-target"
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: 36, height: 36, border: '1px solid var(--border)', borderRadius: 8, background: 'transparent', cursor: 'pointer', color: 'var(--text)' }}
               onClick={() => setOpen(!open)}
-              aria-label={open ? 'Close' : 'Menu'}
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-expanded={open}
+              aria-controls="mobile-menu"
             >
               {open ? (
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
@@ -132,7 +155,7 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
 
       {/* Mobile menu */}
       {open && (
-        <div style={{ background: '#fff', borderBottom: '1px solid var(--border)' }}>
+        <div id="mobile-menu" role="dialog" aria-label="Navigation menu" style={{ background: '#fff', borderBottom: '1px solid var(--border)' }}>
           <form onSubmit={handleSearch} style={{ padding: '12px 24px 8px', position: 'relative' }}>
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style={{ position: 'absolute', left: 34, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-tertiary)', pointerEvents: 'none' }}>
               <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.4"/>
@@ -143,7 +166,7 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
               placeholder="Search by brand, SKU or type…"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              style={{ width: '100%', border: '1px solid var(--border)', borderRadius: 4, fontSize: 13, padding: '10px 12px 10px 30px', background: 'var(--bg-secondary)', color: 'var(--text)', outline: 'none', fontFamily: 'inherit' }}
+              style={{ width: '100%', border: '1px solid var(--border)', borderRadius: 8, fontSize: 13, padding: '10px 12px 10px 30px', background: 'var(--bg-secondary)', color: 'var(--text)', outline: 'none', fontFamily: 'inherit' }}
             />
           </form>
 
@@ -152,6 +175,14 @@ export default function Nav({ isLoggedIn = false, market = 'usa' }: { isLoggedIn
               {label}
             </Link>
           ))}
+          <Link href="/bulk-order" onClick={() => setOpen(false)} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 24px', fontSize: 14, color: 'var(--accent)', textDecoration: 'none', borderBottom: '1px solid var(--border-light)', fontWeight: 500 }}>
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M2 4h12M2 8h9M2 12h6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+              <circle cx="13" cy="12" r="2" stroke="currentColor" strokeWidth="1.3"/>
+              <path d="M13 10.5V9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+            </svg>
+            Bulk order
+          </Link>
 
           <div style={{ padding: '12px 24px', borderBottom: '1px solid var(--border-light)' }}>
             <MarketToggle active={market} />

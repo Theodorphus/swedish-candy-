@@ -42,34 +42,44 @@ export default function FAQAccordion() {
 
   return (
     <div>
-      {faqs.map((item, i) => (
-        <div key={i} className="border-b border-[var(--border)]">
-          <button
-            onClick={() => setOpen(open === i ? null : i)}
-            className="w-full flex items-center justify-between gap-6 py-7 bg-transparent border-none cursor-pointer text-left font-[inherit] hover:text-[var(--accent)] transition-colors"
-          >
-            <span className={`text-[15px] font-medium transition-colors duration-150 ${open === i ? 'text-[var(--accent)]' : 'text-[var(--text)]'}`}>
-              {item.q}
-            </span>
-            <span className={`shrink-0 w-6 h-6 flex items-center justify-center border text-[14px] leading-none transition-all duration-150 ${
-              open === i
-                ? 'border-[var(--accent)] text-[var(--accent)] bg-[var(--accent-light)]'
-                : 'border-[var(--border)] text-[var(--text-tertiary)]'
-            }`}>
-              {open === i ? '−' : '+'}
-            </span>
-          </button>
+      {faqs.map((item, i) => {
+        const isOpen = open === i
+        return (
+          <div key={i} className="border-b border-[var(--border)]">
+            <button
+              onClick={() => setOpen(isOpen ? null : i)}
+              className="w-full flex items-center justify-between gap-6 py-8 bg-transparent border-none cursor-pointer text-left font-[inherit] hover:text-[var(--accent)] transition-colors"
+              aria-expanded={isOpen}
+            >
+              <span className={`text-[17px] font-medium transition-colors duration-150 ${isOpen ? 'text-[var(--accent)]' : 'text-[var(--text)]'}`}>
+                {item.q}
+              </span>
+              <span
+                className={`shrink-0 w-8 h-8 flex items-center justify-center rounded-full transition-all duration-200 ${
+                  isOpen
+                    ? 'bg-[var(--accent)] text-white'
+                    : 'bg-[var(--bg-secondary)] text-[var(--text-tertiary)]'
+                }`}
+                style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                aria-hidden
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            </button>
 
-          <div
-            className="overflow-hidden transition-all duration-200"
-            style={{ maxHeight: open === i ? 300 : 0, opacity: open === i ? 1 : 0 }}
-          >
-            <p className="text-[14px] text-[var(--text-secondary)] leading-[1.9] pb-7 max-w-[560px]">
-              {item.a}
-            </p>
+            <div
+              className="overflow-hidden transition-all duration-300"
+              style={{ maxHeight: isOpen ? 800 : 0, opacity: isOpen ? 1 : 0 }}
+            >
+              <p className="text-[14px] text-[var(--text-secondary)] leading-[1.9] pb-8 max-w-[560px]">
+                {item.a}
+              </p>
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

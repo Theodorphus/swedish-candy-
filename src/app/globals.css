@@ -82,7 +82,7 @@ body {
 .display {
   font-family: var(--font-playfair), Georgia, serif;
   font-weight: 700;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.015em;
   line-height: 1.08;
 }
 
@@ -336,6 +336,9 @@ body {
 .marquee-container:hover .marquee-track {
   animation-play-state: paused;
 }
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track { animation: none; }
+}
 
 /* ─── Category cell ───────────────────────────────── */
 .category-cell {
@@ -362,6 +365,29 @@ body {
 @media (min-width: 640px) {
   .stat-cell { border-bottom: none; }
   .stat-cell-not-last { border-right: 1px solid var(--border); }
+}
+
+/* ─── iOS: prevent zoom-on-focus by ensuring 16px+ font on form inputs ─── */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="number"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* ─── Touch targets on mobile (WCAG 2.5.5 / 44px) ─── */
+@media (max-width: 768px) {
+  .touch-target {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
 }
 
 /* ─── Mobile ──────────────────────────────────────── */
@@ -399,6 +425,9 @@ body {
 
   /* Warehouse cards: tighter on mobile */
   .warehouse-card { padding: 24px 20px !important; }
+
+  /* Wide warehouse: stack vertically */
+  .warehouse-wide-grid { grid-template-columns: 1fr !important; gap: 8px !important; }
 
   /* Full-width buttons in CTA sections */
   .cta-buttons { flex-direction: column; align-items: stretch; }

@@ -15,6 +15,7 @@ const playfair = Playfair_Display({
   subsets: ['latin'],
   variable: '--font-playfair',
   weight: ['400', '500', '600', '700'],
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -73,8 +74,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
+        <a href="#main-content" style={{ position: 'absolute', left: '-9999px', top: 'auto', width: 1, height: 1, overflow: 'hidden' }} className="focus:left-4 focus:top-4 focus:w-auto focus:h-auto focus:overflow-visible focus:z-[9999] focus:bg-white focus:p-4 focus:rounded focus:shadow-lg focus:text-sm focus:font-medium">
+          Skip to main content
+        </a>
         <NavWrapper />
-        {children}
+        <main id="main-content">
+          {children}
+        </main>
         <Footer />
         <Analytics />
       </body>

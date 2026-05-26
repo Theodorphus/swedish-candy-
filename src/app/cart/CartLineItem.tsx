@@ -21,11 +21,13 @@ export default function CartLineItem({ line }: { line: CartLine }) {
     startTransition(() => removeCartLine(line.id))
   }
 
+  const imgSize = 'clamp(72px, 18vw, 88px)'
+
   return (
     <div style={{
       display: 'grid',
-      gridTemplateColumns: '88px 1fr',
-      gap: 20,
+      gridTemplateColumns: `${imgSize} 1fr`,
+      gap: 'clamp(12px, 3vw, 20px)',
       padding: '24px 0',
       borderBottom: '1px solid var(--border)',
       opacity: isPending ? 0.4 : 1,
@@ -35,8 +37,8 @@ export default function CartLineItem({ line }: { line: CartLine }) {
       <Link href={`/products/${merchandise.product.handle}`} style={{ display: 'block', flexShrink: 0 }}>
         <div style={{
           position: 'relative',
-          width: 88,
-          height: 88,
+          width: imgSize,
+          height: imgSize,
           borderRadius: 10,
           overflow: 'hidden',
           background: 'var(--bg-secondary)',
@@ -48,22 +50,22 @@ export default function CartLineItem({ line }: { line: CartLine }) {
               alt={merchandise.product.featuredImage.altText ?? merchandise.product.title}
               fill
               style={{ objectFit: 'cover' }}
-              sizes="88px"
+              sizes="(max-width: 480px) 72px, 88px"
             />
           ) : (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', fontSize: 30 }}>
-              🍬
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', fontFamily: 'var(--font-playfair), Georgia, serif', fontSize: 28, fontWeight: 700, color: 'var(--sand)' }}>
+              S
             </div>
           )}
         </div>
       </Link>
 
       {/* Details */}
-      <div>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 4 }}>
+      <div style={{ minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 4, flexWrap: 'wrap' }}>
           <Link
             href={`/products/${merchandise.product.handle}`}
-            style={{ fontSize: 14, fontWeight: 600, textDecoration: 'none', color: 'var(--text)', lineHeight: 1.35 }}
+            style={{ fontSize: 14, fontWeight: 600, textDecoration: 'none', color: 'var(--text)', lineHeight: 1.35, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}
           >
             {merchandise.product.title}
           </Link>
@@ -82,22 +84,24 @@ export default function CartLineItem({ line }: { line: CartLine }) {
         </p>
 
         {/* Qty + remove */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', alignItems: 'center', border: '1px solid var(--border)', borderRadius: 6, overflow: 'hidden', background: 'var(--bg)' }}>
             <button
               onClick={() => handleQuantity(line.quantity - 1)}
               disabled={isPending}
-              style={{ width: 34, height: 34, background: 'none', border: 'none', cursor: isPending ? 'not-allowed' : 'pointer', fontSize: 18, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color 150ms' }}
+              aria-label="Decrease quantity"
+              style={{ width: 40, height: 40, background: 'none', border: 'none', cursor: isPending ? 'not-allowed' : 'pointer', fontSize: 18, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color 150ms' }}
             >
               −
             </button>
-            <span style={{ minWidth: 34, textAlign: 'center', fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>
+            <span style={{ minWidth: 40, textAlign: 'center', fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>
               {line.quantity}
             </span>
             <button
               onClick={() => handleQuantity(line.quantity + 1)}
               disabled={isPending}
-              style={{ width: 34, height: 34, background: 'none', border: 'none', cursor: isPending ? 'not-allowed' : 'pointer', fontSize: 18, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color 150ms' }}
+              aria-label="Increase quantity"
+              style={{ width: 40, height: 40, background: 'none', border: 'none', cursor: isPending ? 'not-allowed' : 'pointer', fontSize: 18, color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'color 150ms' }}
             >
               +
             </button>

@@ -4,7 +4,7 @@ import { useRef, useEffect } from 'react'
 
 const CROSSFADE = 1.4 // seconds before end to start crossfade
 
-export default function HeroVideo({ src = '/hero.mp4', opacity = 0.65 }: { src?: string; opacity?: number }) {
+export default function HeroVideo({ src = '/hero.mp4', opacity = 0.65, poster }: { src?: string; opacity?: number; poster?: string }) {
   const OPACITY = opacity
   const aRef = useRef<HTMLVideoElement>(null)
   const bRef = useRef<HTMLVideoElement>(null)
@@ -13,6 +13,13 @@ export default function HeroVideo({ src = '/hero.mp4', opacity = 0.65 }: { src?:
   const rafRef = useRef<number>(0)
 
   useEffect(() => {
+    // Respect reduced-motion preference — skip crossfade animation
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const a = aRef.current
+      if (a) a.pause()
+      return
+    }
+
     const a = aRef.current
     const b = bRef.current
     if (!a || !b) return
@@ -75,10 +82,10 @@ export default function HeroVideo({ src = '/hero.mp4', opacity = 0.65 }: { src?:
 
   return (
     <>
-      <video ref={aRef} autoPlay muted playsInline loop style={{ ...videoStyle, opacity: OPACITY }}>
+      <video ref={aRef} autoPlay muted playsInline loop preload="metadata" poster={poster} style={{ ...videoStyle, opacity: OPACITY }}>
         <source src={src} type="video/mp4" />
       </video>
-      <video ref={bRef} muted playsInline loop style={{ ...videoStyle, opacity: 0 }}>
+      <video ref={bRef} muted playsInline loop preload="none" style={{ ...videoStyle, opacity: 0 }}>
         <source src={src} type="video/mp4" />
       </video>
     </>

@@ -4,6 +4,8 @@ import CatalogSearch from '@/components/CatalogSearch'
 import MarketToggle from '@/components/MarketToggle'
 import { getProducts } from '@/lib/shopify'
 
+
+
 export const revalidate = 300
 
 export const metadata = {
@@ -37,7 +39,15 @@ export default async function UsaCatalogPage() {
             </p>
           </div>
 
-          <MarketToggle active="usa" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+            <Link
+              href="/bulk-order"
+              style={{ fontSize: 12, fontWeight: 600, color: 'var(--accent)', textDecoration: 'none', border: '1px solid var(--accent)', borderRadius: 6, padding: '7px 14px', whiteSpace: 'nowrap', letterSpacing: '0.02em' }}
+            >
+              Bulk order →
+            </Link>
+            <MarketToggle active="usa" />
+          </div>
         </div>
       </div>
 

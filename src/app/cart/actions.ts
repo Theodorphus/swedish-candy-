@@ -40,6 +40,40 @@ async function getOrCreateCart(
   return newCart
 }
 
+export async function addManyToCart(
+  lines: { merchandiseId: string; quantity: number }[]
+): Promise<{ success: boolean; error?: string }> {
+  if (lines.length === 0) return { success: false, error: 'No items selected.' }
+  const cookieStore = await cookies()
+  const cartId = cookieStore.get(CART_COOKIE)?.value
+
+  let cart: Cart | null = null
+
+  if (cartId) {
+    const existing = await getCart(cartId)
+    if (existing) {
+      cart = await cartLinesAdd(cartId, lines)
+    }
+  }
+
+  if (!cart) {
+    cart = await cartCreate(lines)
+    if (cart) {
+      cookieStore.set(CART_COOKIE, cart.id, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        maxAge: 60 * 60 * 24 * 30,
+        path: '/',
+      })
+    }
+  }
+
+  if (!cart) return { success: false, error: 'Could not add items to cart.' }
+  revalidatePath('/cart')
+  return { success: true }
+}
+
 export async function addToCart(
   merchandiseId: string,
   quantity: number = 1

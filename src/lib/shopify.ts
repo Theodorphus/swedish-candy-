@@ -1,3 +1,4 @@
+import { cache } from 'react'
 import { createStorefrontApiClient } from '@shopify/storefront-api-client'
 
 // Private token — server-side product/catalog queries only
@@ -85,7 +86,7 @@ export async function getProductsByTag(tag: string, first = 250): Promise<Shopif
   return data?.products?.nodes ?? []
 }
 
-export async function getProductByHandle(handle: string): Promise<ShopifyProductDetail | null> {
+export const getProductByHandle = cache(async (handle: string): Promise<ShopifyProductDetail | null> => {
   const { data, errors } = await shopify.request(`
     query ProductByHandle($handle: String!) {
       product(handle: $handle) {
@@ -124,7 +125,7 @@ export async function getProductByHandle(handle: string): Promise<ShopifyProduct
     images: p.images.nodes,
     variants: p.variants.nodes,
   }
-}
+})
 
 export async function getAllProductHandles(): Promise<string[]> {
   const { data, errors } = await shopify.request(`
@@ -298,6 +299,31 @@ export async function customerLogout(accessToken: string): Promise<void> {
       }
     }
   `, { variables: { customerAccessToken: accessToken } })
+}
+
+export type ShopifyProductWithVariants = ShopifyProduct & {
+  variants: { id: string; title: string; availableForSale: boolean; price: { amount: string; currencyCode: string } }[]
+}
+
+export async function getProductsWithVariants(first = 250): Promise<ShopifyProductWithVariants[]> {
+  const { data, errors } = await shopify.request(`
+    query ProductsWithVariants($first: Int!) {
+      products(first: $first) {
+        nodes {
+          ${PRODUCT_FIELDS}
+          variants(first: 20) {
+            nodes { id title availableForSale price { amount currencyCode } }
+          }
+        }
+      }
+    }
+  `, { variables: { first } })
+
+  if (errors) return []
+  return (data?.products?.nodes ?? []).map((p: { variants: { nodes: unknown[] } } & ShopifyProduct) => ({
+    ...p,
+    variants: p.variants.nodes,
+  }))
 }
 
 export async function getProductsByVendor(vendor: string, first = 100): Promise<ShopifyProduct[]> {

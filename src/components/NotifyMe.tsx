@@ -32,13 +32,13 @@ export default function NotifyMe({ productTitle, productHandle }: { productTitle
           placeholder="your@email.com"
           required
           className="input"
-          style={{ flex: '1 1 180px', height: 38, fontSize: 13 }}
+          style={{ flex: '1 1 180px', height: 44, fontSize: 13 }}
         />
         <button
           type="submit"
           disabled={pending}
           className="btn-primary"
-          style={{ height: 38, padding: '0 16px', fontSize: 12, flexShrink: 0 }}
+          style={{ height: 44, padding: '0 16px', fontSize: 12, flexShrink: 0 }}
         >
           {pending ? 'Sending…' : 'Notify me'}
         </button>

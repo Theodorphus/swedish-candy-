@@ -46,7 +46,7 @@ export default async function CartPage() {
         {/* Header */}
         <div style={{ marginBottom: 48, borderBottom: '1px solid var(--border)', paddingBottom: 24 }}>
           <p className="eyebrow" style={{ marginBottom: 10 }}>Wholesale order</p>
-          <h1 className="display" style={{ fontSize: 32, color: 'var(--text)' }}>
+          <h1 className="display" style={{ fontSize: 'clamp(24px, 5vw, 32px)', color: 'var(--text)' }}>
             Your cart
             {!isEmpty && (
               <span style={{ fontSize: 15, fontWeight: 400, fontFamily: 'var(--font-sans)', color: 'var(--text-secondary)', marginLeft: 14 }}>
@@ -57,7 +57,7 @@ export default async function CartPage() {
         </div>
 
         {isEmpty ? (
-          <div style={{ textAlign: 'center', padding: '96px 24px', maxWidth: 480, margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', padding: 'clamp(48px, 12vw, 96px) 24px', maxWidth: 480, margin: '0 auto' }}>
             <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--accent-light)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', fontSize: 26 }}>
               🛒
             </div>
@@ -129,11 +129,11 @@ export default async function CartPage() {
                 </div>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, gap: 12, flexWrap: 'wrap' }}>
                 <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)' }}>Total</span>
-                <div style={{ display: 'inline-flex', alignItems: 'baseline' }}>
+                <div style={{ display: 'inline-flex', alignItems: 'baseline', overflowWrap: 'anywhere' }}>
                   <span className="price-currency" style={{ fontSize: 13, paddingTop: 5 }}>$</span>
-                  <span className="price-num display" style={{ fontSize: 32, color: 'var(--accent)', lineHeight: 1 }}>
+                  <span className="price-num display" style={{ fontSize: 'clamp(22px, 6vw, 32px)', color: 'var(--accent)', lineHeight: 1 }}>
                     {total.split('.')[0]}
                   </span>
                   <span className="price-dec" style={{ fontSize: 15 }}>.{total.split('.')[1] ?? '00'}</span>
