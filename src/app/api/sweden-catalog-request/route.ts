@@ -20,12 +20,13 @@ export async function POST(req: NextRequest) {
     ? process.env.ADMIN_NOTIFICATION_EMAILS.split(',').map(e => e.trim())
     : ['karen@thenordichype.com', 'webbdevstudio@gmail.com']
 
-  await resend.emails.send({
+  const { error } = await resend.emails.send({
     from: 'SwedenSweet <noreply@swedensweet.com>',
     to: adminEmails,
     subject: `Sweden catalog request — ${email}`,
     text: `Someone requested the Sweden catalog.\n\nEmail: ${email}\n\nReply to send them the catalog when it's ready.`,
-  }).catch(err => console.error('[sweden-catalog-request] Email failed:', err))
+  })
+  if (error) console.error('[sweden-catalog-request] Email failed:', error)
 
   return NextResponse.json({ ok: true })
 }

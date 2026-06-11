@@ -124,9 +124,10 @@ export async function submitApplication(
     ? process.env.ADMIN_NOTIFICATION_EMAILS.split(',').map(e => e.trim())
     : ['karen@thenordichype.com', 'webbdevstudio@gmail.com']
 
-  resend.emails.send({
+  const { error: notifyError } = await resend.emails.send({
     from: 'SwedenSweet <noreply@swedensweet.com>',
     to: adminEmails,
+    replyTo: 'karen@thenordichype.com',
     subject: `New wholesale account — ${firstName} ${lastName}`,
     text: [
       `A new wholesale account was created on SwedenSweet.`,
@@ -142,7 +143,8 @@ export async function submitApplication(
       `View in Shopify Admin:`,
       process.env.SHOPIFY_ADMIN_CUSTOMERS_URL ?? `https://admin.shopify.com/store/${storeDomain.split('.')[0]}/customers`,
     ].join('\n'),
-  }).catch((err) => console.error('[apply] Admin notification failed:', err))
+  })
+  if (notifyError) console.error('[apply] Admin notification failed:', notifyError)
 
   redirect('/account')
 }

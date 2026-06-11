@@ -35,7 +35,10 @@ export async function submitNotifyMe(
     ].join('\n'),
   })
 
-  if (error) return { error: 'Something went wrong. Please try again.' }
+  if (error) {
+    console.error('[notify-me] Email failed:', error)
+    return { error: 'Something went wrong. Please try again.' }
+  }
 
   return { success: true }
 }

@@ -36,7 +36,10 @@ export async function submitContact(
     text: `Name: ${name}\nEmail: ${email}\n\n${message}`,
   })
 
-  if (error) return { error: 'Failed to send message. Please try again.' }
+  if (error) {
+    console.error('[contact] Email failed:', error)
+    return { error: 'Failed to send message. Please try again.' }
+  }
 
   return { success: true }
 }
