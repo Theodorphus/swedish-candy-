@@ -17,9 +17,16 @@ export default function CatalogSearch({ products, market = 'usa' }: { products: 
   const [page, setPage] = useState(1)
   const topRef = useRef<HTMLDivElement>(null)
 
+  // Sync editable filter state from the URL on navigation (e.g. ?q=, ?brand=
+  // links). These are user-editable inputs, so they must live in state rather
+  // than being read directly from searchParams during render.
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
     setQuery(searchParams.get('q') ?? '')
+    setBrand(searchParams.get('brand') ?? '')
+    setType(searchParams.get('type') ?? '')
     setPage(1)
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, [searchParams])
   const [sort, setSort] = useState<SortOption>('default')
 

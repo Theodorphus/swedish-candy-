@@ -14,7 +14,7 @@ export async function reorder(lineItems: { variantId: string; quantity: number }
 
   const lines = lineItems.map((li) => ({ merchandiseId: li.variantId, quantity: li.quantity }))
 
-  let cartId = existingCartId
+  const cartId = existingCartId
   if (cartId) {
     const existing = await getCart(cartId)
     if (existing) {

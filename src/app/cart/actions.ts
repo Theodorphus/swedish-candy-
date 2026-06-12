@@ -15,31 +15,6 @@ import {
 
 const CART_COOKIE = 'shopify_cart_id'
 
-async function getOrCreateCart(
-  cookieStore: Awaited<ReturnType<typeof cookies>>,
-  lines?: { merchandiseId: string; quantity: number }[]
-): Promise<Cart | null> {
-  const cartId = cookieStore.get(CART_COOKIE)?.value
-
-  if (cartId) {
-    const existing = await getCart(cartId)
-    if (existing) return existing
-  }
-
-  // Cart expired or doesn't exist — create new
-  const newCart = await cartCreate(lines ?? [])
-  if (newCart) {
-    cookieStore.set(CART_COOKIE, newCart.id, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 30, // 30 days
-      path: '/',
-    })
-  }
-  return newCart
-}
-
 export async function addManyToCart(
   lines: { merchandiseId: string; quantity: number }[]
 ): Promise<{ success: boolean; error?: string }> {
