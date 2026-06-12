@@ -36,10 +36,6 @@ export const metadata: Metadata = {
     description: 'Wholesale Swedish candy for retailers and distributors across the USA. 500+ SKUs, no customs hassle, fast fulfillment.',
     images: ['/OG2.png'],
   },
-  icons: {
-    icon: '/Favicon.png',
-    apple: '/Favicon.png',
-  },
 }
 
 const organizationSchema = {
