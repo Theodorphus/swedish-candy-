@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import { shopify, customerLogin } from '@/lib/shopify'
+import { shopify, customerLogin, getAdminToken } from '@/lib/shopify'
 import { Resend } from 'resend'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
@@ -73,7 +73,7 @@ export async function submitApplication(
   if (!customerId) return { error: 'Something went wrong. Please try again.' }
 
   // ── 3. Tag customer via Admin API ─────────────────────────────
-  const adminToken  = process.env.SHOPIFY_ADMIN_TOKEN
+  const adminToken  = await getAdminToken()
   const storeDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN ?? ''
 
   if (adminToken && storeDomain) {

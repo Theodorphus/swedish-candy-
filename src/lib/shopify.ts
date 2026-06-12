@@ -18,6 +18,52 @@ const shopifyPublic = createStorefrontApiClient({
     : { privateAccessToken: process.env.SHOPIFY_STOREFRONT_PRIVATE_TOKEN! }),
 })
 
+// ─── Admin API token (client_credentials) ──────────────────────────────────
+// The custom app uses Shopify's new dev-dashboard model, which issues short-
+// lived Admin tokens (~24h) rather than a permanent shpat_ token. We exchange
+// the app's Client ID + Secret for a fresh token on demand and cache it in
+// memory until shortly before it expires, so normal traffic reuses one token.
+
+let cachedAdminToken: { token: string; expiresAt: number } | null = null
+
+export async function getAdminToken(): Promise<string | null> {
+  const clientId = process.env.SHOPIFY_API_CLIENT_ID
+  const clientSecret = process.env.SHOPIFY_API_CLIENT_SECRET
+  const storeDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN
+  if (!clientId || !clientSecret || !storeDomain) return null
+
+  // Reuse cached token until 60s before expiry
+  if (cachedAdminToken && cachedAdminToken.expiresAt - 60_000 > Date.now()) {
+    return cachedAdminToken.token
+  }
+
+  try {
+    const res = await fetch(`https://${storeDomain}/admin/oauth/access_token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        client_id: clientId,
+        client_secret: clientSecret,
+        grant_type: 'client_credentials',
+      }),
+    })
+    if (!res.ok) {
+      console.error('[shopify] Admin token exchange failed:', res.status, await res.text())
+      return null
+    }
+    const json = (await res.json()) as { access_token?: string; expires_in?: number }
+    if (!json.access_token) return null
+    cachedAdminToken = {
+      token: json.access_token,
+      expiresAt: Date.now() + (json.expires_in ?? 0) * 1000,
+    }
+    return cachedAdminToken.token
+  } catch (err) {
+    console.error('[shopify] Admin token exchange error:', err)
+    return null
+  }
+}
+
 export type ShopifyProduct = {
   id: string
   handle: string
