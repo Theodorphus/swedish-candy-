@@ -78,8 +78,10 @@ export async function submitApplication(
 
   if (adminToken && storeDomain) {
     const numericId = customerId.replace('gid://shopify/Customer/', '')
+    // Marker tag only — no discount tier is granted automatically.
+    // Karen reviews new applicants and assigns the real tier tag manually.
     const tags = [
-      'wholesale',
+      'wholesale-applicant',
       businessName     && `businessName:${businessName}`,
       businessType     && `businessType:${businessType}`,
       cityState        && `cityState:${cityState}`,
